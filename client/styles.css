@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    font-size: 30px;
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0 auto;
+}
+button {
+    color: white;
+    background-color: blue;
+    width: 70px;
+    height: 30px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+input {
+    height: 30px;
+    border-radius: 5px;
+}
+.message-group, .room-group {
+    margin: 20px auto;
+}
+#form {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
