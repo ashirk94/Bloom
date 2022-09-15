@@ -1,7 +1,7 @@
 //socket.io, changed port from 3000
 const io = require('socket.io')(5000, {
     cors: {
-        origin: ['http://localhost:8080'],
+        origin: ['http://localhost:3000'],
     }
 })
 
@@ -18,3 +18,5 @@ io.on('connection', socket => {
         cb(`Joined ${room}`)
     })
 })
+
+module.exports = io

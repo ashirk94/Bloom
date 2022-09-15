@@ -1,4 +1,4 @@
-import {io} from 'socket.io-client'
+import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js"
 
 //html elements
 const messageContainer = document.getElementById('message-container')
@@ -15,7 +15,7 @@ function displayMessage(message) {
 }
 
 //local socket
-const socket = io('http://localhost:3000')
+const socket = io('http://localhost:5000')
 
 socket.on('connect', () => {
     console.log(`You connected with id: ${socket.id}`)
