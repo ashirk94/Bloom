@@ -3,6 +3,10 @@ const localStrategy = require('passport-local').Strategy
 const connection = require('./database')
 const User = connection.models.User
 
+//used freecodecamp tutorial to implement passport local strategy
+
+const validPassword = require('../utilities/passwordUtils').validPassword
+
 const customFields = {
     usernameField: 'uname',
     passwordField: 'pw'
@@ -19,7 +23,15 @@ const verifyCallback = (username, password, done) => {
         } else {
             return done(null, false)
         }
+    }).catch((err) => {
+        done(err)
     })
 }
 
-const strategy = new localStrategy()
+const strategy = new localStrategy(customFields, verifyCallback)
+
+passport.use(strategy)
+
+passport.serializeUser((user, done) => {
+    done(null, user.id)
+})

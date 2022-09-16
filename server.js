@@ -7,6 +7,8 @@ var crypto = require('crypto')
 var routes = require('./routes')
 var path = require('path')
 const expressLayouts = require('express-ejs-layouts')
+require('./config/passport')
+require('dotenv').config()
 
 const io = require('./socket')
 const homeRouter = require('./routes/index')
@@ -40,6 +42,9 @@ function errorHandler(err, req, res, next) {
 //routers
 
 app.use('/', homeRouter)
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 //app.use(errorHandler)
 
