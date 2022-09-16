@@ -1,7 +1,6 @@
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy
-const connection = require('./database')
-const User = connection.models.User
+const User = require('./database').User
 
 //used freecodecamp tutorial to implement passport local strategy
 

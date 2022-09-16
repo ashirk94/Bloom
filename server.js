@@ -18,6 +18,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
+
 //ejs middleware
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
@@ -39,13 +40,24 @@ function errorHandler(err, req, res, next) {
         console.error(err)
     }
 }
-//routers
 
-app.use('/', homeRouter)
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 //1 day
+    }
+}))
 
 app.use(passport.initialize())
 app.use(passport.session())
 
+//routers
+app.use('/', homeRouter)
+
 //app.use(errorHandler)
+
 
 app.listen(3000)

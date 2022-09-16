@@ -7,12 +7,14 @@ const connection = mongoose.createConnection(process.env.DB_STRING, {
 	useUnifiedTopology: true
 })
 
+
 const UserSchema = new mongoose.Schema({
 	username: String,
 	hash: String,
 	salt: String
 })
 
-const User = connection.model('User', UserSchema)
+const User = mongoose.model('User', UserSchema)
 
-module.exports = connection
+module.exports.connection = connection
+module.exports.User = User
