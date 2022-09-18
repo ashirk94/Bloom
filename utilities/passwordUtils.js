@@ -1,18 +1,18 @@
-const crypto = require('crypto')
+const bcrypt = require('bcrypt')
 
 //hash password with guidelines from internet engineering task force
-function genPassword(password) {
-    let salt = crypto.randomBytes(32).toString('hex')
-    let genHash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex')
+async function genPassword(password) {
+    const salt = await bcrypt.genSalt()
+    const hash = await bcrypt.hash(req.body.pw, 10)
 
     return {
         salt: salt,
-        hash: genHash
+        hash: hash
     }
 }
 
-function validPassword(password, hash, salt) {
-    let hashVerify = crypto.pbkdf2Sync(password, salt, hash, 10000, 64, 'sha512').toString('hex')
+async function validPassword(password, hash) {
+    let hashVerify = await bcrypt.compare(password, hash)
     return hash === hashVerify
 }
 

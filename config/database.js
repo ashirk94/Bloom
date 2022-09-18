@@ -2,19 +2,19 @@ const mongoose = require('mongoose')
 
 require('dotenv').config()
 
-const connection = mongoose.createConnection(process.env.DB_STRING, {
+const conn = process.env.DB_STRING
+
+const connection = mongoose.createConnection(conn, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 })
 
-
 const UserSchema = new mongoose.Schema({
 	username: String,
 	hash: String,
-	salt: String
+	salt: String,
+	admin: Boolean
 })
 
-const User = mongoose.model('User', UserSchema)
-
-module.exports.connection = connection
-module.exports.User = User
+const User = connection.model('User', UserSchema)
+module.exports = connection
