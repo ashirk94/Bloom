@@ -45,26 +45,19 @@ router.post(
 )
 
 router.post('/register', async (req, res) => {
-	const hashedPassword = genPassword(req.body.pw)
+	const hashedPassword = await genPassword(req.body.pw)
 
 	const newUser = new User({
 		username: req.body.uname,
-		hash: hashedPassword
+		hash: hashedPassword.hash,
+        salt: hashedPassword.salt
 	})
     try {
         newUser.save().then(() => {
-            console.log('user saved')
-        })
-        req.login(newUser, (err, user) => {
-            if (err) {
-                console.log(err)
-            }
-            console.log(user)
-        })
-        
-        res.redirect('/login')
+            res.redirect('/login')
+        })  
     } catch(err) {
-        console.log(err)
+        console.error(err)
         res.redirect('/register')
     }
 })

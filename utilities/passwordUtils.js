@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 //hash password with guidelines from internet engineering task force
 async function genPassword(password) {
     const salt = await bcrypt.genSalt()
-    const hash = await bcrypt.hash(req.body.pw, 10)
+    const hash = await bcrypt.hash(password, 10)
 
     return {
         salt: salt,
