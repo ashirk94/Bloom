@@ -4,10 +4,7 @@ const connection = require('./config/database')
 const MongoStore = require('connect-mongo')(session)
 const passport = require('passport')
 const flash = require('express-flash')
-
-const cors = require('cors')
-
-const User = connection.models.User
+const passportConfig = require('./config/passport')
 
 const path = require('path')
 const expressLayouts = require('express-ejs-layouts')
@@ -21,12 +18,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
-app.use(
-	cors({
-		origin: '*',
-		withCredentials: true
-	})
-)
+
 app.use(flash())
 
 //ejs middleware
@@ -35,20 +27,14 @@ app.set('view engine', 'ejs')
 app.set('layout', 'layout/layout')
 app.use(expressLayouts)
 
-function testWare(req, res, next) {
-	req.test = 100
-	next()
-}
 function errorTest(req, res, next) {
-	let error = new Error()
-	next(error)
+	let error = new Error('Custom error')
+    next(error)
 }
 
 function errorHandler(err, req, res, next) {
-	if (err) {
-		res.json({ error: err })
-		console.error(err)
-	}
+	console.error(err.stack)
+	res.render('error', { error: err})
 }
 
 const sessionStore = new MongoStore({
@@ -63,7 +49,7 @@ app.use(
 		saveUninitialized: false,
 		store: sessionStore,
 		cookie: {
-			maxAge: 1000 * 60 * 60 * 24 //1 day
+			maxAge: 1000 * 60 * 5 //5 minutes (* 60 * 24 for 5 days)
 		}
 	})
 )
@@ -73,19 +59,21 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-const passportConfig = require('./config/passport')
 passportConfig(passport)
 
-//middleware
-app.use((req, res, next) => {
-	console.log(req.session)
-	console.log(req.user)
-	next()
-})
+//middleware to log session and user data
+// app.use((req, res, next) => {
+// 	console.log(req.session)
+// 	console.log(req.user)
+// 	next()
+// })
+//error test
+// app.use(errorTest)
 
 //routers
 app.use('/', homeRouter)
 
-//app.use(errorHandler)
-
+//error handler
+app.use(errorHandler)
+//port
 app.listen(3000)
