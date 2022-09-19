@@ -1,4 +1,4 @@
-//import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js"
+import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js"
 
 //html elements
 const messageContainer = document.getElementById('message-container')
@@ -11,18 +11,19 @@ const joinRoomButton = document.getElementById('room-button')
 function displayMessage(message) {
     const div = document.createElement('div')
     div.textContent = message
+    div.classList.add('message')
     messageContainer.append(div)
 }
 
 //local socket
-//const socket = io('http://localhost:5000')
+const socket = io('http://localhost:3000')
 
-// socket.on('connect', () => {
-//     console.log(`You connected with id: ${socket.id}`)
-// })
+socket.on('connect', () => {
+    console.log(`You connected with id: ${socket.id}`)
+})
 
-// //recieving messages
-// socket.on('receive-message', message => displayMessage(message))
+//recieving messages
+socket.on('receive-message', message => displayMessage(message))
 
 //send a message
 form.addEventListener('submit', e => {

@@ -1,8 +1,11 @@
-<h1>Login Page</h1>
-<% if (messages.error) { %>
-    <%= messages.error %>
-<% } %>
-<form method="POST">
-    Enter Username:<br><input type="text" name="uname">
-    <br>Enter Password:<br><input type="password" name="pw">
-    <br><br><input type="submit" value="Submit"></form>
+<div class="main-wrapper">
+	<h1>Login Page</h1>
+	<% if (messages.error) { %> <%= messages.error %> <% } %>
+	<form method="POST">
+		Enter Username:<br /><input type="text" name="uname" /> <br />Enter
+		Password:<br /><input type="password" name="pw" /> <br /><br /><input
+			type="submit"
+			value="Submit"
+		/>
+	</form>
+</div>

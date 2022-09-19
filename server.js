@@ -9,10 +9,27 @@ const path = require('path')
 const expressLayouts = require('express-ejs-layouts')
 require('dotenv').config()
 
-//const io = require('./socket')
 const routes = require('./routes')
 
 const app = express()
+
+//socket.io
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
+
+io.on('connection', socket => {
+    socket.on('send-message', (message, room) => {
+        if (room === '') {
+            socket.broadcast.emit('receive-message', message)
+        } else {
+            socket.to(room).emit('receive-message', message)
+        }    
+    })
+    socket.on('join-room', (room, cb) => {
+        socket.join(room)
+        cb(`Joined ${room}`)
+    })
+})
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -49,7 +66,7 @@ app.use(
 		saveUninitialized: false,
 		store: sessionStore,
 		cookie: {
-			maxAge: 1000 * 60 * 5 //5 minutes (* 60 * 24 for 5 days)
+			maxAge: 1000 * 60 * 5 * 60 //5 hours
 		}
 	})
 )
@@ -75,4 +92,4 @@ app.use(routes)
 app.use(errorHandler)
 
 //port
-app.listen(3000)
+server.listen(3000)

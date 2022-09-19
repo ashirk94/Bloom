@@ -1,10 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
-
 body {
+    height: 100vh;
+    margin: 0;
+}
+.main-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
+    flex-direction: column;
+    font-size: 30px;
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0 auto;
+}
+.chat-wrapper {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    min-height: 100%;
     flex-direction: column;
     font-size: 30px;
     font-family: 'Ubuntu', sans-serif;
@@ -30,4 +43,10 @@ input {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+}
+.message {
+    border: 2px solid black;
+    min-width: 300px;
+    text-align: center;
+    margin-top: 20px;
 }
