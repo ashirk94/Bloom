@@ -3,15 +3,15 @@ const connection = require('../config/database')
 const User = connection.models.User
 const passport = require('passport')
 const genPassword = require('../utilities/passwordUtils').genPassword
-const isAuth = require('./authMiddleware').isAuth
+const isAuth = require('../utilities/authMiddleware').isAuth
 
 //get routes
-router.get('/chat', function (req, res) {
+router.get('/chat', isAuth, function (req, res) {
     res.render('chat')
 })
 
 router.get('/', (req, res) => {
-	res.send('<h1>Home</h1><p>Please <a href="/register">register</a></p>')
+	res.render('index')
 })
 
 router.get('/login', (req, res) => {
@@ -20,20 +20,6 @@ router.get('/login', (req, res) => {
 
 router.get('/register', (req, res) => {
 	res.render('auth/register')
-})
-
-router.get('/login-success', (req, res) => {
-	res.send(
-		'<p>You successfully logged in. --> <a href="/protected-route">Go to protected route</a></p>'
-	)
-})
-
-router.get('/login-failure', (req, res) => {
-	res.send('You entered the wrong password.')
-})
-
-router.get('/protected-route', isAuth, (req, res) => {
-    res.send('You are authorized!')
 })
 
 router.get('/logout', (req, res, next) => {
@@ -47,8 +33,8 @@ router.get('/logout', (req, res, next) => {
 router.post(
 	'/login',
 	passport.authenticate('local', {
-		failureRedirect: '/login-failure',
-		successRedirect: '/login-success'
+		failureRedirect: '/login',
+		successRedirect: '/'
 	}),
 	(req, res) => {}
 )

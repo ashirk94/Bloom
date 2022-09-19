@@ -5,13 +5,12 @@ const MongoStore = require('connect-mongo')(session)
 const passport = require('passport')
 const flash = require('express-flash')
 const passportConfig = require('./config/passport')
-
 const path = require('path')
 const expressLayouts = require('express-ejs-layouts')
 require('dotenv').config()
 
 //const io = require('./socket')
-const homeRouter = require('./routes/index')
+const routes = require('./routes')
 
 const app = express()
 
@@ -37,6 +36,7 @@ function errorHandler(err, req, res, next) {
 	res.render('error', { error: err})
 }
 
+//passport local strategy
 const sessionStore = new MongoStore({
 	mongooseConnection: connection,
 	collection: 'sessions'
@@ -54,8 +54,6 @@ app.use(
 	})
 )
 
-//---passport---
-
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -71,9 +69,10 @@ passportConfig(passport)
 // app.use(errorTest)
 
 //routers
-app.use('/', homeRouter)
+app.use(routes)
 
 //error handler
 app.use(errorHandler)
+
 //port
 app.listen(3000)
