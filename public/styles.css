@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
 body {
-    height: 100vh;
     margin: 0;
+    height: calc(100vh - 80px)
 }
 .main-wrapper {
     display: flex;
@@ -64,4 +64,19 @@ input {
 .navbar {
     display: flex;
     justify-content: center;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid black;
+    gap: 20px;
+    margin-top: 10px;
+}
+.nav-item {
+    text-decoration: none;
+    text-align: center;  
+    font-size: 30px;
+    color: black;
+    font-family: 'Ubuntu', sans-serif;
+}
+.nav-item:hover {
+    color: grey;
 }

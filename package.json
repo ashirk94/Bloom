@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "start http://localhost:3000 && nodemon server.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
