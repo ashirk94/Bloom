@@ -50,3 +50,18 @@ input {
     text-align: center;
     margin-top: 20px;
 }
+.btn {
+    text-decoration: none;
+    background-color: blue;
+    border: 2px solid black;
+    width: 200px;
+    height: auto;
+    font-size: 30px;
+    text-align: center;
+    color: white;
+    border-radius: 10px;
+}
+.navbar {
+    display: flex;
+    justify-content: center;
+}
