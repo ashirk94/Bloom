@@ -14,6 +14,10 @@ router.get('/', (req, res) => {
 	res.render('index')
 })
 
+router.get('/browse', (req, res) => {
+	res.render('browse')
+})
+
 router.get('/login', (req, res) => {
 	res.render('auth/login', {user: req.user})
 })
