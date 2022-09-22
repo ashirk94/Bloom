@@ -6,11 +6,12 @@ const messageInput = document.getElementById('message-input')
 const form = document.getElementById('form')
 const roomInput = document.getElementById('room-input')
 const joinRoomButton = document.getElementById('room-button')
+let user = document.getElementById('user-input').value
 
 //creates div and appends with message
 function displayMessage(message) {
     const div = document.createElement('div')
-    div.textContent = message
+    div.textContent = user + ': ' + message
     div.classList.add('message')
     messageContainer.append(div)
 }

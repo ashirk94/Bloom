@@ -7,7 +7,7 @@ const isAuth = require('../utilities/authMiddleware').isAuth
 
 //get routes
 router.get('/chat', isAuth, function (req, res) {
-    res.render('chat')
+    res.render('chat', {user: req.user})
 })
 
 router.get('/', (req, res) => {
