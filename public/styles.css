@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
 body {
-    height: 100vh;
     margin: 0;
+    height: calc(100vh - 80px)
 }
 .main-wrapper {
     display: flex;
@@ -15,9 +15,18 @@ body {
 }
 .chat-wrapper {
     display: flex;
+    justify-content: start;
+    align-items: center;
+    min-height: 90%;
+    flex-direction: column;
+    font-size: 30px;
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0 auto;
+}
+.room-area {
+    display: flex;
     justify-content: end;
     align-items: center;
-    min-height: 100%;
     flex-direction: column;
     font-size: 30px;
     font-family: 'Ubuntu', sans-serif;
@@ -42,11 +51,42 @@ input {
     width: 80%;
     margin: 0 auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 .message {
     border: 2px solid black;
     min-width: 300px;
-    text-align: center;
+    text-align: left;
     margin-top: 20px;
+    padding: 5px;
+}
+.btn {
+    text-decoration: none;
+    background-color: blue;
+    border: 2px solid black;
+    width: 200px;
+    height: auto;
+    font-size: 30px;
+    text-align: center;
+    color: white;
+    border-radius: 10px;
+}
+.navbar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid black;
+    gap: 20px;
+    margin-top: 10px;
+}
+.nav-item {
+    text-decoration: none;
+    text-align: center;  
+    font-size: 30px;
+    color: black;
+    font-family: 'Ubuntu', sans-serif;
+}
+.nav-item:hover {
+    color: grey;
 }
