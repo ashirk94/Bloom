@@ -1,19 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloom</title>
-    <link rel="stylesheet" href="./styles.css">
-</head>
-<body>
-    <div class="navbar">
-        <a class="nav-item" href="./">Home</a>
-		<a class="nav-item" href="./chat">Chatroom</a>
-		<a class="nav-item" href="./login">Login</a>
-		<a class="nav-item" href="./register">Register</a>
-	</div>
-    <%- body %> 
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Bloom</title>
+		<link rel="stylesheet" href="./styles.css" />
+	</head>
+	<body>
+		<div class="navbar">
+			<ul class="nav">
+				<li class="nav-item">
+					<a class="nav-link" href="./">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="./chat">Chat</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="./meet">Meet</a>
+				</li>
+			</ul>
+			<ul class="nav">
+				<li class="nav-item">
+					<a class="nav-link" href="./login">Login</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="./register">Register</a>
+				</li>
+                <li class="nav-item"></li>
+			</ul>
+		</div>
+		<%- body %>
+	</body>
 </html>

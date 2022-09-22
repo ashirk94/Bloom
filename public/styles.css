@@ -73,20 +73,30 @@ input {
 }
 .navbar {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
     height: 50px;
     border-bottom: 2px solid black;
-    gap: 20px;
     margin-top: 10px;
 }
-.nav-item {
+.nav-link {
     text-decoration: none;
-    text-align: center;  
     font-size: 30px;
     font-family: 'Ubuntu', sans-serif;
+    color: black;
 }
 
-.nav-item:hover {
+.nav-link:hover {
     color: grey;
+}
+.nav-item {
+    text-align: center;  
+    text-decoration: none;
+}
+.nav {
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+    gap: 20px;
+    margin-right: 20px;
 }

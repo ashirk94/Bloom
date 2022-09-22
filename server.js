@@ -9,7 +9,8 @@ const path = require('path')
 const expressLayouts = require('express-ejs-layouts')
 require('dotenv').config()
 
-const routes = require('./routes')
+const homeRoutes = require('./routes/index')
+const authRoutes = require('./routes/auth')
 
 const app = express()
 
@@ -86,7 +87,8 @@ passportConfig(passport)
 // app.use(errorTest)
 
 //routers
-app.use(routes)
+app.use(homeRoutes)
+app.use(authRoutes)
 
 //error handler
 app.use(errorHandler)
