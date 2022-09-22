@@ -10,14 +10,14 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/register', (req, res) => {
-	res.render('auth/register')
+	res.render('auth/register', {user: req.user})
 })
 
 router.get('/logout', (req, res, next) => {
     req.logout((function(err) {
         if (err) { return next(err) }
       }))
-    res.redirect('/login')
+    res.redirect('/')
 })
 //post routes
 
