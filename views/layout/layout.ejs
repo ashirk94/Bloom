@@ -16,23 +16,27 @@
 				<li class="nav-item">
 					<a class="nav-link" href="./chat">Chat</a>
 				</li>
-                <li class="nav-item">
+				<li class="nav-item">
 					<a class="nav-link" href="./meet">Meet</a>
 				</li>
 			</ul>
 			<ul class="nav">
-                <% if (!user) { %>
+				<% if (!locals.user) { %>
 				<li class="nav-item">
 					<a class="nav-link" href="./login">Login</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="./register">Register</a>
 				</li>
-                <% } else { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="./logout">Logout</a>
-                </li>
-                <% } %>
+				<% } else { %>
+				<li class="nav-item">
+					<a class="nav-link" href="./logout">Logout</a>
+				</li>
+				<% if (locals.user.admin) { %>
+				<li class="nav-item">
+					<a class="nav-link" href="./admin">Admin</a>
+				</li>
+				<% } %> <% } %>
 			</ul>
 		</div>
 		<%- body %>

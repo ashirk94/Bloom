@@ -62,14 +62,17 @@ input {
 }
 .btn {
     text-decoration: none;
-    background-color: blue;
     border: 2px solid black;
     width: 200px;
     height: auto;
     font-size: 30px;
     text-align: center;
-    color: white;
     border-radius: 10px;
+    color: black;
+}
+.btn:hover {
+    background-color: black;
+    color: white;
 }
 .navbar {
     display: flex;
