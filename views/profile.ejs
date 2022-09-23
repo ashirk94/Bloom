@@ -1,1 +1,8 @@
-<h1>My Profile</h1>
+<div class="main-wrapper">
+    <h1>My Profile</h1>
+    <form method="post">
+        <label for="username">Username: <%= locals.user.username %></label>
+        <input name="username" placeholder="<%= locals.user.username %>"></input>
+    </form>
+</div>
+
