@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const isAuth = require('../utilities/authMiddleware').isAuth
+const isAdmin = require('../utilities/authMiddleware').isAdmin
 
 //get routes
 
@@ -19,4 +20,7 @@ router.get('/profile', isAuth, (req, res) => {
 	res.render('profile', {user: req.user})
 })
 
+router.get('/admin', isAdmin, (req, res) => {
+	res.render('admin', {user: req.user})
+})
 module.exports = router
