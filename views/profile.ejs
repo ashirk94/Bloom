@@ -1,6 +1,6 @@
 <div class="main-wrapper">
     <h1>My Profile</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <label for="username">Username: <%= locals.user.username %></label><br/>
         <input name="username" placeholder="<%= locals.user.username %>"></input><br/>
         <label for="firstName">First Name: <%= locals.user.firstName %></label><br/>
