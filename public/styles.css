@@ -103,3 +103,8 @@ input {
     gap: 20px;
     margin-right: 20px;
 }
+
+#fileDisplayArea img {
+    width: 200px;
+    height: 200px;
+}

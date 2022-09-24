@@ -1,8 +1,16 @@
 <div class="main-wrapper">
     <h1>My Profile</h1>
     <form method="post">
-        <label for="username">Username: <%= locals.user.username %></label>
-        <input name="username" placeholder="<%= locals.user.username %>"></input>
+        <label for="username">Username: <%= locals.user.username %></label><br/>
+        <input name="username" placeholder="<%= locals.user.username %>"></input><br/>
+        <label for="firstName">First Name: <%= locals.user.firstName %></label><br/>
+        <input name="firstName" placeholder="<%= locals.user.firstName %>"></input><br/>
+        <label for="lastName">Last Name: <%= locals.user.lastName %></label><br/>
+        <input name="lastName" placeholder="<%= locals.user.lastName %>"></input><br/>
+        <input type="file" name="image" id="fileInput"><br/>
+        <div id="fileDisplayArea"></div>
+        <input type="submit" value="Update Profile">
     </form>
 </div>
+<script src="/profilePic.js" defer></script>
 
