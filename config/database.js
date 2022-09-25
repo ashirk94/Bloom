@@ -42,7 +42,4 @@ const UserSchema = new Schema({
 
 const User = connection.model('User', UserSchema)
 
-function setAdmin() {
-    
-}
 module.exports = connection

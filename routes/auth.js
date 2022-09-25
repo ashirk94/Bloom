@@ -37,7 +37,8 @@ router.post('/register', async (req, res) => {
 		username: req.body.uname,
 		hash: hashedPassword.hash,
         salt: hashedPassword.salt,
-        admin: false
+        admin: false,
+        profilePic: 'anon.jpg'
 	})
     try {
         newUser.save().then(() => {
