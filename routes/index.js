@@ -41,6 +41,7 @@ router.get('/admin', isAdmin, (req, res) => {
 //post
 
 router.post('/profile', isAuth, upload.single('image'), async (req, res) => {
+    //get current user data and replace some with relevant data from form
     try {
         let user = req.user
         if (req.body.firstName != '') {
@@ -49,8 +50,9 @@ router.post('/profile', isAuth, upload.single('image'), async (req, res) => {
         if (req.body.lastName != '') {
             user.lastName = req.body.lastName
         }
-        
-        user.profilePic = req.file.filename
+        if (req.file != null) {
+            user.profilePic = req.file.filename
+        }
         
         let updatedUser = await User.findOneAndUpdate(user.id, user)
         await updatedUser.save()
