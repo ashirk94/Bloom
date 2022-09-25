@@ -11,6 +11,9 @@
         <div id="fileDisplayArea"></div>
         <input type="submit" value="Update Profile">
     </form>
+    <% if (locals.message) { %>
+        <h2><%= locals.message %></h2>
+        <% } %>  
 </div>
 <script src="/profilePic.js" defer></script>
 

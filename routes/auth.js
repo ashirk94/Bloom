@@ -3,6 +3,8 @@ const connection = require('../config/database')
 const User = connection.models.User
 const passport = require('passport')
 const genPassword = require('../utilities/passwordUtils').genPassword
+const fs = require('fs')
+const path = require('path')
 
 //get routes
 router.get('/login', (req, res) => {
@@ -31,6 +33,7 @@ router.post(
 )
 
 router.post('/register', async (req, res) => {
+    //connection.collection('users').deleteMany({})
 	const hashedPassword = await genPassword(req.body.pw)
 
 	const newUser = new User({
@@ -38,7 +41,10 @@ router.post('/register', async (req, res) => {
 		hash: hashedPassword.hash,
         salt: hashedPassword.salt,
         admin: false,
-        profilePic: 'anon.jpg'
+        profilePic: {
+            data: fs.readFileSync(path.join(__dirname + '/../public/images/anon.jpg')),
+            contentType: 'image/jpg'
+        }
 	})
     try {
         newUser.save().then(() => {
