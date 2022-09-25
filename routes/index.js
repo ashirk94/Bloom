@@ -7,6 +7,7 @@ const User = connection.models.User
 const fs = require('fs')
 
 const multer = require('multer')
+const f = require('session-file-store')
 const storage = multer.diskStorage({
 	destination: (req, file, next) => {
 		next(null, path.join(__dirname, '../public/uploads'))
@@ -58,7 +59,7 @@ router.get('/admin', isAdmin, (req, res) => {
 router.post('/profile', isAuth, upload.single('image'), async (req, res) => {
 	//get current user data and replace some with relevant data from form
 	try {
-		let user = req.user
+		let user = await User.findById(req.user._id)
 		if (req.body.firstName != '') {
 			user.firstName = req.body.firstName
 		}
@@ -73,8 +74,16 @@ router.post('/profile', isAuth, upload.single('image'), async (req, res) => {
 				'image/' + path.extname(req.file.filename)
 		}
 
-		let updatedUser = await User.findOneAndUpdate(user.id, user)
-		await updatedUser.save()
+		await user.save()
+
+		fs.unlink(
+			path.join(__dirname + '/../public/uploads/' + req.file.filename),
+			(err) => {
+				if (err) {
+					throw err
+				}
+			}
+		)
 
 		req.flash('success', 'User updated!')
 	} catch (err) {
