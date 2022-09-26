@@ -21,10 +21,10 @@
         <input class="btn" type="submit" value="Submit">
     </form>
 </div>
-<% for (const interest of locals.user.interests) { %>
-    <input type="hidden" class="interest" value="<% interest %>">
+<% for (let interest of locals.user.interests) { %>
+    <input type="hidden" class="interest" value=<%= interest %>>
 <% } %> 
-<% for (const value of locals.user.values) { %>
-    <input type="hidden" class="value" value="<% value %>">
+<% for (let value of locals.user.values) { %>
+    <input type="hidden" class="value" value=<%= value %>>
 <% } %> 
 <script src="/interests.js" defer></script>

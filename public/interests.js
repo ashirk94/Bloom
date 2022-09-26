@@ -22,8 +22,9 @@ for (let value of valueData) {
 
 let swimBool = false
 
-if (interests.find(interest => interest === 'Swimmming')) {
+if (interests.includes('Swimming')) {
     swimBool = true
+    swimBtn.classList.add('active')
 }
 
 swimBtn.addEventListener('click', () => {

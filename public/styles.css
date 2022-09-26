@@ -70,8 +70,14 @@ input {
     text-align: center;
     border-radius: 10px;
     color: black;
+    margin-top: 20px;
+    padding: 5px;
 }
 .btn:hover {
+    background-color: black;
+    color: white;
+}
+.btn-large:hover {
     background-color: black;
     color: white;
 }
@@ -125,4 +131,9 @@ input {
 }
 .active {
     border: 2px solid red;
+}
+
+#form {
+    width: auto;
+    margin-top: 20px;
 }
