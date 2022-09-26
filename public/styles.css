@@ -62,7 +62,22 @@ input {
     border-radius: 10px;
     color: black;
 }
+.btn-large {
+    text-decoration: none;
+    border: 2px solid black;
+    height: auto;
+    font-size: 30px;
+    text-align: center;
+    border-radius: 10px;
+    color: black;
+    margin-top: 20px;
+    padding: 5px;
+}
 .btn:hover {
+    background-color: black;
+    color: white;
+}
+.btn-large:hover {
     background-color: black;
     color: white;
 }
@@ -108,4 +123,17 @@ input {
     display: flex;
     justify-content: center;
     gap: 20px;
+}
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.active {
+    border: 2px solid red;
+}
+
+#form {
+    width: auto;
+    margin-top: 20px;
 }

@@ -36,7 +36,7 @@ const upload = multer({
 
 router.get('/', (req, res) => {
     const message = req.flash()
-	res.render('index', { user: req.user, message: message.success })
+	res.render('index', { user: req.user })
 })
 
 router.get('/chat', isAuth, (req, res) => {
@@ -51,7 +51,13 @@ router.get('/meet', isAuth, async (req, res) => {
 
 router.get('/profile', isAuth, (req, res) => {
     const message = req.flash()
-	res.render('profile', { user: req.user, message: message.success })
+	res.render('profile', { user: req.user, message: message.success || message.error })
+})
+
+router.get('/interests', isAuth, (req, res) => {
+    const message = req.flash()
+    console.log(req.user.interests)
+	res.render('interests', { user: req.user, message: message.success || message.error })
 })
 
 router.get('/admin', isAdmin, (req, res) => {
@@ -93,8 +99,26 @@ router.post('/profile', isAuth, upload.single('image'), async (req, res) => {
 		req.flash('success', 'Profile updated!')
 	} catch (err) {
 		console.error(err)
-		res.redirect('/profile')
+		req.flash('error', err.message)
 	}
 	res.redirect('/profile')
+})
+
+router.post('/interests', isAuth, async (req, res) => {
+	//replace interests and values
+	try {
+		let user = await User.findById(req.user._id)
+        let interests = JSON.parse(req.body.interests)
+        let values = JSON.parse(req.body.values)
+		user.interests = interests
+        user.values = values
+
+        await user.save()
+        req.flash('success', 'Profile updated!')
+    } catch (err) {
+        console.error(err)
+		req.flash('error', err.message)
+    }
+    res.redirect('/interests')
 })
 module.exports = router

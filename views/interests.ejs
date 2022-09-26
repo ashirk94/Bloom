@@ -1,0 +1,30 @@
+<div class="main-wrapper">
+    <h2>Interests</h2>
+    <div class="btn-group">
+        <button class="btn" id="game">Gaming</button>
+        <button class="btn" id="code">Coding</button>
+        <button class="btn" id="swim">Swimming</button>
+        <button class="btn" id="art">Art</button>
+        <button class="btn" id="baseball">Baseball</button>
+    </div>
+    <h2>Values</h2>
+    <div class="btn-group">
+        <button class="btn" id="family">Family</button>
+        <button class="btn" id="adventure">Adventure</button>
+        <button class="btn" id="ambition">Ambition</button>
+        <button class="btn" id="relax">Relaxation</button>
+        <button class="btn" id="fitness">Fitness</button>
+    </div>
+    <form method="post" id="form">
+        <input type="hidden" name="interests" id="interest-submit">
+        <input type="hidden" name="values" id="value-submit">
+        <input class="btn" type="submit" value="Submit">
+    </form>
+</div>
+<% for (let interest of locals.user.interests) { %>
+    <input type="hidden" class="interest" value=<%= interest %>>
+<% } %> 
+<% for (let value of locals.user.values) { %>
+    <input type="hidden" class="value" value=<%= value %>>
+<% } %> 
+<script src="/interests.js" defer></script>
