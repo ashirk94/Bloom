@@ -1,1 +1,23 @@
-<h1>Browse</h1>
+<div class="main-wrapper">
+<h2>Potential friends</h2>
+<div class="friends-container">
+<% for (let friend of locals.friends) { %> 
+    <div class="friend-box">
+        <img class="profile-pic"
+        src="data:image/<%= friend.profilePic.contentType %>;base64,
+        <%= friend.profilePic.data.toString('base64') %>"><br>
+        <%= friend.firstName %>
+        <ul>
+            <% for (let interest of friend.interests) { %> 
+                <li><%= interest %></li>
+                <% } %> 
+        </ul>
+        <ul>
+            <% for (let value of friend.values) { %> 
+                <li><%= value %></li>
+                <% } %> 
+        </ul>
+    </div>
+<% } %> 
+</div>
+</div>

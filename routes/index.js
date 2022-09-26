@@ -35,19 +35,23 @@ const upload = multer({
 //get routes
 
 router.get('/', (req, res) => {
-	res.render('index', { user: req.user })
+    const message = req.flash()
+	res.render('index', { user: req.user, message: message.success })
 })
 
 router.get('/chat', isAuth, (req, res) => {
 	res.render('chat', { user: req.user })
 })
 
-router.get('/meet', isAuth, (req, res) => {
-	res.render('meet', { user: req.user })
+router.get('/meet', isAuth, async (req, res) => {
+	const id = req.user.id
+	const users = await User.find({ _id: { $ne: id } }).limit(5)
+	res.render('meet', { user: req.user, friends: users })
 })
 
 router.get('/profile', isAuth, (req, res) => {
-	res.render('profile', { user: req.user })
+    const message = req.flash()
+	res.render('profile', { user: req.user, message: message.success })
 })
 
 router.get('/admin', isAdmin, (req, res) => {
@@ -72,24 +76,25 @@ router.post('/profile', isAuth, upload.single('image'), async (req, res) => {
 			)
 			user.profilePic.contentType =
 				'image/' + path.extname(req.file.filename)
+			fs.unlink(
+				path.join(
+					__dirname + '/../public/uploads/' + req.file.filename
+				),
+				(err) => {
+					if (err) {
+						throw err
+					}
+				}
+			)
 		}
 
 		await user.save()
 
-		fs.unlink(
-			path.join(__dirname + '/../public/uploads/' + req.file.filename),
-			(err) => {
-				if (err) {
-					throw err
-				}
-			}
-		)
-
-		req.flash('success', 'User updated!')
+		req.flash('success', 'Profile updated!')
 	} catch (err) {
 		console.error(err)
 		res.redirect('/profile')
 	}
-	res.redirect('/')
+	res.redirect('/profile')
 })
 module.exports = router
