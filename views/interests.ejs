@@ -15,11 +15,16 @@
         <button class="btn" id="relax">Relaxation</button>
         <button class="btn" id="fitness">Fitness</button>
     </div>
+    <form method="post" id="form">
+        <input type="hidden" name="interests" id="interest-submit">
+        <input type="hidden" name="values" id="value-submit">
+        <input class="btn" type="submit" value="Submit">
+    </form>
 </div>
 <% for (const interest of locals.user.interests) { %>
     <input type="hidden" class="interest" value="<% interest %>">
 <% } %> 
 <% for (const value of locals.user.values) { %>
-    <input type="hidden" class="interest" value="<% value %>">
+    <input type="hidden" class="value" value="<% value %>">
 <% } %> 
 <script src="/interests.js" defer></script>

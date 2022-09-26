@@ -108,8 +108,10 @@ router.post('/interests', isAuth, async (req, res) => {
 	//replace interests and values
 	try {
 		let user = await User.findById(req.user._id)
-		user.interests = req.body.interests
-        user.values = req.body.values
+        let interests = JSON.parse(req.body.interests)
+        let values = JSON.parse(req.body.values)
+		user.interests = interests
+        user.values = values
 
         await user.save()
         req.flash('success', 'Profile updated!')
