@@ -36,7 +36,7 @@ const upload = multer({
 
 router.get('/', (req, res) => {
     const message = req.flash()
-	res.render('index', { user: req.user, message: message.success })
+	res.render('index', { user: req.user })
 })
 
 router.get('/chat', isAuth, (req, res) => {
@@ -51,7 +51,7 @@ router.get('/meet', isAuth, async (req, res) => {
 
 router.get('/profile', isAuth, (req, res) => {
     const message = req.flash()
-	res.render('profile', { user: req.user, message: message.success })
+	res.render('profile', { user: req.user, message: message.success || message.error })
 })
 
 router.get('/admin', isAdmin, (req, res) => {
@@ -93,7 +93,7 @@ router.post('/profile', isAuth, upload.single('image'), async (req, res) => {
 		req.flash('success', 'Profile updated!')
 	} catch (err) {
 		console.error(err)
-		res.redirect('/profile')
+		req.flash('error', err.message)
 	}
 	res.redirect('/profile')
 })
