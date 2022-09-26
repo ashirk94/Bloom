@@ -33,14 +33,6 @@ body {
     font-family: 'Ubuntu', sans-serif;
     margin: 0 auto;
 }
-button {
-    color: white;
-    background-color: blue;
-    width: 70px;
-    height: 30px;
-    border-radius: 10px;
-    font-size: 18px;
-}
 input {
     height: 30px;
     border-radius: 5px;
@@ -111,4 +103,9 @@ input {
 .profile-pic {
     width: 100px;
     height: 100px;
+}
+.friends-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }

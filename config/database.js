@@ -13,7 +13,10 @@ const UserSchema = new Schema({
 	username: String,
 	hash: String,
 	salt: String,
-	profilePic: String,
+	profilePic: {
+        data: Buffer,
+        contentType: String
+    },
     firstName: String,
     lastName: String,
     interests: [String],
