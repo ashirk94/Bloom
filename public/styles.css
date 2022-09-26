@@ -109,3 +109,8 @@ input {
     justify-content: center;
     gap: 20px;
 }
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}

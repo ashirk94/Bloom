@@ -1,0 +1,14 @@
+<div class="main-wrapper">
+    <h2>Interests</h2>
+    <div class="btn-group">
+        <button class="btn" id="game">Gaming</button>
+        <button class="btn" id="code">Coding</button>
+        <button class="btn" id="swim">Swimming</button>
+        <button class="btn" id="art">Art</button>
+        <button class="btn" id="baseball">Baseball</button>
+    </div>
+</div>
+<% for (const interest of locals.user.interests) { %>
+    <input type="hidden" class="interest" value="<% interest %>">
+<% } %> 
+<script src="/interests.js" defer></script>

@@ -54,6 +54,11 @@ router.get('/profile', isAuth, (req, res) => {
 	res.render('profile', { user: req.user, message: message.success || message.error })
 })
 
+router.get('/interests', isAuth, (req, res) => {
+    const message = req.flash()
+	res.render('interests', { user: req.user, message: message.success || message.error })
+})
+
 router.get('/admin', isAdmin, (req, res) => {
 	res.render('admin', { user: req.user })
 })
@@ -96,5 +101,21 @@ router.post('/profile', isAuth, upload.single('image'), async (req, res) => {
 		req.flash('error', err.message)
 	}
 	res.redirect('/profile')
+})
+
+router.post('/interests', isAuth, async (req, res) => {
+	//replace interests and values
+	try {
+		let user = await User.findById(req.user._id)
+		user.interests = req.body.interests
+        user.values = req.body.values
+
+        await user.save()
+        req.flash('success', 'Profile updated!')
+    } catch (err) {
+        console.error(err)
+		req.flash('error', err.message)
+    }
+    res.redirect('/interests')
 })
 module.exports = router
