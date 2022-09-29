@@ -76,6 +76,7 @@ input {
 .btn:hover {
     background-color: black;
     color: white;
+    cursor: pointer;
 }
 .btn-large:hover {
     background-color: black;
@@ -130,7 +131,7 @@ input {
     gap: 20px;
 }
 .active {
-    border: 2px solid red;
+    border: 2px solid red !important;
 }
 
 #form {
