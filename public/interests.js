@@ -13,12 +13,6 @@ for (let interest of interestData) {
     if (interest.value != '') interests.push(interest.value)  
 }
 
-//need better values based on different lifestyles
-let valueData = document.querySelectorAll('.value')
-let values = []
-for (let value of valueData) {
-    if (value.value != '') values.push(value.value)  
-}
 //button toggle logic
 
 //swimming
@@ -51,7 +45,7 @@ if (interests.includes('Baseball')) {
 }
 
 baseballBtn.addEventListener('click', () => {
-    if (swimBool) {
+    if (baseballBool) {
         let index = interests.findIndex(interest => interest === 'Baseball')
         interests.splice(index, 1)
         baseballBtn.classList.remove('active')

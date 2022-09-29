@@ -56,8 +56,6 @@ router.get('/profile', isAuth, (req, res) => {
 
 router.get('/interests', isAuth, (req, res) => {
     const message = req.flash()
-    console.log(req.user.interests)
-    console.log(req.user.values)
 	res.render('interests', { user: req.user, message: message.success || message.error })
 })
 
