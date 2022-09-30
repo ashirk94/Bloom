@@ -3,7 +3,7 @@
 <div class="friends-container">
 <% for (let friend of locals.friends) { %> 
     <div class="friend-box">
-        <img class="profile-pic"
+        <img class="list-pic"
         src="data:image/<%= friend.profilePic.contentType %>;base64,
         <%= friend.profilePic.data.toString('base64') %>"><br>
         <%= friend.firstName %>

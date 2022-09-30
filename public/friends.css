@@ -1,0 +1,15 @@
+.friend-box {
+    min-width: 400px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+.list-pic {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+}
+.friends-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
