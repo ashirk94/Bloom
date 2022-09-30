@@ -1,0 +1,21 @@
+<div class="main-wrapper">
+    <div class="friend-box">
+        <img class="list-pic"
+        src="data:image/<%= locals.friend.profilePic.contentType %>;base64,
+        <%= locals.friend.profilePic.data.toString('base64') %>"><br>
+        <%= locals.friend.firstName %>
+        <h5>Interests: </h5>
+        <ul>
+            <% for (let interest of locals.friend.interests) { %> 
+                <li><%= interest %></li>
+                <% } %> 
+        </ul>
+        <h5>Values: </h5>
+        <ul>
+            <% for (let value of locals.friend.values) { %> 
+                <li><%= value %></li>
+                <% } %> 
+        </ul>
+        <button>Like</button><button>Message</button>
+    </div>
+</div>

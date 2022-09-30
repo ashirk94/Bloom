@@ -7,7 +7,7 @@ const User = connection.models.User
 const fs = require('fs')
 
 const multer = require('multer')
-const f = require('session-file-store')
+//const f = require('session-file-store')
 const storage = multer.diskStorage({
 	destination: (req, file, next) => {
 		next(null, path.join(__dirname, '../public/uploads'))
@@ -37,16 +37,6 @@ const upload = multer({
 router.get('/', (req, res) => {
     const message = req.flash()
 	res.render('index', { user: req.user })
-})
-
-router.get('/chat', isAuth, (req, res) => {
-	res.render('chat', { user: req.user })
-})
-
-router.get('/meet', isAuth, async (req, res) => {
-	const id = req.user.id
-	const users = await User.find({ _id: { $ne: id } }).limit(5)
-	res.render('meet', { user: req.user, friends: users })
 })
 
 router.get('/profile', isAuth, (req, res) => {
