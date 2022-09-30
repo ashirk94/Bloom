@@ -7,11 +7,13 @@
         src="data:image/<%= friend.profilePic.contentType %>;base64,
         <%= friend.profilePic.data.toString('base64') %>"><br>
         <%= friend.firstName %>
+        <h5>Interests: </h5>
         <ul>
             <% for (let interest of friend.interests) { %> 
                 <li><%= interest %></li>
                 <% } %> 
         </ul>
+        <h5>Values: </h5>
         <ul>
             <% for (let value of friend.values) { %> 
                 <li><%= value %></li>
