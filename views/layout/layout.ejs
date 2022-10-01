@@ -7,27 +7,28 @@
 		<title>Bloom</title>
 		<link rel="stylesheet" href="/styles.css" />
         <link rel="stylesheet" href="/friends.css" />
+        <link rel="icon" href="/images/knight.jpg">
 	</head>
 	<body>
 		<div class="navbar">
 			<ul class="nav">
 				<li class="nav-item">
-					<a class="nav-link" href="./">Home</a>
+					<a class="nav-link" href="/">Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="./chat">Chat</a>
+					<a class="nav-link" href="/chat">Chat</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="./meet">Meet</a>
+					<a class="nav-link" href="/meet">Meet</a>
 				</li>
 			</ul>
 			<ul class="nav">
 				<% if (!locals.user) { %>
 				<li class="nav-item">
-					<a class="nav-link" href="./login">Login</a>
+					<a class="nav-link" href="/login">Login</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="./register">Register</a>
+					<a class="nav-link" href="/register">Register</a>
 				</li>
 				<% } else { %>
                     <% if (locals.user.profilePic.data) { %>
@@ -38,14 +39,14 @@
 				/>
                 <% } %>
 				<li class="nav-item">
-					<a class="nav-link" href="./profile">My Profile</a>
+					<a class="nav-link" href="/profile">My Profile</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="./logout">Logout</a>
+					<a class="nav-link" href="/logout">Logout</a>
 				</li>
 				<% if (locals.user.admin) { %>
 				<li class="nav-item">
-					<a class="nav-link" href="./admin">Admin</a>
+					<a class="nav-link" href="/admin">Admin</a>
 				</li>
 				<% } %> <% } %>
 			</ul>

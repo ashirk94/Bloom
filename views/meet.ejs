@@ -3,7 +3,7 @@
 	<div class="friends-container">
 		<% for (let friend of locals.friends) { %>
 		<div class="friend-box">
-			<a href="./<%= friend.id %>">
+			<a href="/user/<%= friend.id %>">
 				<img
 					class="list-pic"
 					src="data:image/<%= friend.profilePic.contentType %>;base64,

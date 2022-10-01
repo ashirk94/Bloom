@@ -14,8 +14,8 @@ router.get('/meet', isAuth, async (req, res) => {
 	res.render('meet', { user: req.user, friends: users })
 })
 
-router.get('/:user_id', isAuth, async (req, res) => {
-    const id = req.params.user_id.toString()  
+router.get('/user/:id', isAuth, async (req, res) => {
+    const id = req.params.id.toString()
     const friend = await User.findById(id)
     res.render('friend', {friend: friend, user: req.user})
 })
