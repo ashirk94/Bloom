@@ -7,7 +7,7 @@ const User = connection.models.User
 const fs = require('fs')
 
 const multer = require('multer')
-//const f = require('session-file-store')
+
 const storage = multer.diskStorage({
 	destination: (req, file, next) => {
 		next(null, path.join(__dirname, '../public/uploads'))

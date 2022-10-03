@@ -142,3 +142,8 @@ ul, li {
     width: auto;
     margin-top: 20px;
 }
+
+.error-msg {
+    color: red;
+    margin-bottom: 20px;
+}
