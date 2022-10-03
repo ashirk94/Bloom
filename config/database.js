@@ -21,6 +21,7 @@ const UserSchema = new Schema({
     lastName: String,
     interests: [String],
     values: [String],
+    bio: String,
 	matches: [
 		{
 			_id: { type: [Schema.Types.ObjectId], ref: 'User' },

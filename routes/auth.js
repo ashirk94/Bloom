@@ -8,7 +8,8 @@ const path = require('path')
 
 //get routes
 router.get('/login', (req, res) => {
-	res.render('auth/login', {user: req.user})
+    const message = req.flash()
+	res.render('auth/login', {user: req.user, message: message})
 })
 
 router.get('/register', (req, res) => {
@@ -27,7 +28,8 @@ router.post(
 	'/login',
 	passport.authenticate('local', {
 		failureRedirect: '/login',
-		successRedirect: 'back'
+		successRedirect: '/meet',
+        failureFlash: true
 	}),
 	(req, res) => {}
 )

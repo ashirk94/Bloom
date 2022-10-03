@@ -11,6 +11,7 @@ require('dotenv').config()
 
 const homeRoutes = require('./routes/index')
 const authRoutes = require('./routes/auth')
+const friendRoutes = require('./routes/friends')
 
 const app = express()
 
@@ -89,6 +90,7 @@ passportConfig(passport)
 //routers
 app.use(homeRoutes)
 app.use(authRoutes)
+app.use(friendRoutes)
 
 //error handler
 app.use(errorHandler)

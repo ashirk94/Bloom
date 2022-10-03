@@ -1,23 +1,29 @@
 <div class="main-wrapper">
-<h2>Potential friends</h2>
-<div class="friends-container">
-<% for (let friend of locals.friends) { %> 
-    <div class="friend-box">
-        <img class="profile-pic"
-        src="data:image/<%= friend.profilePic.contentType %>;base64,
-        <%= friend.profilePic.data.toString('base64') %>"><br>
-        <%= friend.firstName %>
-        <ul>
-            <% for (let interest of friend.interests) { %> 
-                <li><%= interest %></li>
-                <% } %> 
-        </ul>
-        <ul>
-            <% for (let value of friend.values) { %> 
-                <li><%= value %></li>
-                <% } %> 
-        </ul>
-    </div>
-<% } %> 
-</div>
+	<h2>Potential friends</h2>
+	<div class="friends-container">
+		<% for (let friend of locals.friends) { %>
+		<div class="friend-box">
+			<a href="/user/<%= friend.id %>">
+				<img
+					class="list-pic"
+					src="data:image/<%= friend.profilePic.contentType %>;base64,
+        <%= friend.profilePic.data.toString('base64') %>" /></a
+			><br />
+			<%= friend.firstName %>
+			<h5>Interests:</h5>
+			<ul>
+				<% for (let interest of friend.interests) { %>
+				<li><%= interest %></li>
+				<% } %>
+			</ul>
+			<h5>Values:</h5>
+			<ul>
+				<% for (let value of friend.values) { %>
+				<li><%= value %></li>
+				<% } %>
+			</ul>
+			<button class="btn">Like</button><button class="btn">Message</button>
+		</div>
+		<% } %>
+	</div>
 </div>

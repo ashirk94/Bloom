@@ -1,6 +1,9 @@
 <div class="main-wrapper">
-	<h1>Login Page</h1>
-	<% if (locals.message) { %> <%= locals.message %> <% } %>
+	<h1>Login</h1>
+	<div class="error-msg">
+		<% if (locals.message.error) { %> <%= locals.message.error %> <% } %>
+	</div>
+
 	<form method="POST">
 		Enter Username:<br /><input type="text" name="uname" /> <br />Enter
 		Password:<br /><input type="password" name="pw" /> <br /><br /><input
