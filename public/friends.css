@@ -13,3 +13,7 @@
     justify-content: center;
     gap: 20px;
 }
+.bio {
+    font-style: italic;
+    font-size: 16px;
+}

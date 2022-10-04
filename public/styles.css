@@ -147,3 +147,6 @@ ul, li {
     color: red;
     margin-bottom: 20px;
 }
+h5, ul {
+    margin: 5px auto;
+}
