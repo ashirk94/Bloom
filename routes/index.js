@@ -44,6 +44,11 @@ router.get('/profile', isAuth, (req, res) => {
 	res.render('profile', { user: req.user, message: message.success || message.error })
 })
 
+router.get('/bio', isAuth, (req, res) => {
+    const message = req.flash()
+	res.render('bio', { user: req.user, message: message.success || message.error })
+})
+
 router.get('/interests', isAuth, (req, res) => {
     const message = req.flash()
 	res.render('interests', { user: req.user, message: message.success || message.error })
@@ -109,5 +114,18 @@ router.post('/interests', isAuth, async (req, res) => {
 		req.flash('error', err.message)
     }
     res.redirect('/interests')
+})
+
+router.post('/bio', isAuth, async (req, res) => {
+    try {
+		let user = await User.findById(req.user._id)
+        user.bio = req.body.bio
+        await user.save()
+        req.flash('success', 'Bio updated!')
+    } catch (err) {
+		console.error(err)
+		req.flash('error', err.message)
+	}
+    res.redirect('/bio')
 })
 module.exports = router
