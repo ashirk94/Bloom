@@ -35,7 +35,6 @@ const upload = multer({
 //get routes
 
 router.get('/', (req, res) => {
-    const message = req.flash()
 	res.render('index', { user: req.user })
 })
 

@@ -2,11 +2,14 @@
     min-width: 400px;
     border: 2px solid black;
     border-radius: 10px;
+    flex-direction: column; 
+    display: flex;
 }
 .list-pic {
     width: 200px;
     height: 200px;
     border-radius: 10px;
+    margin: 0 auto;
 }
 .friends-container {
     display: flex;
@@ -16,4 +19,29 @@
 .bio {
     font-style: italic;
     font-size: 16px;
+}
+.btn-card {
+    text-decoration: none;
+    border: 2px solid black;
+    width: 200px;
+    height: auto;
+    font-size: 30px;
+    text-align: center;
+    border-radius: 10px;
+    color: black;
+}
+.btn-card:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+.btn-card-group {
+    margin-top: auto;
+}
+
+#bio {
+    min-width: 500px;
+    min-height: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

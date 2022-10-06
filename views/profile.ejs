@@ -9,10 +9,12 @@
         <input name="lastName" placeholder="<%= locals.user.lastName %>"></input><br/>
         <input type="file" name="image" id="fileInput"><br/>
         <div id="fileDisplayArea"></div>
-        <input type="submit" value="Update Profile">
+        <input class="btn" type="submit" value="Update Profile">
     </form>
-    <a href="/interests" class="btn-large">Modify Interests and Values</a>
-    <a href="/bio" class="btn">Update Bio</a>
+    <div class="btn-group">
+        <a href="/interests" class="btn-large">Modify Interests and Values</a>
+        <a href="/bio" class="btn-large">Update Bio</a>
+    </div>
     <% if (locals.message) { %>
         <h5><%= locals.message %></h5>
         <% } %>

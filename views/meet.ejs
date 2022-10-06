@@ -3,7 +3,7 @@
 	<div class="friends-container">
 		<% for (let friend of locals.friends) { %>
 		<div class="friend-box">
-			<a href="/user/<%= friend.id %>">
+			<a href="/user/<%= friend.username %>">
 				<img
 					class="list-pic"
 					src="data:image/<%= friend.profilePic.contentType %>;base64,
@@ -23,7 +23,9 @@
 				<li><%= value %></li>
 				<% } %>
 			</ul>
-			<button class="btn">Like</button><button class="btn">Message</button>
+            <div class="btn-card-group">
+                <button class="btn-card">Like</button><button class="btn-card">Message</button>
+            </div>			
 		</div>
 		<% } %>
 	</div>

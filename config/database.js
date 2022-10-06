@@ -12,7 +12,6 @@ const connection = mongoose.createConnection(conn, {
 const UserSchema = new Schema({
 	username: String,
 	hash: String,
-	salt: String,
 	profilePic: {
         data: Buffer,
         contentType: String
