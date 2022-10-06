@@ -53,8 +53,9 @@ router.get('/interests', isAuth, (req, res) => {
 	res.render('interests', { user: req.user, message: message.success || message.error })
 })
 
-router.get('/admin', isAdmin, (req, res) => {
-	res.render('admin', { user: req.user })
+router.get('/admin', isAdmin, async (req, res) => {
+    const users = await User.find()
+	res.render('admin', { user: req.user, accounts: users })
 })
 
 //post

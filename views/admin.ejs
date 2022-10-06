@@ -1,1 +1,36 @@
-<h1>Admin area</h1>
+<div class="main-wrapper">
+	<h2>Delete Users</h2>
+	<div class="friends-container">
+		<% for (let account of locals.accounts) { %>
+		<div class="friend-box">
+				<img
+					class="list-pic"
+					src="data:image/<%= account.profilePic.contentType %>;base64,
+        <%= account.profilePic.data.toString('base64') %>" />
+			<br />
+			<%= account.firstName %> <br>
+            <p class="bio"><%= account.bio %></p>
+			<h5>Interests:</h5>
+			<ul>
+				<% for (let interest of account.interests) { %>
+				<li><%= interest %></li>
+				<% } %>
+			</ul>
+			<h5>Values:</h5>
+			<ul>
+				<% for (let value of account.values) { %>
+				<li><%= value %></li>
+				<% } %>
+			</ul>
+            <div class="btn-card-group">
+                <button class="btn-card">Like</button><button class="btn-card">Message</button>
+            </div>	
+            <br>
+            <form method="post" action="/users/<%= account.id %>">
+                <input type="submit" class="btn-delete" value="Delete">
+            </form>		
+		</div>
+
+		<% } %>
+	</div>
+</div>

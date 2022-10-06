@@ -15,6 +15,9 @@
     display: flex;
     justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    max-height: 100%;
 }
 .bio {
     font-style: italic;
@@ -44,4 +47,15 @@
     min-height: 200px;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+.btn-delete {
+    text-decoration: none;
+    border: 2px solid black;
+    width: 200px;
+    height: auto;
+    font-size: 30px;
+    text-align: center;
+    border-radius: 10px;
+    color: black;
+    background-color: red;
 }
