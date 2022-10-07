@@ -23,9 +23,9 @@
 				<li><%= value %></li>
 				<% } %>
 			</ul>
-            <h5>Likes: <%= friend.likes.length %> </h5>
+            <h5 data-num="<%= friend.likes.length %>" id="<%= friend.id %>"><%= friend.likes.length %> </h5>
             <div class="btn-card-group">
-                <button class="btn-card" id="like-btn" data-id="<%= friend.id %> ">Like</button><button class="btn-card">Message</button>
+                <button class="btn-card" id="like-btn" data-id="<%= friend.id %>">Like</button><button class="btn-card">Message</button>
             </div>			
 		</div>
 		<% } %>

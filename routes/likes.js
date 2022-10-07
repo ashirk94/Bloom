@@ -8,13 +8,20 @@ router.post('/like/:id', isAuth, async (req, res) => {
     const user = await User.findById(req.params.id)
 
     //stops user from liking the same one multiple times
-    if (user.likes.some((x) => x.username === req.user.username)) {
-        res.redirect('/meet')
-    } else {
+    if (!user.likes.some((x) => x.username === req.user.username)) {
         user.likes.push(req.user)
         await user.save()
-        res.redirect('/meet')
     }
 })
 
+//gets likes
+router.get('/like/:id', isAuth, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        const likes = {Likes: user.likes.length}
+        res.json(likes)
+    } catch (err) {
+        console.error(err)
+    }
+})
 module.exports = router
