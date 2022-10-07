@@ -1,22 +1,24 @@
-const likeBtn = document.getElementById('like-btn')
+const likeBtns = document.querySelectorAll('#like-btn')
 
-likeBtn.addEventListener('click', () => {
-    const like = {'like': 1}
-    fetch("http://localhost:3000/like", {
-        method: 'post',
-        body: like,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then((response) => {
-        return response.json()
-    }).then((res) => {
-        if (res.status === 201) {
-            console.log("Post successfully created!")
-        }
-    }).catch((error) => {
-        console.log(error)
+//ajax post the like then remove the user's box
+for (const likeBtn of likeBtns) {
+    likeBtn.addEventListener('click', async () => {
+        const id = likeBtn.dataset.id.toString()
+        likeBtn.setAttribute('disabled', '')
+        likeBtn.classList.add('btn-liked')
+        likeBtn.innerHTML = 'Liked'
+        const like = JSON.stringify({count : 1})
+
+        await fetch("/like/" + id, {
+            method: 'post',
+            body: like,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
     })
-})
+}
+
 

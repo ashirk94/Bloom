@@ -2,7 +2,7 @@
 	<h2>Potential friends</h2>
 	<div class="friends-container">
 		<% for (let friend of locals.friends) { %>
-		<div class="friend-box">
+		<div class="friend-box" id="<%= friend.id %>">
 			<a href="/user/<%= friend.username %>">
 				<img
 					class="list-pic"
@@ -23,10 +23,12 @@
 				<li><%= value %></li>
 				<% } %>
 			</ul>
+            
             <div class="btn-card-group">
-                <button class="btn-card">Like</button><button class="btn-card">Message</button>
+                <button class="btn-card" id="like-btn" data-id="<%= friend.id %>">Like</button><button class="btn-card">Message</button>
             </div>			
 		</div>
 		<% } %>
 	</div>
 </div>
+<script src="/like.js" defer></script>

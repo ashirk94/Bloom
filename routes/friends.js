@@ -10,7 +10,7 @@ router.get('/chat', isAuth, (req, res) => {
 
 router.get('/meet', isAuth, async (req, res) => {
 	const id = req.user._id
-	const users = await User.find({ _id: { $ne: id } }).limit(5)
+	const users = await User.find({$and: [{ _id: { $ne: id }}, {'likes._id': { $ne: id }}]}).limit(4)
 	res.render('meet', { user: req.user, friends: users })
 })
 

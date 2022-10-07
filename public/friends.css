@@ -59,3 +59,10 @@
     color: black;
     background-color: red;
 }
+.btn-liked {
+    background-color: darkgrey;
+    pointer-events: none;
+}
+.btn-liked:hover {
+    color: black;
+}

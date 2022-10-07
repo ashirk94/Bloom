@@ -1,19 +1,19 @@
 //create image preview
 window.onload = function () {
-	var fileInput = document.getElementById('fileInput')
-	var fileDisplayArea = document.getElementById('fileDisplayArea')
+	const fileInput = document.getElementById('fileInput')
+	const fileDisplayArea = document.getElementById('fileDisplayArea')
 
 	fileInput.addEventListener('change', function (e) {
-		var file = fileInput.files[0]
-		var imageType = /image.*/
+		const file = fileInput.files[0]
+		const imageType = /image.*/
 
 		if (file.type.match(imageType)) {
-			var reader = new FileReader()
+			const reader = new FileReader()
 
 			reader.onload = function (e) {
 				fileDisplayArea.innerHTML = ''
 
-				var img = new Image()
+				const img = new Image()
 				img.src = reader.result
 
 				fileDisplayArea.appendChild(img)

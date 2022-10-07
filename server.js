@@ -13,6 +13,7 @@ const homeRoutes = require('./routes/index')
 const authRoutes = require('./routes/auth')
 const friendRoutes = require('./routes/friends')
 const userRoutes = require('./routes/users')
+const likeRoutes = require('./routes/likes')
 
 const app = express()
 
@@ -93,6 +94,7 @@ app.use(homeRoutes)
 app.use(authRoutes)
 app.use(friendRoutes)
 app.use(userRoutes)
+app.use(likeRoutes)
 
 //error handler
 app.use(errorHandler)
