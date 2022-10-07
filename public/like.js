@@ -1,22 +1,23 @@
-const likeBtn = document.getElementById('like-btn')
+const likeBtns = document.querySelectorAll('#like-btn')
 
-likeBtn.addEventListener('click', () => {
-    const like = {'like': 1}
-    fetch("http://localhost:3000/like", {
-        method: 'post',
-        body: like,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then((response) => {
-        return response.json()
-    }).then((res) => {
-        if (res.status === 201) {
-            console.log("Post successfully created!")
-        }
-    }).catch((error) => {
-        console.log(error)
+for (const likeBtn of likeBtns) {
+    likeBtn.addEventListener('click', async () => {
+        
+        const like = JSON.stringify({count : 1})
+        console.log(like)
+        await fetch("/like/" + likeBtn.dataset.id.toString(), {
+            method: 'post',
+            body: like,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+        //could ajax get user with likes instead of reload
+        window.location.reload()
     })
-})
+}
+
 
