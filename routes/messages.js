@@ -3,8 +3,8 @@ const isAuth = require('../utilities/authMiddleware').isAuth
 const connection = require('../config/database')
 const User = connection.models.User
 
-//adds a like from a user to another
-router.post('/like/:id', isAuth, async (req, res) => {
+//sends a message from a user to another
+router.post('/message/:id', isAuth, async (req, res) => {
 	const user = await User.findById(req.params.id)
 
 	//stops user from liking the same one multiple times
@@ -14,12 +14,12 @@ router.post('/like/:id', isAuth, async (req, res) => {
 	}
 })
 
-//gets likes
-router.get('/like/:id', isAuth, async (req, res) => {
+//gets messages
+router.get('/message/:id', isAuth, async (req, res) => {
 	try {
 		const user = await User.findById(req.params.id)
-		const likes = { likes: user.likes }
-		res.json(likes)
+		const messages = { messages: user.messages }
+		res.json(messages)
 	} catch (err) {
 		console.error(err)
 	}
