@@ -8,12 +8,19 @@
     </form>
 <div id="message-container"></div>
 </div>
-<div class="room-area">
+<!-- <div class="room-area">
     <div class="room-group">
         <label for="room-input">Room</label>
         <input type="text" id="room-input">
         <button type="button" id="room-button">Join</button>
     </div>
-</div>
+</div> -->
+<div id="room-name"></div>
 <input type="hidden" id="user-input" value="<%= user.username %>">
+<script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
+      integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="
+      crossorigin="anonymous"
+    ></script>
 <script src="/chat.js" type="module" defer></script>
+

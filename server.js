@@ -17,22 +17,68 @@ const likeRoutes = require('./routes/likes')
 
 const app = express()
 
+const botName = "Alan's Bot";
+
 //socket.io
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
+const {
+	formatMessage,
+	getCurrentUser,
+	userJoin,
+    getRoomUsers,
+    userLeave
+} = require('./utilities/messaging')
 
-io.on('connection', socket => {
-    socket.on('send-message', (message, room) => {
-        if (room === '') {
-            socket.broadcast.emit('receive-message', message)
-        } else {
-            socket.to(room).emit('receive-message', message)
-        }    
-    })
-    socket.on('join-room', (room, cb) => {
-        socket.join(room)
-        cb(`Joined ${room}`)
-    })
+io.on('connection', (socket) => {
+    const id = socket.handshake.query.id
+    socket.join(id)
+	
+	socket.on('join-room', (username, room) => {
+		const user = userJoin(socket.id, username, room)
+		socket.join(user.room)
+
+		// Broadcast when a user connects
+		socket.broadcast
+			.to(user.room)
+			.emit(
+				'recieve-message',
+				formatMessage('Bot', `${user.username} has joined the chat`)
+			)
+
+		// Send users and room info
+		io.to(user.room).emit('roomUsers', {
+			room: user.room,
+			users: getRoomUsers(user.room)
+		})
+	})
+    socket.on('send-message', (message) => {
+        console.log(message)
+        //stop nulls
+		const username = getCurrentUser(socket.id).username.username || null
+        const room = getCurrentUser(socket.id).username.room || null
+        const user = getCurrentUser(socket.id).username
+        const send = formatMessage(user, message)
+        console.log(send)
+
+		io.emit('receive-message', {user: username, message: send})
+	})
+    // Runs when client disconnects
+  socket.on("disconnect", () => {
+    const user = userLeave(socket.id);
+
+    if (user) {
+      io.to(user.room).emit(
+        "receive-message",
+        formatMessage(botName, `${user.username} has left the chat`)
+      );
+      // Send users and room info
+      io.to(user.room).emit("roomUsers", {
+        room: user.room,
+        users: getRoomUsers(user.room),
+      });
+    }
+});
 })
 
 app.use(express.json())
@@ -49,12 +95,12 @@ app.use(expressLayouts)
 
 function errorTest(req, res, next) {
 	let error = new Error('Custom error')
-    next(error)
+	next(error)
 }
 
 function errorHandler(err, req, res, next) {
 	console.error(err.stack)
-	res.render('error', { error: err})
+	res.render('error', { error: err })
 }
 
 //passport local strategy
