@@ -1,12 +1,13 @@
 <div class="main-wrapper">
 <form action="/chat">
     <div class="form-control">
-        <label for="username">Username</label>
+        <label for="username"><%= user.username %></label>
         <input
-            type="text"
+            type="hidden"
             name="username"
             id="username"
             placeholder="Enter username..."
+            value="<%= user.username %> "
             required
         />
     </div>

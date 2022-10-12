@@ -1,24 +1,22 @@
 const moment = require('moment')
 
 function formatMessage(user, text) {
-    console.log(user)
 	const formatted = {
 		username: user.username,
 		text,
-		time: moment().format('HH:MM')
+		time: moment().format('hh:mm')
 	}
-	//console.log(formatted)
 	return formatted
 }
 const users = []
 
 // Join user to chat
-function userJoin(id, username, room) {
-	const user = { id, username, room }
+function userJoin(id, user) {
+	const newUser = { id, username: user.username, room: user.room }
 
-	users.push(user)
+	users.push(newUser)
 
-	return user
+	return newUser
 }
 
 // Get current user

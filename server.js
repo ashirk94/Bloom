@@ -53,13 +53,11 @@ io.on('connection', (socket) => {
 		})
 	})
     socket.on('send-message', (message) => {
-        console.log(message)
         //stop nulls
-		const username = getCurrentUser(socket.id).username.username || null
-        const room = getCurrentUser(socket.id).username.room || null
-        const user = getCurrentUser(socket.id).username
+		const username = getCurrentUser(socket.id).username
+        const room = getCurrentUser(socket.id).username.room
+        const user = getCurrentUser(socket.id)
         const send = formatMessage(user, message)
-        console.log(send)
 
 		io.emit('receive-message', {user: username, message: send})
 	})
