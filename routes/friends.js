@@ -8,6 +8,10 @@ router.get('/chat', isAuth, (req, res) => {
 	res.render('chat', { user: req.user })
 })
 
+router.get('/join-chat', isAuth, (req, res) => {
+	res.render('join-chat', { user: req.user })
+})
+
 router.get('/meet', isAuth, async (req, res) => {
 	const id = req.user._id
 	const users = await User.find({$and: [{ _id: { $ne: id }}, {'likes._id': { $ne: id }}]}).limit(4)
