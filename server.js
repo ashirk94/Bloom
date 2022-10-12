@@ -53,13 +53,14 @@ io.on('connection', (socket) => {
 		})
 	})
     socket.on('send-message', (message) => {
-        //stop nulls
-		const username = getCurrentUser(socket.id).username
-        const room = getCurrentUser(socket.id).username.room
+        //nulls band aid for disconnect
         const user = getCurrentUser(socket.id)
+		const username = user.username || null
+        const room = user.room || null
+        
         const send = formatMessage(user, message)
 
-		io.emit('receive-message', {user: username, message: send})
+		io.to(room).emit('receive-message', {user: username, message: send})
 	})
     // Runs when client disconnects
   socket.on("disconnect", () => {
