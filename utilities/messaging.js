@@ -4,13 +4,12 @@ function formatMessage(user, text) {
 	const formatted = {
 		username: user.username,
 		text,
-		time: moment().format('hh:mm')
+		time: moment().format('h:mm A')
 	}
 	return formatted
 }
 const users = []
 
-// Join user to chat
 function userJoin(id, user) {
 	const newUser = { id, username: user.username, room: user.room }
 
@@ -19,12 +18,10 @@ function userJoin(id, user) {
 	return newUser
 }
 
-// Get current user
 function getCurrentUser(id) {
 	return users.find((user) => user.id === id)
 }
 
-// User leaves chat
 function userLeave(id) {
 	const index = users.findIndex((user) => user.id === id)
 
@@ -33,7 +30,6 @@ function userLeave(id) {
 	}
 }
 
-// Get room users
 function getRoomUsers(room) {
 	return users.filter((user) => user.room === room)
 }

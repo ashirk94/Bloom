@@ -17,67 +17,38 @@ const likeRoutes = require('./routes/likes')
 
 const app = express()
 
-const botName = "Alan's Bot";
-
 //socket.io
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 const {
 	formatMessage,
 	getCurrentUser,
-	userJoin,
-    getRoomUsers,
-    userLeave
+	userJoin
 } = require('./utilities/messaging')
 
 io.on('connection', (socket) => {
-    const id = socket.handshake.query.id
-    socket.join(id)
-	
+	// notify existing users
+    socket.broadcast.emit("user connected", {
+        userID: socket.id,
+        username: socket.username,
+      });
+
 	socket.on('join-room', (username, room) => {
 		const user = userJoin(socket.id, username, room)
 		socket.join(user.room)
-
-		// Broadcast when a user connects
-		socket.broadcast
-			.to(user.room)
-			.emit(
-				'recieve-message',
-				formatMessage('Bot', `${user.username} has joined the chat`)
-			)
-
-		// Send users and room info
-		io.to(user.room).emit('roomUsers', {
-			room: user.room,
-			users: getRoomUsers(user.room)
-		})
 	})
-    socket.on('send-message', (message) => {
-        //nulls band aid for disconnect
-        const user = getCurrentUser(socket.id)
-		const username = user.username || null
-        const room = user.room || null
-        
-        const send = formatMessage(user, message)
+	socket.on('send-message', (message) => {
+		const user = getCurrentUser(socket.id)
+        //if user is disconnected cancel execution
+        if (!user) return
 
-		io.to(room).emit('receive-message', {user: username, message: send})
+		const username = user.username
+		const room = user.room
+
+		const send = formatMessage(user, message)
+
+		io.to(room).emit('receive-message', { user: username, message: send })
 	})
-    // Runs when client disconnects
-  socket.on("disconnect", () => {
-    const user = userLeave(socket.id);
-
-    if (user) {
-      io.to(user.room).emit(
-        "receive-message",
-        formatMessage(botName, `${user.username} has left the chat`)
-      );
-      // Send users and room info
-      io.to(user.room).emit("roomUsers", {
-        room: user.room,
-        users: getRoomUsers(user.room),
-      });
-    }
-});
 })
 
 app.use(express.json())
@@ -102,7 +73,7 @@ function errorHandler(err, req, res, next) {
 	res.render('error', { error: err })
 }
 
-//passport local strategy
+//passport session storage
 const sessionStore = new MongoStore({
 	mongooseConnection: connection,
 	collection: 'sessions'
@@ -124,15 +95,6 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 passportConfig(passport)
-
-//middleware to log session and user data
-// app.use((req, res, next) => {
-// 	console.log(req.session)
-// 	console.log(req.user)
-// 	next()
-// })
-//error test
-// app.use(errorTest)
 
 //routers
 app.use(homeRoutes)

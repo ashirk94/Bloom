@@ -11,11 +11,17 @@ const roomName = document.getElementById('room-name')
 
 //creates div and appends with message
 function displayMessage(message) {
-	const div = document.createElement('div')
-	div.textContent =
-		message.time + '\n' + message.username + ': ' + message.text
-	div.classList.add('message')
-	messageContainer.append(div)
+	if (message.username.trim() === user.trim()) {
+		const div = document.createElement('div')
+		div.innerHTML = `<div class='chat-heading'>${message.time}<br>${message.username} (you)</div> ${message.text}`
+		div.classList.add('message')
+		messageContainer.append(div)
+	} else {
+		const div = document.createElement('div')
+		div.innerHTML = `<div class='chat-heading-other'>${message.time}<br>${message.username}</div> ${message.text}`
+		div.classList.add('message')
+		messageContainer.append(div)
+	}
 }
 
 // Get username and room from URL
@@ -25,15 +31,25 @@ const { username, room } = Qs.parse(location.search, {
 
 const socket = io('http://localhost:3000')
 
+//testing
+// socket.on('user connected', (user) => {
+// 	initReactiveProperties(user)
+// 	this.users.push(user)
+// })
+
 // Join chatroom
 socket.emit('join-room', { username, room })
 
 // Message from server
-socket.on('receive-message', (user, message) => {
+socket.on('receive-message', (user) => {
 	displayMessage(user.message)
 
 	// Scroll down
 	//chatMessages.scrollTop = chatMessages.scrollHeight;
+})
+
+socket.onAny((event, ...args) => {
+	console.log(event, args)
 })
 
 // Message submit
@@ -56,4 +72,4 @@ form.addEventListener('submit', (e) => {
 	messageInput.focus()
 })
 
-export default null
+export default socket
