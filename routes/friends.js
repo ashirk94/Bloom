@@ -7,6 +7,13 @@ const User = connection.models.User
 router.get('/chat', isAuth, (req, res) => {
 	res.render('chat', { user: req.user })
 })
+router.get('/chat/:username', isAuth, async (req, res) => {
+	const username = req.params.username
+    const friendArray = await User.find({username: username})
+    const friend = friendArray[0]
+    
+    res.render('chat', {friend: friend, user: req.user})
+})
 
 router.get('/join-chat', isAuth, (req, res) => {
 	res.render('join-chat', { user: req.user })

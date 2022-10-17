@@ -15,9 +15,9 @@ const friendRoutes = require('./routes/friends')
 const userRoutes = require('./routes/users')
 const likeRoutes = require('./routes/likes')
 
-const app = express()
+const User = connection.models.User
 
-const botName = "Alan's Bot";
+const app = express()
 
 //socket.io
 const server = require('http').createServer(app)
@@ -26,57 +26,64 @@ const {
 	formatMessage,
 	getCurrentUser,
 	userJoin,
-    getRoomUsers,
-    userLeave
+	storeMessage
 } = require('./utilities/messaging')
 
-io.on('connection', (socket) => {
-    const id = socket.handshake.query.id
-    socket.join(id)
-	
-	socket.on('join-room', (username, room) => {
-		const user = userJoin(socket.id, username, room)
-		socket.join(user.room)
+//mongoDB session storage
+const sessionStore = new MongoStore({
+	mongooseConnection: connection,
+	collection: 'sessions'
+})
 
-		// Broadcast when a user connects
-		socket.broadcast
-			.to(user.room)
-			.emit(
-				'recieve-message',
-				formatMessage('Bot', `${user.username} has joined the chat`)
-			)
+const sessionMiddleware = session({
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: false,
+	store: sessionStore,
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 24 * 7 //1 week
+	}
+})
 
-		// Send users and room info
-		io.to(user.room).emit('roomUsers', {
-			room: user.room,
-			users: getRoomUsers(user.room)
-		})
+io.use((socket, next) => {
+    sessionMiddleware(socket.request, socket.request.res || {}, next)
+})
+
+io.on('connection', async (socket) => {
+    const userId = socket.request.session.passport.user
+    const user = await User.findById(userId)
+    user.socketId = socket.id
+    await user.save()
+    //userJoin(userId)
+
+	// socket.on('join-room', (username, room) => {
+	// 	const user = userJoin(socket.id, username, room)
+	// 	socket.join(user.room)
+	// })
+
+	socket.on('send-message', ({message, to, sender}) => {
+		console.log(socket.id)
+        console.log(sender)
+        console.log(to)
+        //socket.join(to)
+
+        //const sender = await User.findById(userId)
+
+		//if user is disconnected cancel execution
+		if (!sender) return
+
+        //const friend = User.findById(to)
+
+        //if (!friend) return
+
+		const username = sender
+
+		//storeMessage(message, sender)
+		const send = formatMessage(sender, message)
+        console.log(send)
+
+		io.to(to).to(socket.id).emit('receive-message', { user: username, message: send })
 	})
-    socket.on('send-message', (message) => {
-        //stop nulls
-		const username = getCurrentUser(socket.id).username
-        const room = getCurrentUser(socket.id).username.room
-        const user = getCurrentUser(socket.id)
-        const send = formatMessage(user, message)
-
-		io.emit('receive-message', {user: username, message: send})
-	})
-    // Runs when client disconnects
-  socket.on("disconnect", () => {
-    const user = userLeave(socket.id);
-
-    if (user) {
-      io.to(user.room).emit(
-        "receive-message",
-        formatMessage(botName, `${user.username} has left the chat`)
-      );
-      // Send users and room info
-      io.to(user.room).emit("roomUsers", {
-        room: user.room,
-        users: getRoomUsers(user.room),
-      });
-    }
-});
 })
 
 app.use(express.json())
@@ -101,37 +108,12 @@ function errorHandler(err, req, res, next) {
 	res.render('error', { error: err })
 }
 
-//passport local strategy
-const sessionStore = new MongoStore({
-	mongooseConnection: connection,
-	collection: 'sessions'
-})
-
-app.use(
-	session({
-		secret: process.env.SESSION_SECRET,
-		resave: false,
-		saveUninitialized: false,
-		store: sessionStore,
-		cookie: {
-			maxAge: 1000 * 60 * 60 * 24 * 7 //1 week
-		}
-	})
-)
+app.use(sessionMiddleware)
 
 app.use(passport.initialize())
 app.use(passport.session())
 
 passportConfig(passport)
-
-//middleware to log session and user data
-// app.use((req, res, next) => {
-// 	console.log(req.session)
-// 	console.log(req.user)
-// 	next()
-// })
-//error test
-// app.use(errorTest)
 
 //routers
 app.use(homeRoutes)

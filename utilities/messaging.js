@@ -1,30 +1,29 @@
 const moment = require('moment')
+const connection = require('../config/database')
+const User = connection.models.User
 
 function formatMessage(user, text) {
 	const formatted = {
-		username: user.username,
+		username: user,
 		text,
-		time: moment().format('hh:mm')
+		time: moment().format('h:mm A')
 	}
 	return formatted
 }
 const users = []
 
-// Join user to chat
-function userJoin(id, user) {
-	const newUser = { id, username: user.username, room: user.room }
+function userJoin(id) {   
+	const newUser = User.findById(id)
 
 	users.push(newUser)
 
 	return newUser
 }
 
-// Get current user
 function getCurrentUser(id) {
 	return users.find((user) => user.id === id)
 }
 
-// User leaves chat
 function userLeave(id) {
 	const index = users.findIndex((user) => user.id === id)
 
@@ -33,9 +32,12 @@ function userLeave(id) {
 	}
 }
 
-// Get room users
 function getRoomUsers(room) {
 	return users.filter((user) => user.room === room)
+}
+
+function storeMessage(sender, message) {
+
 }
 
 module.exports = {
@@ -43,5 +45,6 @@ module.exports = {
 	getCurrentUser,
 	userLeave,
 	getRoomUsers,
-	formatMessage
+	formatMessage,
+    storeMessage
 }
