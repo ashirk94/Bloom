@@ -8,15 +8,15 @@
     </form>
 <div id="message-container"></div>
 </div>
-<!-- <div class="room-area">
-    <div class="room-group">
-        <label for="room-input">Room</label>
-        <input type="text" id="room-input">
-        <button type="button" id="room-button">Join</button>
-    </div>
-</div> -->
 <div id="room-name"></div>
-<input type="hidden" id="user-input" value="<%= user.username %>">
+<% if (locals.user) { %>  
+<input type="hidden" id="user-name-input" value="<%=locals.user.username%>">
+<input type="hidden" id="user-id-input" value="<%= locals.user.socketId%>">
+<% } %> 
+<% if (locals.friend) { %>  
+<input type="hidden" id="friend-name-input" value="<%=locals.friend.username%>">
+<input type="hidden" id="friend-id-input" value="<%=locals.friend.socketId%>">
+<% } %> 
 <script
       src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
       integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="

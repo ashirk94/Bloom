@@ -15,6 +15,8 @@ const friendRoutes = require('./routes/friends')
 const userRoutes = require('./routes/users')
 const likeRoutes = require('./routes/likes')
 
+const User = connection.models.User
+
 const app = express()
 
 //socket.io
@@ -23,31 +25,64 @@ const io = require('socket.io')(server)
 const {
 	formatMessage,
 	getCurrentUser,
-	userJoin
+	userJoin,
+	storeMessage
 } = require('./utilities/messaging')
 
-io.on('connection', (socket) => {
-	// notify existing users
-    socket.broadcast.emit("user connected", {
-        userID: socket.id,
-        username: socket.username,
-      });
+//mongoDB session storage
+const sessionStore = new MongoStore({
+	mongooseConnection: connection,
+	collection: 'sessions'
+})
 
-	socket.on('join-room', (username, room) => {
-		const user = userJoin(socket.id, username, room)
-		socket.join(user.room)
-	})
-	socket.on('send-message', (message) => {
-		const user = getCurrentUser(socket.id)
-        //if user is disconnected cancel execution
-        if (!user) return
+const sessionMiddleware = session({
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: false,
+	store: sessionStore,
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 24 * 7 //1 week
+	}
+})
 
-		const username = user.username
-		const room = user.room
+io.use((socket, next) => {
+    sessionMiddleware(socket.request, socket.request.res || {}, next)
+})
 
-		const send = formatMessage(user, message)
+io.on('connection', async (socket) => {
+    const userId = socket.request.session.passport.user
+    const user = await User.findById(userId)
+    user.socketId = socket.id
+    await user.save()
+    //userJoin(userId)
 
-		io.to(room).emit('receive-message', { user: username, message: send })
+	// socket.on('join-room', (username, room) => {
+	// 	const user = userJoin(socket.id, username, room)
+	// 	socket.join(user.room)
+	// })
+
+	socket.on('send-message', ({message, to, sender}) => {
+		console.log(socket.id)
+        console.log(sender)
+        console.log(to)
+        //socket.join(to)
+
+        //const sender = await User.findById(userId)
+
+		//if user is disconnected cancel execution
+		if (!sender) return
+
+        //const friend = User.findById(to)
+
+        //if (!friend) return
+
+		const username = sender
+
+		//storeMessage(message, sender)
+		const send = formatMessage(sender, message)
+        console.log(send)
+
+		io.to(to).to(socket.id).emit('receive-message', { user: username, message: send })
 	})
 })
 
@@ -73,23 +108,7 @@ function errorHandler(err, req, res, next) {
 	res.render('error', { error: err })
 }
 
-//passport session storage
-const sessionStore = new MongoStore({
-	mongooseConnection: connection,
-	collection: 'sessions'
-})
-
-app.use(
-	session({
-		secret: process.env.SESSION_SECRET,
-		resave: false,
-		saveUninitialized: false,
-		store: sessionStore,
-		cookie: {
-			maxAge: 1000 * 60 * 60 * 24 * 7 //1 week
-		}
-	})
-)
+app.use(sessionMiddleware)
 
 app.use(passport.initialize())
 app.use(passport.session())

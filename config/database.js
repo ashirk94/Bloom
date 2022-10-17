@@ -40,7 +40,8 @@ const UserSchema = new Schema({
 		},
 		String
 	],
-    admin: Boolean
+    admin: Boolean,
+    socketId: String
 })
 
 const User = connection.model('User', UserSchema)
