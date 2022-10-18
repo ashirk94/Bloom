@@ -25,7 +25,7 @@ function displayMessage(message) {
 const socket = io('http://localhost:3000')
 
 // message from server
-socket.on('receive-message', ({ user, message }) => {
+socket.on('receive-message', ({ message }) => {
 	displayMessage(message)
 	// auto scroll feature?
 })
