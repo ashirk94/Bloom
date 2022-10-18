@@ -40,17 +40,17 @@ router.get('/', (req, res) => {
 
 router.get('/profile', isAuth, (req, res) => {
     const message = req.flash()
-	res.render('profile', { user: req.user, message: message.success || message.error })
+	res.render('profile/profile', { user: req.user, message: message.success || message.error })
 })
 
 router.get('/bio', isAuth, (req, res) => {
     const message = req.flash()
-	res.render('bio', { user: req.user, message: message.success || message.error })
+	res.render('profile/bio', { user: req.user, message: message.success || message.error })
 })
 
 router.get('/interests', isAuth, (req, res) => {
     const message = req.flash()
-	res.render('interests', { user: req.user, message: message.success || message.error })
+	res.render('profile/interests', { user: req.user, message: message.success || message.error })
 })
 
 router.get('/admin', isAdmin, async (req, res) => {
