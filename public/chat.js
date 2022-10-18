@@ -6,6 +6,7 @@ const messageInput = document.getElementById('message-input')
 const form = document.getElementById('form')
 const user = document.getElementById('user-name-input').value
 const friendId = document.getElementById('friend-id-input').value
+const friendSocket = document.getElementById('friend-socket-input').value
 
 //creates div and appends with message
 function displayMessage(message) {
@@ -56,8 +57,9 @@ form.addEventListener('submit', (e) => {
 	//emit message to server
 	socket.emit('send-message', {
 		message: msg,
-		to: friendId,
-		sender: user
+		to: friendSocket,
+		sender: user,
+        friendId: friendId
 	})
 	//clear input
 	messageInput.value = ''
