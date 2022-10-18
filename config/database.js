@@ -35,10 +35,12 @@ const UserSchema = new Schema({
 	],
 	messages: [
 		{
-			_id: { type: [Schema.Types.ObjectId], ref: 'User' },
-			username: { type: String, ref: 'User' }
-		},
-		String
+            username: String,
+            text: String,
+            time: String,
+            sender: String,
+            recipient: String
+		}
 	],
     admin: Boolean,
     socketId: String

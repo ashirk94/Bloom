@@ -19,7 +19,6 @@ for (const messageBtn of messageBtns) {
                 'Content-Type': 'application/json'
             }
         })
-
     })
 }
 
