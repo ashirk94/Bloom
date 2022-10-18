@@ -1,26 +1,17 @@
 <div class="chat-wrapper">
-    <form id="form">
-        <div class="message-group">
-            <label for="message-input">Message</label>
-            <input type="text" id="message-input">
-            <button type="submit" id="send-button">Send</button>
-        </div>
-    </form>
-<div id="message-container"></div>
+	<form id="form">
+		<div class="message-group">
+			<label for="message-input">Message</label>
+			<input type="text" id="message-input" />
+			<button type="submit" id="send-button">Send</button>
+		</div>
+	</form>
+	<div id="message-container"></div>
 </div>
 <div id="room-name"></div>
-<% if (locals.user) { %>  
-<input type="hidden" id="user-name-input" value="<%=locals.user.username%>">
-<input type="hidden" id="user-id-input" value="<%= locals.user.socketId%>">
-<% } %> 
-<% if (locals.friend) { %>  
-<input type="hidden" id="friend-name-input" value="<%=locals.friend.username%>">
-<input type="hidden" id="friend-id-input" value="<%=locals.friend.socketId%>">
-<% } %> 
-<script
-      src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
-      integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="
-      crossorigin="anonymous"
-    ></script>
+<% if (locals.user) { %>
+<input type="hidden" id="user-name-input" value="<%=locals.user.username%>" />
+<% } %> <% if (locals.friend) { %>
+<input type="hidden" id="friend-id-input" value="<%=locals.friend.socketId%>" />
+<% } %>
 <script src="/chat.js" type="module" defer></script>
-

@@ -23,10 +23,7 @@ const app = express()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 const {
-	formatMessage,
-	getCurrentUser,
-	userJoin,
-	storeMessage
+	formatMessage
 } = require('./utilities/messaging')
 
 //mongoDB session storage
@@ -54,35 +51,15 @@ io.on('connection', async (socket) => {
     const user = await User.findById(userId)
     user.socketId = socket.id
     await user.save()
-    //userJoin(userId)
-
-	// socket.on('join-room', (username, room) => {
-	// 	const user = userJoin(socket.id, username, room)
-	// 	socket.join(user.room)
-	// })
 
 	socket.on('send-message', ({message, to, sender}) => {
-		console.log(socket.id)
-        console.log(sender)
-        console.log(to)
-        //socket.join(to)
-
-        //const sender = await User.findById(userId)
-
-		//if user is disconnected cancel execution
-		if (!sender) return
-
-        //const friend = User.findById(to)
-
-        //if (!friend) return
-
-		const username = sender
+        //join their room on message - may change later
+        socket.join(to)
 
 		//storeMessage(message, sender)
 		const send = formatMessage(sender, message)
-        console.log(send)
 
-		io.to(to).to(socket.id).emit('receive-message', { user: username, message: send })
+		io.to(to).to(socket.id).emit('receive-message', { user: sender, message: send })
 	})
 })
 

@@ -5,14 +5,10 @@ const messageContainer = document.getElementById('message-container')
 const messageInput = document.getElementById('message-input')
 const form = document.getElementById('form')
 const user = document.getElementById('user-name-input').value
-const userId = document.getElementById('user-id-input').value
-const friendName = document.getElementById('friend-name-input').value
 const friendId = document.getElementById('friend-id-input').value
-
 
 //creates div and appends with message
 function displayMessage(message) {
-    console.log('hi')
 	if (message.username.trim() === user.trim()) {
 		const div = document.createElement('div')
 		div.innerHTML = `<div class='chat-heading'>${message.time}<br>${message.username} (you)</div> ${message.text}`
@@ -26,50 +22,44 @@ function displayMessage(message) {
 	}
 }
 
-//can now pass username through router by req param id
-//the socket io PM tutorial now should work
+const socket = io('http://localhost:3000')
 
-const socket = io('http://localhost:3000') //with credentials?
-
-// Message from server
-socket.on('receive-message', ({user, message}) => {
-    console.log('hello')
-    console.log(user)
-    console.log(message)
+// message from server
+socket.on('receive-message', ({ user, message }) => {
 	displayMessage(message)
-
-	// Scroll down
-	//chatMessages.scrollTop = chatMessages.scrollHeight;
-})
-socket.on("connect", () => {
-    console.log(socket.id)
-  })
-
-socket.onAny((event, ...args) => {
-	console.log(event, args)
-    //console.log(socket.handshake.session)
+	// auto scroll feature?
 })
 
-// Message submit
+//test id on connect
+// socket.on('connect', () => {
+// 	console.log(socket.id)
+// })
+
+//log test on any action
+// socket.onAny((event, ...args) => {
+// 	console.log(event, args)
+//     //console.log(socket.handshake.session)
+// })
+
+//message submit
 form.addEventListener('submit', (e) => {
 	e.preventDefault()
 
-	// Get message text
+	//get message text
 	let msg = messageInput.value
-
 	msg = msg.trim()
 
 	if (!msg) {
-		return false
+		return
 	}
 
-	// Emit message to server
+	//emit message to server
 	socket.emit('send-message', {
-        message: msg,
-        to: friendId,
-        sender: user
-    })
-	// Clear input
+		message: msg,
+		to: friendId,
+		sender: user
+	})
+	//clear input
 	messageInput.value = ''
 	messageInput.focus()
 })

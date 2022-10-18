@@ -10,6 +10,7 @@ function formatMessage(user, text) {
 	}
 	return formatted
 }
+//other functions may not be necessary, test storage first
 const users = []
 
 function userJoin(id) {   
