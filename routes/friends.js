@@ -11,7 +11,7 @@ router.get('/chat/:username', isAuth, async (req, res) => {
     const friend = friendArray[0]
 
     //get mutual messages
-    const messages = friend.messages.filter(message => message.username === req.user.username || message.username === username)
+    const messages = req.user.messages.filter(message => (message.recipient === req.user.username && message.sender === friend.username) || (message.recipient === username && message.sender === req.user.username))
 
     res.render('main/chat', {friend: friend, user: req.user, messages: messages})
 })
