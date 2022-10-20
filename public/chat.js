@@ -31,17 +31,6 @@ socket.on('receive-message', ({ message }) => {
 	// auto scroll feature?
 })
 
-//test id on connect
-// socket.on('connect', () => {
-// 	console.log(socket.id)
-// })
-
-//log test on any action
-// socket.onAny((event, ...args) => {
-// 	console.log(event, args)
-//     //console.log(socket.handshake.session)
-// })
-
 //message submit
 form.addEventListener('submit', (e) => {
 	e.preventDefault()
