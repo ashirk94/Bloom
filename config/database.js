@@ -43,7 +43,11 @@ const UserSchema = new Schema({
 		}
 	],
     admin: Boolean,
-    socketId: String
+    socketId: String,
+    location: {
+        lat: Number,
+        lon: Number
+    }
 })
 
 const User = connection.model('User', UserSchema)
