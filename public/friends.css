@@ -1,15 +1,22 @@
 .friend-box {
-    min-width: 400px;
-    border: 2px solid black;
-    border-radius: 10px;
-    flex-direction: column; 
-    display: flex;
+    width: 416px;
+    height: 583px;
+    border: 1px solid #66ffcc;
+    border-radius: 40px;
+    overflow: hidden;
+}
+.box-top {
+    background-image: linear-gradient(white, #66ffcc);
+    height: 25%;
+    margin-bottom: 122px;
 }
 .list-pic {
     width: 200px;
     height: 200px;
-    border-radius: 10px;
-    margin: 0 auto;
+    margin: 40px auto;
+    border-radius: 50%;
+    z-index: 1;
+    border: 3px solid white;
 }
 .friends-container {
     display: flex;
@@ -39,7 +46,8 @@
     cursor: pointer;
 }
 .btn-card-group {
-    margin-top: auto;
+    margin-top: 50px;
+    margin-bottom: 0px;
 }
 
 #bio {
@@ -79,4 +87,14 @@
     color: white;
     border-radius: 10px;
     text-align: center;
+}
+.btn-primary {
+    background-color: #AEEED8;
+    color: #357376;
+    font-size: 17px;
+    font-weight: bold;
+}
+.btn-secondary {
+    background-color: #FFFFFF;
+    border: 4px solid #AEEED8;
 }
