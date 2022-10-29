@@ -7,7 +7,9 @@ const flash = require('connect-flash')
 const passportConfig = require('./config/passport')
 const path = require('path')
 const expressLayouts = require('express-ejs-layouts')
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
 
 const homeRoutes = require('./routes/index')
 const authRoutes = require('./routes/auth')
