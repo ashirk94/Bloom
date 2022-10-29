@@ -6,18 +6,23 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Bloom</title>
 		<link rel="stylesheet" href="/styles.css" />
-        <link rel="stylesheet" href="/friends.css" />
-        <link rel="stylesheet" href="/design.css" />
-        <link rel="icon" href="/images/knight.jpg">
+		<link rel="stylesheet" href="/friends.css" />
+		<link rel="stylesheet" href="/design.css" />
+		<link rel="icon" href="/images/bloom-logo.jpg" />
 	</head>
 	<body>
 		<div class="navbar">
 			<ul class="nav">
+				<a href="/"
+					><img class="navbar-logo" src="/images/bloom-logo.jpg"
+				/></a>
 				<li class="nav-item">
 					<a class="nav-link nav-text" href="/">Home</a>
 				</li>
-                <li class="nav-item">
-					<a class="nav-link nav-text" href="/connections">Requests</a>
+				<li class="nav-item">
+					<a class="nav-link nav-text" href="/connections"
+						>Requests</a
+					>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link nav-text" href="/join-chat">Chats</a>
@@ -29,24 +34,24 @@
 			<ul class="nav">
 				<% if (!locals.user) { %>
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="/login">Login</a>
+					<a class="nav-link nav-text" href="/login">Log In</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link nav-text" href="/register">Register</a>
 				</li>
-				<% } else { %>
-                    <% if (locals.user.profilePic.data) { %>
-				<img
-					class="profile-pic"
-					src="data:image/<%=locals.user.profilePic.contentType%>;base64,
+				<% } else { %> <% if (locals.user.profilePic.data) { %>
+				<a href="/profile">
+					<img
+						class="profile-pic"
+						src="data:image/<%=locals.user.profilePic.contentType%>;base64,
                     <%=locals.user.profilePic.data.toString('base64')%>"
-				/>
-                <% } %>
+				/></a>
+				<% } %>
 				<li class="nav-item">
 					<a class="nav-link nav-text" href="/profile">My Profile</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="/logout">Logout</a>
+					<a class="nav-link nav-text" href="/logout">Log Out</a>
 				</li>
 				<% if (locals.user.admin) { %>
 				<li class="nav-item">
