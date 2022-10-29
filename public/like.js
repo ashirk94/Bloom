@@ -6,7 +6,7 @@ for (const likeBtn of likeBtns) {
         const id = likeBtn.dataset.id.toString()
         likeBtn.setAttribute('disabled', '')
         likeBtn.classList.add('btn-liked')
-        likeBtn.innerHTML = 'Liked'
+        likeBtn.innerHTML = 'Sent'
         const like = JSON.stringify({count : 1})
 
         await fetch("/like/" + id, {

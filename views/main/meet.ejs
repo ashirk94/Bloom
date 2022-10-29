@@ -1,32 +1,42 @@
 <div class="main-wrapper">
-	<h2>Potential friends</h2>
+	<h2 class="title">Potential friends</h2>
 	<div class="friends-container">
 		<% for (let friend of locals.friends) { %>
 		<div class="friend-box" id="<%= friend.id %>">
-			<a href="/user/<%= friend.username %>">
-				<img
-					class="list-pic"
-					src="data:image/<%= friend.profilePic.contentType %>;base64,
-        <%= friend.profilePic.data.toString('base64') %>" /></a
-			><br />
-			<%= friend.firstName %> <br>
-            <p class="bio"><%= friend.bio %></p>
-			<h5>Interests:</h5>
-			<ul>
-				<% for (let interest of friend.interests) { %>
-				<li><%= interest %></li>
-				<% } %>
-			</ul>
-			<h5>Values:</h5>
-			<ul>
-				<% for (let value of friend.values) { %>
-				<li><%= value %></li>
-				<% } %>
-			</ul>
-            
-            <div class="btn-card-group">
-                <button class="btn-card" id="like-btn" data-id="<%= friend.id %>">Like</button><a class="btn-card" href="/chat/<%= friend.username  %> ">Message</a>
-            </div>			
+			<div class="box-top">
+				<a href="/user/<%= friend.username %>">
+					<img
+						class="list-pic"
+						src="data:image/<%= friend.profilePic.contentType %>;base64,
+        <%= friend.profilePic.data.toString('base64') %>"
+				/></a>
+			</div>
+			<div class="profile-name"><%= friend.firstName %></div>
+			<% if (friend.bio) { %>
+			<div class="bio"><%= friend.bio %></div>
+			<% } else { %>
+			<div class="bio"><br></div>
+			<% } %>
+			<span class="profile-info"><strong>Interests:</strong></span>
+			<% for (let interest of friend.interests) { %>
+			<span class="profile-info"><%= interest %></span>
+			<% } %><br />
+			<span class="profile-info"><strong>Values:</strong></span>
+			<% for (let value of friend.values) { %>
+			<span class="profile-info"><%= value %></span>
+			<% } %>
+
+			<div class="btn-card-group">
+				<button
+					class="btn-card btn-primary"
+					id="like-btn"
+					data-id="<%= friend.id %>"
+				>
+					Connect +</button
+				><a class="btn-card btn-secondary" href="/chat/<%= friend.username  %> "
+					>Message</a
+				>
+			</div>
 		</div>
 		<% } %>
 	</div>

@@ -1,6 +1,8 @@
 <div class="main-wrapper">
     <h1>My Profile</h1>
     <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lon" id="lon">
         <label for="username">Username: <%= locals.user.username %></label><br/>
         <input name="username" placeholder="<%= locals.user.username %>"></input><br/>
         <label for="firstName">First Name: <%= locals.user.firstName %></label><br/>
@@ -20,4 +22,5 @@
         <% } %>
 </div>
 <script src="/profilePic.js" defer></script>
+<script src="/location.js" defer></script>
 
