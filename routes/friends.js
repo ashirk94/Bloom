@@ -73,11 +73,12 @@ router.get('/meet', isAuth, async (req, res) => {
 	})
 
 	//filter users by distance
-	// users = users.filter(user => {
-	//     const dist = distance(user.location.lat, user.location.lon, req.user.location.lat, req.user.location.lon)
-	//     console.log(dist)
-	//     if (dist <= 50) { return true } else { return false }
-	// }) //closer than 50km
+	users = users.filter(user => {
+		console.log(user.location.lat, req.user.location.lat)
+	    const dist = distance(user.location.lat, user.location.lon, req.user.location.lat, req.user.location.lon)
+	    console.log(dist)
+	    if (dist <= 50) { return true } else { return false }
+	}) //closer than 50km
 
 	//match based on values and interests
 	const myInterests = req.user.interests
