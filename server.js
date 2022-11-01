@@ -23,7 +23,12 @@ const app = express()
 
 //socket.io
 const server = require('http').createServer(app)
-const io = require('socket.io')(server)
+const io = require('socket.io')(server, {
+    cors: {
+      origin: "https://bloom-friend-finder.herokuapp.com",
+      methods: ["GET", "POST"]
+    }
+  })
 const {
 	formatMessage,
     storeMessage
