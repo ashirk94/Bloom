@@ -21,6 +21,10 @@
     margin-top: 61px;
     margin-bottom: 82px;
 }
+.subtitle {
+    color: #357376;
+    font-size: 20px;
+}
 .profile-name {
     color: #434343;
     font-size: 30px;

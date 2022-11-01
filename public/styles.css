@@ -98,10 +98,6 @@ input {
     font-family: 'Ubuntu', sans-serif;
     color: black;
 }
-
-.nav-link:hover {
-    color: grey;
-}
 .nav-item {
     text-align: center;  
     text-decoration: none;
