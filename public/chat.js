@@ -23,7 +23,9 @@ function displayMessage(message) {
 	}
 }
 
-const socket = io('http://localhost:3000')
+const socket = io('https://bloom-friend-finder.herokuapp.com', {
+    withCredentials: true
+  })
 
 // message from server
 socket.on('receive-message', ({ message }) => {
