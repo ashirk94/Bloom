@@ -22,10 +22,19 @@ function displayMessage(message) {
 		messageContainer.append(div)
 	}
 }
+//enables chatting on development and production
+let socket;
 
-const socket = io('https://bloom-friend-finder.herokuapp.com', {
+if (window.location.href.slice(0,21) === 'http://localhost:3000') {
+    socket = io('http://localhost:3000', {
     withCredentials: true
   })
+} else {
+    socket = io('https://bloom-friend-finder.herokuapp.com', {
+        withCredentials: true
+      })
+}
+
 
 // message from server
 socket.on('receive-message', ({ message }) => {
