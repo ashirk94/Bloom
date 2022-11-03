@@ -5,10 +5,14 @@
 	</div>
 	<form method="post" autocomplete="on">
 		Enter Username:<br /><input type="text" name="uname" /> <br />Enter
-		Password:<br /><input type="password" name="pw" /> <br /><br /><input
+		Password:<br /><input type="password" name="pw" /> <br /><br />
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lon" id="lon">
+        <input
 			type="submit"
 			value="Submit"
             class="btn"
 		/>
 	</form>
 </div>
+<script src="/location.js" defer></script>
