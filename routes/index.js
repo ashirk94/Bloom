@@ -34,9 +34,7 @@ const upload = multer({
 })
 //get routes
 
-router.get('/', (req, res) => {
-	res.render('index', { user: req.user })
-})
+//index route now in auth
 
 router.get('/profile', isAuth, (req, res) => {
     const message = req.flash()

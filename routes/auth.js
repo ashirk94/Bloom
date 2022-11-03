@@ -7,9 +7,9 @@ const fs = require('fs')
 const path = require('path')
 
 //get routes
-router.get('/login', (req, res) => {
+router.get('/', (req, res) => {
 	const message = req.flash()
-	res.render('auth/login', { user: req.user, message: message })
+	res.render('index', { user: req.user, message: message })
 })
 
 router.get('/register', (req, res) => {
@@ -28,18 +28,15 @@ router.get('/logout', (req, res, next) => {
 //post routes
 
 router.post(
-	'/login',
+	'/',
 	passport.authenticate('local', {
-		failureRedirect: '/login',
+		failureRedirect: '/',
 		successRedirect: '/meet',
 		failureFlash: true
-	}),
-	(req, res) => {}
+	})
 )
 
 router.post('/register', async (req, res) => {
-    //to delete users in dev:
-	//connection.collection('users').deleteMany({})
 	try {
         //test for duplicate user
 		const testUser = await User.find({ username: req.body.uname })
@@ -47,6 +44,14 @@ router.post('/register', async (req, res) => {
 			throw new Error('Duplicate username')
 		}
 		const hashedPassword = await genPassword(req.body.pw)
+
+        //location
+        let lat = null
+        let lon = null
+        if (req.body.lat != '' && req.body.lon != '') {
+            lat = Number(req.body.lat)
+            lon = Number(req.body.lon)
+        }
 
 		const newUser = new User({
 			username: req.body.uname,
@@ -57,7 +62,11 @@ router.post('/register', async (req, res) => {
 					path.join(__dirname + '/../public/images/anon.jpg')
 				),
 				contentType: 'image/jpg'
-			}
+			},
+            location: {
+                lat: lat,
+                lon: lon
+            }
 		})
 
 		await newUser.save()
@@ -67,7 +76,7 @@ router.post('/register', async (req, res) => {
 				req.flash('error', err.message)
 				res.redirect('/register')
 			}
-			return res.redirect('/')
+			return res.redirect('/profile')
 		})
 	} catch (err) {
 		req.flash('error', err.message)

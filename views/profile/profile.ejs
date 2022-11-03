@@ -3,18 +3,19 @@
     <form method="post" enctype="multipart/form-data" autocomplete="off">
         <input type="hidden" name="lat" id="lat">
         <input type="hidden" name="lon" id="lon">
-        <label for="username">Username: <%= locals.user.username %></label><br/>
+        <label for="username">Username: <%= locals.user.username %></label><br/><br/>
         <label for="firstName">First Name: <%= locals.user.firstName %></label><br/>
         <input name="firstName" placeholder="<%= locals.user.firstName %>"></input><br/>
         <label for="lastName">Last Name: <%= locals.user.lastName %></label><br/>
         <input name="lastName" placeholder="<%= locals.user.lastName %>"></input><br/>
         <input type="file" name="image" id="fileInput"><br/>
         <div id="fileDisplayArea"></div>
-        <input class="btn" type="submit" value="Update Profile">
+        <input class="btn btn-primary" type="submit" value="Update Profile">
     </form>
+    <br/><br/>
     <div class="btn-group">
-        <a href="/interests" class="btn-large">Modify Interests and Values</a>
-        <a href="/bio" class="btn-large">Update Bio</a>
+        <a href="/interests" class="btn-large btn-secondary">Interests and Values</a>
+        <a href="/bio" class="btn-large btn-secondary">Update Bio</a>
     </div>
     <% if (locals.message) { %>
         <h5><%= locals.message %></h5>
