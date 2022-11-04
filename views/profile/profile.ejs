@@ -5,9 +5,9 @@
         <input type="hidden" name="lon" id="lon">
         <label for="username">Username: <%= locals.user.username %></label><br/><br/>
         <label for="firstName">First Name: <%= locals.user.firstName %></label><br/>
-        <input name="firstName" placeholder="<%= locals.user.firstName %>"></input><br/>
+        <input name="firstName" type="text" placeholder="<%= locals.user.firstName %>"></input><br/>
         <label for="lastName">Last Name: <%= locals.user.lastName %></label><br/>
-        <input name="lastName" placeholder="<%= locals.user.lastName %>"></input><br/>
+        <input name="lastName" type="text" placeholder="<%= locals.user.lastName %>"></input><br/>
         <input type="file" name="image" id="fileInput"><br/>
         <div id="fileDisplayArea"></div>
         <input class="btn btn-primary" type="submit" value="Update Profile">

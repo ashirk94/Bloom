@@ -38,6 +38,13 @@ router.post(
 
 router.post('/register', async (req, res) => {
 	try {
+        //check password
+        let regex = /^[A-Za-z]\w{7,14}$/
+
+        if (!req.body.pw.match(regex)) {
+            throw new Error('Invalid password')
+        }
+
         //test for duplicate user
 		const testUser = await User.find({ username: req.body.uname })
 		if (testUser[0] && testUser[0].username === req.body.uname) {

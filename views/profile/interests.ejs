@@ -1,5 +1,8 @@
 <div class="main-wrapper">
     <h2 class="title">Interests</h2>
+    <% if (locals.message) { %>
+        <h5><%= locals.message %></h5>
+        <% } %>
     <div class="btn-group">
         <button class="btn" id="game">Gaming</button>
         <button class="btn" id="code">Coding</button>
@@ -7,7 +10,7 @@
         <button class="btn" id="art">Art</button>
         <button class="btn" id="baseball">Baseball</button>
     </div>
-    <h2>Values</h2>
+    <h2 class="title">Values</h2>
     <div class="btn-group">
         <button class="btn" id="family">Family</button>
         <button class="btn" id="adventure">Adventure</button>
@@ -18,7 +21,7 @@
     <form method="post" id="form">
         <input type="hidden" name="interests" id="interest-submit">
         <input type="hidden" name="values" id="value-submit">
-        <input class="btn" type="submit" value="Submit">
+        <input class="btn btn-primary" type="submit" value="Submit">
     </form>
 </div>
 <% for (let interest of locals.user.interests) { %>

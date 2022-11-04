@@ -3,16 +3,19 @@
     <div class="error-msg">
 		<% if (locals.message.error) { %> <%= locals.message.error %> <% } %>
 	</div>
-	<form method="post" autocomplete="on">
+    <div id="validation"></div>
+    <div id="success"></div>
+	<form id="reg-form" method="post" autocomplete="off">
 		Enter Username:<br /><input type="text" name="uname" /> <br />Enter
-		Password:<br /><input type="password" name="pw" /> <br /><br />
+		Password:<br /><input type="password" name="pw" id="password" /> <br /><br />
         <input type="hidden" name="lat" id="lat">
         <input type="hidden" name="lon" id="lon">
         <input
 			type="submit"
 			value="Submit"
-            class="btn"
+            class="btn btn-primary"
 		/>
 	</form>
 </div>
 <script src="/location.js" defer></script>
+<script src="/register.js" defer></script>
