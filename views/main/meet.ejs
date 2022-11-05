@@ -1,9 +1,9 @@
 <div class="main-wrapper">
 	<h2 class="title">Potential friends</h2>
 	<div class="friends-container">
-        <% if (locals.friends.length == 0) { %>
-            <h3 class="subtitle">No potential friends found in the area. Have you added your location? On your profile page, please allow this app to access your location and click "update-profile".</h3>
-            <h3 class="subtitle">Otherwise, you may have sent a request to all potential friends in the area and there are no more left to display.</h3><% } %> 
+        <% if (!locals.user.location.lat) { %> 
+            <h3 class="subtitle">In order for the app to work, we need your location. On your profile page, please allow this app to access your location and click "update-profile".</h3><% } else if (locals.friends.length == 0) { %> 
+            <h3 class="subtitle">There are currently no more users in the area.</h3><% } %> 
 		<% for (let friend of locals.friends) { %>
 		<div class="friend-box" id="<%= friend.id %>">
 			<div class="box-top">
@@ -35,7 +35,7 @@
 					id="like-btn"
 					data-id="<%= friend.id %>"
 				>
-					Connect +</button
+					Lets be friends!</button
 				>
 			</div>
 		</div>
