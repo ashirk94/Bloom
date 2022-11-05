@@ -1,8 +1,8 @@
 <div class="main-wrapper">
-	<h2 class="title">Friend List</h2>
+	<h2 class="title">Connection Requests</h2>
 	<div class="friends-container">
 		<% if (locals.friends.length == 0) { %>
-		<h3 class="subtitle">No friend requests have been accepted yet.</h3>
+		<h3 class="subtitle">No connection requests yet.</h3>
 		<% } %> <% for (let friend of locals.friends) { %>
 		<div class="friend-box" id="<%= friend.id %>">
 			<div class="box-top">
@@ -28,13 +28,17 @@
 			<span class="profile-info"><%= value %></span>
 			<% } %>
 
-			<div class="btn-card-group"><a
-					class="btn-card btn-secondary"
-					href="/chat/<%= friend.username  %> "
-					>Message</a
+			<div class="btn-card-group">
+				<button
+					class="btn-card btn-primary"
+					id="like-btn"
+					data-id="<%= friend.id %>"
+				>
+					Connect +</button
 				>
 			</div>
 		</div>
 		<% } %>
 	</div>
 </div>
+<script src="/like.js" defer></script>

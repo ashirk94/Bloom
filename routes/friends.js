@@ -111,9 +111,16 @@ router.get('/user/:username', isAuth, async (req, res) => {
 })
 
 router.get('/connections', isAuth, async (req, res) => {
-	//users who have liked you
-	const users = await User.find({ _id: { $in: req.user.likes } })
+	//users with mutual likes
+	let users = await User.find({ _id: { $in: req.user.likes } })
+    users = users.filter(user => user.likes.find(like => like.id === req.user.id))
 	res.render('main/connections', { user: req.user, friends: users })
 })
 
+router.get('/requests', isAuth, async (req, res) => {
+	//users who have liked you
+	let users = await User.find({ _id: { $in: req.user.likes } })
+    users = users.filter(user => !user.likes.find(like => like.id === req.user.id))
+	res.render('main/requests', { user: req.user, friends: users })
+})
 module.exports = router

@@ -1,6 +1,8 @@
 <div class="main-wrapper">
 	<h2 class="title">Open Chats</h2>
 	<div class="friends-container">
+        <% if (locals.friends.length == 0) { %>
+            <h3 class="subtitle">No chats open. A connection request must be accepted</h3><% } %> 
 		<% for (let friend of locals.friends) { %>
             <div class="friend-box" id="<%= friend.id %>">
                 <div class="box-top">
