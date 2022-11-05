@@ -27,21 +27,11 @@
 			<% } %>
 
 			<div class="btn-card-group">
-				<button
-					class="btn-card btn-primary"
-					id="like-btn"
-					data-id="<%= friend.id %>"
-				>
-					Connect +</button
-				><a
-					class="btn-card btn-secondary"
-					href="/chat/<%= friend.username  %> "
-					>Message</a
-				>
+                <form method="post" action="/users/<%= friend.id %>">
+                    <input type="submit" class="btn-delete" value="Delete" />
+                </form>
 			</div>
-			<form method="post" action="/users/<%= friend.id %>">
-				<input type="submit" class="btn-delete" value="Delete" />
-			</form>
+
 		</div>
 
 		<% } %>

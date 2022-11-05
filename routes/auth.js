@@ -7,10 +7,6 @@ const fs = require('fs')
 const path = require('path')
 
 //get routes
-router.get('/', (req, res) => {
-	const message = req.flash()
-	res.render('index', { user: req.user, message: message })
-})
 
 router.get('/register', (req, res) => {
 	const message = req.flash()

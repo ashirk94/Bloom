@@ -1,8 +1,8 @@
 <div class="main-wrapper">
-	<h2 class="title">Connection Requests</h2>
+	<h2 class="title">Friend Requests</h2>
 	<div class="friends-container">
 		<% if (locals.friends.length == 0) { %>
-		<h3 class="subtitle">No connection requests yet.</h3>
+		<h3 class="subtitle">No pending friend requests.</h3>
 		<% } %> <% for (let friend of locals.friends) { %>
 		<div class="friend-box" id="<%= friend.id %>">
 			<div class="box-top">
@@ -34,7 +34,7 @@
 					id="like-btn"
 					data-id="<%= friend.id %>"
 				>
-					Connect +</button
+					Accept</button
 				>
 			</div>
 		</div>
