@@ -35,10 +35,16 @@ router.post(
 router.post('/register', async (req, res) => {
 	try {
         //check password
-        let regex = /^[A-Za-z]\w{7,14}$/
+        let passRegex = /^(?=.*[0-9])[A-Za-z]\w{7,14}$/
 
-        if (!req.body.pw.match(regex)) {
+        if (!req.body.pw.match(passRegex)) {
             throw new Error('Invalid password')
+        }
+
+        //check username
+        let unameRegex = /^[A-Za-z]\w{3,14}$/
+        if (!req.body.uname.match(unameRegex)) {
+            throw new Error('Invalid username')
         }
 
         //test for duplicate user
