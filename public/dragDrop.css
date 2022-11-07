@@ -1,0 +1,37 @@
+.draggable {
+	padding: 10px;
+	background-color: #333;
+	color: white;
+	border-radius: 10px;
+}
+.dragging {
+	opacity: 0.5;
+}
+.drop-container {
+	padding: 10px;
+	background-color: white;
+	color: black;
+	border-radius: 10px;
+}
+.locked {
+	background-color: #333;
+	color: white;
+	padding: 10px;
+	border-radius: 10px;
+	border: 3px solid red;
+}
+.drop {
+	font-size: 16px;
+	height: 60px;
+}
+#reset {
+	background-color: red;
+	color: white;
+	font-size: 17px;
+	font-weight: bold;
+	margin: 0 10px;
+	border-radius: 25px;
+}
+#reset:hover {
+    background-color: orange;
+}
