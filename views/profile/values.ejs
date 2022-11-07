@@ -1,0 +1,44 @@
+<div class="main-wrapper">
+    <% if (locals.message) { %>
+        <h5><%= locals.message %></h5>
+        <% } %>
+    
+    <h2 class="title">Values</h2>
+    <div class="btn-group" id="value-group">
+        <div class="draggable" draggable="true" id="family">Family</div>
+        <div class="draggable" draggable="true" id="adventure">Adventure</div>
+        <div class="draggable" draggable="true" id="ambition">Ambition</div>
+        <div class="draggable" draggable="true" id="relax">Relaxation</div>
+        <div class="draggable" draggable="true" id="fitness">Fitness</div>
+    </div>
+    <div class="btn-group">
+        <div id="value1-container" class="drop-container">Value 1
+            <div class="drop">[Drop here]</div>
+        </div>
+        <div id="value2-container" class="drop-container">Value 2
+            <div class="drop">[Drop here]</div>
+        </div>
+        <div id="value3-container" class="drop-container">Value 3
+            <div class="drop">[Drop here]</div>
+        </div>
+        <div id="value4-container" class="drop-container">Value 4
+            <div class="drop">[Drop here]</div>
+        </div>
+        <div id="value5-container" class="drop-container">Value 5
+            <div class="drop">[Drop here]</div>
+        </div>
+    </div>
+    <form method="post" id="form">
+        <input type="hidden" name="interests" id="interest-submit">
+        <input type="hidden" name="values" id="value-submit">
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+    
+</div>
+
+<input type="hidden" id="value1" value=<%= locals.user.value1 %>>
+<input type="hidden" id="value2" value=<%= locals.user.value2 %>>
+<input type="hidden" id="value3" value=<%= locals.user.value3 %>>
+<input type="hidden" id="value4" value=<%= locals.user.value4 %>>
+<input type="hidden" id="value5" value=<%= locals.user.value5 %>>
+<script src="/values.js" defer></script>

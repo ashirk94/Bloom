@@ -79,27 +79,27 @@ router.get('/meet', isAuth, async (req, res) => {
 	}) //closer than 50mi
 
 	//match based on values and interests
-	const myInterests = req.user.interests
-	const myValues = req.user.values
+	const interest1 = req.user.interest1 || null
+    const interest2 = req.user.interest2 || null
+    const interest3 = req.user.interest3 || null
+    const interest4 = req.user.interest4 || null
+    const interest5 = req.user.interest5 || null
 
-	for (const user of users) {
-		user.count = 0
-		for (const interest of user.interests) {
-			if (myInterests.includes(interest)) {
-				user.count++
-			}
-		}
-		for (const value of user.values) {
-			if (myValues.includes(value)) {
-				user.count++
-			}
-		}
-	}
-	//sort and trim the array
-	let matchingUsers = users.sort(compare)
-	matchingUsers = matchingUsers.slice(0, 4)
+	const value1 = req.user.value1 || null
+    const value2 = req.user.value2 || null
+    const value3 = req.user.value3 || null
+    const value4 = req.user.value4 || null
+    const value5 = req.user.value5 || null
 
-	res.render('main/meet', { user: req.user, friends: matchingUsers })
+    //pass these in
+    let matchingUsers = []
+
+	//new match algorithm
+    if (interest1 && value1) {
+        //check for each interest and value, weight them then compare
+    }
+
+	res.render('main/meet', { user: req.user, friends: users })
 })
 
 router.get('/user/:username', isAuth, async (req, res) => {

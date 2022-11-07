@@ -1,129 +1,211 @@
-const swimBtn = document.getElementById('swim')
-const codeBtn = document.getElementById('code')
-const gameBtn = document.getElementById('game')
-const artBtn = document.getElementById('art')
-const baseballBtn = document.getElementById('baseball')
 const form = document.getElementById('form')
-const interestSubmit = document.getElementById('interest-submit')
-const valueSubmit = document.getElementById('value-submit')
+//new interests
+const interest1Submit = document.getElementById('interest-submit1')
+const interest2Submit = document.getElementById('interest-submit2')
+const interest3Submit = document.getElementById('interest-submit3')
+const interest4Submit = document.getElementById('interest-submit4')
+const interest5Submit = document.getElementById('interest-submit5')
 
-let interestData = document.querySelectorAll('.interest')
-let interests = []
-for (let interest of interestData) {
-    if (interest.value != '') interests.push(interest.value)  
-}
+const resetBtn = document.getElementById('reset')
 
-//button toggle logic
+//prior interests
+let interest1 = document.getElementById('interest1').value || ''
+let interest2 = document.getElementById('interest2').value || ''
+let interest3 = document.getElementById('interest3').value || ''
+let interest4 = document.getElementById('interest4').value || ''
+let interest5 = document.getElementById('interest5').value || ''
 
-//swimming
-let swimBool = false
-
-if (interests.includes('Swimming')) {
-    swimBool = true
-    swimBtn.classList.add('active')
-}
-
-swimBtn.addEventListener('click', () => {
-    if (swimBool) {
-        let index = interests.findIndex(interest => interest === 'Swimmming')
-        interests.splice(index, 1)
-        swimBtn.classList.remove('active')
-        swimBool = false
-        
-    } else if (interests.length < 5) {      
-        swimBtn.classList.add('active')
-        interests.push('Swimming')
-        swimBool = true
-    }
+resetBtn.addEventListener('click', () => {
+    window.location.reload()
 })
-//baseball
-let baseballBool = false
+//emojis/icons?
 
-if (interests.includes('Baseball')) {
-    baseballBool = true
-    baseballBtn.classList.add('active')
+
+const draggables = document.querySelectorAll('.draggable')
+const interestGroup = document.getElementById('interest-group')
+
+const interest1Container = document.getElementById('interest1-container')
+const interest2Container = document.getElementById('interest2-container')
+const interest3Container = document.getElementById('interest3-container')
+const interest4Container = document.getElementById('interest4-container')
+const interest5Container = document.getElementById('interest5-container')
+
+//add reset button - window.reload()
+
+draggables.forEach((draggable) => {
+	draggable.addEventListener('dragstart', () => {
+		draggable.classList.add('dragging')
+	})
+	draggable.addEventListener('dragend', () => {
+		draggable.classList.remove('dragging')
+	})
+})
+
+//swap out interests
+interest1Container.addEventListener('dragenter', (e) => {
+	e.preventDefault()
+	const draggable = document.querySelector('.dragging')
+	if (!draggable) return
+
+	const container = interest1Container.firstElementChild
+    container.classList.add('dragover')
+
+	if (!container.classList.contains('drop')) {
+		//respawn element at top
+        const newElem = container.cloneNode(true)
+		interestGroup.appendChild(newElem)
+        newElem.addEventListener('dragstart', () => {
+            draggable.classList.add('dragging')
+        })
+        newElem.addEventListener('dragend', () => {
+            draggable.classList.remove('dragging')
+        })  
+	} 
+    container.remove()
+
+
+	//swap in container
+	interest1Container.appendChild(draggable)
+    interest1 = draggable.textContent
+
+	draggable.classList.remove('dragging')
+    draggable.classList.remove('draggable')
+    draggable.classList.add('locked')
+    draggable.setAttribute('draggable', false)
+    const copy = interest1Container.cloneNode(true)
+    interest1Container.replaceWith(copy)
+})
+
+interest2Container.addEventListener('dragenter', (e) => {
+	e.preventDefault()
+	const draggable = document.querySelector('.dragging')
+	if (!draggable) return
+
+	const container = interest2Container.firstElementChild
+    container.classList.add('dragover')
+
+	if (!container.classList.contains('drop')) {
+		//respawn element at top
+        const newElem = container.cloneNode(true)
+		interestGroup.appendChild(newElem)  
+        newElem.addEventListener('dragstart', () => {
+            draggable.classList.add('dragging')
+        })
+        newElem.addEventListener('dragend', () => {
+            draggable.classList.remove('dragging')
+        })  
+	} 
+    container.remove()
+
+
+	//swap in container
+	interest2Container.appendChild(draggable)
+    interest2 = draggable.textContent
+
+	draggable.classList.remove('dragging')
+    draggable.classList.remove('draggable')
+    draggable.classList.add('locked')
+    draggable.setAttribute('draggable', false)
+    const copy = interest2Container.cloneNode(true)
+    interest2Container.replaceWith(copy)
+})
+
+interest3Container.addEventListener('dragenter', (e) => {
+	e.preventDefault()
+	const draggable = document.querySelector('.dragging')
+	if (!draggable) return
+
+	const container = interest3Container.firstElementChild
+    container.classList.add('dragover')
+
+	if (!container.classList.contains('drop')) {
+		//respawn element at top
+        const newElem = container.cloneNode(true)
+		interestGroup.appendChild(newElem)  
+	} 
+    container.remove()
+
+
+	//swap in container
+	interest3Container.appendChild(draggable)
+    interest3 = draggable.textContent
+
+	draggable.classList.remove('dragging')
+    draggable.classList.remove('draggable')
+    draggable.classList.add('locked')
+    draggable.setAttribute('draggable', false)
+    const copy = interest3Container.cloneNode(true)
+    interest3Container.replaceWith(copy)
+})
+
+interest4Container.addEventListener('dragenter', (e) => {
+	e.preventDefault()
+	const draggable = document.querySelector('.dragging')
+	if (!draggable) return
+
+	const container = interest4Container.firstElementChild
+    container.classList.add('dragover')
+
+	if (!container.classList.contains('drop')) {
+		//respawn element at top
+        const newElem = container.cloneNode(true)
+		interestGroup.appendChild(newElem)  
+	} 
+    container.remove()
+
+
+	//swap in container
+	interest4Container.appendChild(draggable)
+    interest4 = draggable.textContent
+
+	draggable.classList.remove('dragging')
+    draggable.classList.remove('draggable')
+    draggable.classList.add('locked')
+    draggable.setAttribute('draggable', false)
+    const copy = interest4Container.cloneNode(true)
+    interest4Container.replaceWith(copy)
+})
+
+interest5Container.addEventListener('dragenter', (e) => {
+	e.preventDefault()
+	const draggable = document.querySelector('.dragging')
+	if (!draggable) return
+
+	const container = interest5Container.firstElementChild
+    container.classList.add('dragover')
+
+	if (!container.classList.contains('drop')) {
+		//respawn element at top
+        const newElem = container.cloneNode(true)
+		interestGroup.appendChild(newElem)  
+	} 
+    container.remove()
+
+
+	//swap in container
+	interest5Container.appendChild(draggable)
+    interest5 = draggable.textContent
+
+	draggable.classList.remove('dragging')
+    draggable.classList.remove('draggable')
+    draggable.classList.add('locked')
+    draggable.setAttribute('draggable', false)
+    const copy = interest5Container.cloneNode(true)
+    interest5Container.replaceWith(copy)
+})
+
+function applyInterests() {
+    interest1Submit.value = interest1
+    interest2Submit.value = interest2
+    interest3Submit.value = interest3
+    interest4Submit.value = interest4
+    interest5Submit.value = interest5
 }
 
-baseballBtn.addEventListener('click', () => {
-    if (baseballBool) {
-        let index = interests.findIndex(interest => interest === 'Baseball')
-        interests.splice(index, 1)
-        baseballBtn.classList.remove('active')
-        baseballBool = false
-        
-    } else if (interests.length < 5) {      
-        baseballBtn.classList.add('active')
-        interests.push('Baseball')
-        baseballBool = true
-    }
-})
-//gaming
-let gameBool = false
-
-if (interests.includes('Gaming')) {
-    gameBool = true
-    gameBtn.classList.add('active')
-}
-
-gameBtn.addEventListener('click', () => {
-    if (gameBool) {
-        let index = interests.findIndex(interest => interest === 'Gaming')
-        interests.splice(index, 1)
-        gameBtn.classList.remove('active')
-        gameBool = false
-        
-    } else if (interests.length < 5) {      
-        gameBtn.classList.add('active')
-        interests.push('Gaming')
-        gameBool = true
-    }
-})
-//coding
-let codeBool = false
-
-if (interests.includes('Coding')) {
-    codeBool = true
-    codeBtn.classList.add('active')
-}
-
-codeBtn.addEventListener('click', () => {
-    if (codeBool) {
-        let index = interests.findIndex(interest => interest === 'Coding')
-        interests.splice(index, 1)
-        codeBtn.classList.remove('active')
-        codeBool = false
-        
-    } else if (interests.length < 5) {      
-        codeBtn.classList.add('active')
-        interests.push('Coding')
-        codeBool = true
-    }
-})
-//art
-let artBool = false
-
-if (interests.includes('Art')) {
-    artBool = true
-    artBtn.classList.add('active')
-}
-
-artBtn.addEventListener('click', () => {
-    if (artBool) {
-        let index = interests.findIndex(interest => interest === 'Art')
-        interests.splice(index, 1)
-        artBtn.classList.remove('active')
-        artBool = false
-        
-    } else if (interests.length < 5) {      
-        artBtn.classList.add('active')
-        interests.push('Art')
-        cartBool = true
-    }
-})
 //submit data
 form.addEventListener('submit', event => {
     event.preventDefault()
-    valueSubmit.value = JSON.stringify(values)
-    interestSubmit.value = JSON.stringify(interests)
+    applyInterests()
+
     form.submit()
 })

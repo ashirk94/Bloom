@@ -3,32 +3,46 @@
     <% if (locals.message) { %>
         <h5><%= locals.message %></h5>
         <% } %>
-    <div class="btn-group">
-        <button class="btn" id="game">Gaming</button>
-        <button class="btn" id="code">Coding</button>
-        <button class="btn" id="swim">Swimming</button>
-        <button class="btn" id="art">Art</button>
-        <button class="btn" id="baseball">Baseball</button>
+    <div class="btn-group" id="interest-group">
+        <div class="draggable" draggable="true" id="game">Gaming</div>
+        <div class="draggable" draggable="true" id="code">Coding</div>
+            <div class="draggable" draggable="true" id="swim">Swimming</div>
+            <div class="draggable" draggable="true" id="art">Art</div>
+        <div class="draggable" draggable="true" id="baseball">Baseball</div>
     </div>
-    <h2 class="title">Values</h2>
     <div class="btn-group">
-        <button class="btn" id="family">Family</button>
-        <button class="btn" id="adventure">Adventure</button>
-        <button class="btn" id="ambition">Ambition</button>
-        <button class="btn" id="relax">Relaxation</button>
-        <button class="btn" id="fitness">Fitness</button>
+        <div id="interest1-container" class="drop-container">#1 Interest
+            <div class="drop">[Drop here]</div>
+        </div>
+        <div id="interest2-container" class="drop-container">#2 Interest
+            <div class="drop">[Drop here]</div>
+        </div>
+        <div id="interest3-container" class="drop-container">#3 Interest
+            <div class="drop">[Drop here]</div>
+        </div>
+        <div id="interest4-container" class="drop-container">#4 Interest
+            <div class="drop">[Drop here]</div>
+        </div>
+        <div id="interest5-container" class="drop-container">#5 Interest
+            <div class="drop">[Drop here]</div>
+        </div>
     </div>
+    
     <form method="post" id="form">
-        <input type="hidden" name="interests" id="interest-submit">
-        <input type="hidden" name="values" id="value-submit">
-        <input class="btn btn-primary" type="submit" value="Submit">
+        <input type="hidden" name="interest1" id="interest-submit1">
+        <input type="hidden" name="interest2" id="interest-submit2">
+        <input type="hidden" name="interest3" id="interest-submit3">
+        <input type="hidden" name="interest4" id="interest-submit4">
+        <input type="hidden" name="interest5" id="interest-submit5">
+        <div class="btn-group">
+            <input class="btn btn-primary" type="submit" value="Submit">
+            <button class="btn" id="reset">Reset</button>
+        </div>   
     </form>
 </div>
-<% for (let interest of locals.user.interests) { %>
-    <input type="hidden" class="interest" value=<%= interest %>>
-<% } %> 
-<% for (let value of locals.user.values) { %>
-    <input type="hidden" class="value" value=<%= value %>>
-<% } %> 
+<input type="hidden" id="interest1" value=<%= locals.user.interest1 %>>
+<input type="hidden" id="interest2" value=<%= locals.user.interest2 %>>
+<input type="hidden" id="interest3" value=<%= locals.user.interest3 %>>
+<input type="hidden" id="interest4" value=<%= locals.user.interest4 %>>
+<input type="hidden" id="interest5" value=<%= locals.user.interest5 %>>
 <script src="/interests.js" defer></script>
-<script src="/values.js" defer></script>

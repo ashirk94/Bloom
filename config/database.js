@@ -18,15 +18,17 @@ const UserSchema = new Schema({
     },
     firstName: String,
     lastName: String,
-    interests: [String],
-    values: [String],
+    interest1: String,
+    interest2: String,
+    interest3: String,
+    interest4: String,
+    interest5: String,
+    value1: String,
+    value2: String,
+    value3: String,
+    value4: String,
+    value5: String,
     bio: String,
-	matches: [
-		{
-			_id: { type: [Schema.Types.ObjectId], ref: 'User' },
-			username: { type: String, ref: 'User' }
-		}
-	],
 	likes: [
 		{
 			_id: { type: [Schema.Types.ObjectId], ref: 'User' },

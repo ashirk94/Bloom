@@ -106,11 +106,18 @@ router.post('/profile', isAuth, upload.single('image'), async (req, res) => {
 router.post('/interests', isAuth, async (req, res) => {
 	//replace interests and values
 	try {
-		let user = await User.findById(req.user._id)
-        let interests = JSON.parse(req.body.interests)
-        let values = JSON.parse(req.body.values)
-		user.interests = interests
-        user.values = values
+		let user = await User.findById(req.user.id)
+        const interest1 = req.body.interest1
+        const interest2 = req.body.interest2
+        const interest3 = req.body.interest3
+        const interest4 = req.body.interest4
+        const interest5 = req.body.interest5
+
+		user.interest1 = interest1
+        user.interest2 = interest2
+        user.interest3 = interest3
+        user.interest4 = interest4
+        user.interest5 = interest5
 
         await user.save()
         req.flash('success', 'Profile updated!')
