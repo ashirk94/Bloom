@@ -1,27 +1,25 @@
 const form = document.getElementById('form')
-const interestSubmit = document.getElementById('interest-submit')
-const valueSubmit = document.getElementById('value-submit')
+//new interests
+const interest1Submit = document.getElementById('interest-submit1')
+const interest2Submit = document.getElementById('interest-submit2')
+const interest3Submit = document.getElementById('interest-submit3')
+const interest4Submit = document.getElementById('interest-submit4')
+const interest5Submit = document.getElementById('interest-submit5')
+
 const resetBtn = document.getElementById('reset')
+
+//prior interests
+let interest1 = document.getElementById('interest1').value || ''
+let interest2 = document.getElementById('interest2').value || ''
+let interest3 = document.getElementById('interest3').value || ''
+let interest4 = document.getElementById('interest4').value || ''
+let interest5 = document.getElementById('interest5').value || ''
 
 resetBtn.addEventListener('click', () => {
     window.location.reload()
 })
 //emojis/icons?
 
-//on submit add interests to array
-let interestData = document.querySelectorAll('.interest')
-let interests = []
-for (let interest of interestData) {
-    if (interest.value != '') interests.push(interest.value)  
-}
-
-//submit data
-form.addEventListener('submit', event => {
-    event.preventDefault()
-    valueSubmit.value = JSON.stringify(values)
-    interestSubmit.value = JSON.stringify(interests)
-    form.submit()
-})
 
 const draggables = document.querySelectorAll('.draggable')
 const interestGroup = document.getElementById('interest-group')
@@ -68,6 +66,7 @@ interest1Container.addEventListener('dragenter', (e) => {
 
 	//swap in container
 	interest1Container.appendChild(draggable)
+    interest1 = draggable.textContent
 
 	draggable.classList.remove('dragging')
     draggable.classList.remove('draggable')
@@ -101,6 +100,7 @@ interest2Container.addEventListener('dragenter', (e) => {
 
 	//swap in container
 	interest2Container.appendChild(draggable)
+    interest2 = draggable.textContent
 
 	draggable.classList.remove('dragging')
     draggable.classList.remove('draggable')
@@ -128,6 +128,7 @@ interest3Container.addEventListener('dragenter', (e) => {
 
 	//swap in container
 	interest3Container.appendChild(draggable)
+    interest3 = draggable.textContent
 
 	draggable.classList.remove('dragging')
     draggable.classList.remove('draggable')
@@ -155,6 +156,7 @@ interest4Container.addEventListener('dragenter', (e) => {
 
 	//swap in container
 	interest4Container.appendChild(draggable)
+    interest4 = draggable.textContent
 
 	draggable.classList.remove('dragging')
     draggable.classList.remove('draggable')
@@ -182,6 +184,7 @@ interest5Container.addEventListener('dragenter', (e) => {
 
 	//swap in container
 	interest5Container.appendChild(draggable)
+    interest5 = draggable.textContent
 
 	draggable.classList.remove('dragging')
     draggable.classList.remove('draggable')
@@ -191,3 +194,18 @@ interest5Container.addEventListener('dragenter', (e) => {
     interest5Container.replaceWith(copy)
 })
 
+function applyInterests() {
+    interest1Submit.value = interest1
+    interest2Submit.value = interest2
+    interest3Submit.value = interest3
+    interest4Submit.value = interest4
+    interest5Submit.value = interest5
+}
+
+//submit data
+form.addEventListener('submit', event => {
+    event.preventDefault()
+    applyInterests()
+
+    form.submit()
+})
