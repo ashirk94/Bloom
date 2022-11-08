@@ -96,7 +96,8 @@ router.get('/meet', isAuth, async (req, res) => {
 
 	//new match algorithm
     if (interest1 && value1) {
-        //check for each interest and value, weight them then compare
+        //check for each matching interest and value, compare their rankings
+        //calculate some total compatibility to compare to other users
     }
 
 	res.render('main/meet', { user: req.user, friends: users })

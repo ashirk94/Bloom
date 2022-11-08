@@ -8,18 +8,11 @@ const interest5Submit = document.getElementById('interest-submit5')
 
 const resetBtn = document.getElementById('reset')
 
-//prior interests
-let interest1 = document.getElementById('interest1').value || ''
-let interest2 = document.getElementById('interest2').value || ''
-let interest3 = document.getElementById('interest3').value || ''
-let interest4 = document.getElementById('interest4').value || ''
-let interest5 = document.getElementById('interest5').value || ''
-
 resetBtn.addEventListener('click', () => {
-    window.location.reload()
+	window.location.reload()
 })
 //emojis/icons?
-
+//once item is place, immediately replaces since it's on a drop zone
 
 const draggables = document.querySelectorAll('.draggable')
 const interestGroup = document.getElementById('interest-group')
@@ -30,8 +23,6 @@ const interest3Container = document.getElementById('interest3-container')
 const interest4Container = document.getElementById('interest4-container')
 const interest5Container = document.getElementById('interest5-container')
 
-//add reset button - window.reload()
-
 draggables.forEach((draggable) => {
 	draggable.addEventListener('dragstart', () => {
 		draggable.classList.add('dragging')
@@ -41,171 +32,76 @@ draggables.forEach((draggable) => {
 	})
 })
 
+//put prior interest obj in zone?
+const interests = {
+	interest1: document.getElementById('interest1').value || null,
+	interest2: document.getElementById('interest2').value || null,
+	interest3: document.getElementById('interest3').value || null,
+	interest4: document.getElementById('interest4').value || null,
+	interest5: document.getElementById('interest5').value || null
+}
+
 //swap out interests
-interest1Container.addEventListener('dragenter', (e) => {
-	e.preventDefault()
-	const draggable = document.querySelector('.dragging')
-	if (!draggable) return
+const dropContainers = document.getElementsByClassName('drop-container')
+Array.from(dropContainers).forEach((dropContainer) => {
+	dropContainer.addEventListener('dragenter', (e) => {
+		e.preventDefault()
+		const draggable = document.querySelector('.dragging')
+		if (!draggable) {
+			return
+		}
 
-	const container = interest1Container.firstElementChild
-    container.classList.add('dragover')
+		const interestName = dropContainer.getAttribute('id').split('-')[0]
 
-	if (!container.classList.contains('drop')) {
-		//respawn element at top
-        const newElem = container.cloneNode(true)
-		interestGroup.appendChild(newElem)
-        newElem.addEventListener('dragstart', () => {
-            draggable.classList.add('dragging')
-        })
-        newElem.addEventListener('dragend', () => {
+		const container = dropContainer.firstElementChild
+
+		
+        if (!draggable.classList.contains('on-target')) {
+            if (!container.classList.contains('drop')) {
+                //respawn element at top
+                const newElem = container.cloneNode(true)
+    
+                interestGroup.appendChild(newElem)
+                newElem.addEventListener('dragstart', () => {
+                    draggable.classList.add('dragging')
+                })
+                newElem.addEventListener('dragend', () => {
+                    draggable.classList.remove('dragging')
+                })
+            }
+            container.remove()
+
+            //swap in container
+            dropContainer.appendChild(draggable)
+            interests[interestName] = draggable.textContent
+    
             draggable.classList.remove('dragging')
-        })  
-	} 
-    container.remove()
+            draggable.classList.add('on-target')
+        }
 
-
-	//swap in container
-	interest1Container.appendChild(draggable)
-    interest1 = draggable.textContent
-
-	draggable.classList.remove('dragging')
-    draggable.classList.remove('draggable')
-    draggable.classList.add('locked')
-    draggable.setAttribute('draggable', false)
-    const copy = interest1Container.cloneNode(true)
-    interest1Container.replaceWith(copy)
-})
-
-interest2Container.addEventListener('dragenter', (e) => {
-	e.preventDefault()
-	const draggable = document.querySelector('.dragging')
-	if (!draggable) return
-
-	const container = interest2Container.firstElementChild
-    container.classList.add('dragover')
-
-	if (!container.classList.contains('drop')) {
-		//respawn element at top
-        const newElem = container.cloneNode(true)
-		interestGroup.appendChild(newElem)  
-        newElem.addEventListener('dragstart', () => {
-            draggable.classList.add('dragging')
-        })
-        newElem.addEventListener('dragend', () => {
-            draggable.classList.remove('dragging')
-        })  
-	} 
-    container.remove()
-
-
-	//swap in container
-	interest2Container.appendChild(draggable)
-    interest2 = draggable.textContent
-
-	draggable.classList.remove('dragging')
-    draggable.classList.remove('draggable')
-    draggable.classList.add('locked')
-    draggable.setAttribute('draggable', false)
-    const copy = interest2Container.cloneNode(true)
-    interest2Container.replaceWith(copy)
-})
-
-interest3Container.addEventListener('dragenter', (e) => {
-	e.preventDefault()
-	const draggable = document.querySelector('.dragging')
-	if (!draggable) return
-
-	const container = interest3Container.firstElementChild
-    container.classList.add('dragover')
-
-	if (!container.classList.contains('drop')) {
-		//respawn element at top
-        const newElem = container.cloneNode(true)
-		interestGroup.appendChild(newElem)  
-	} 
-    container.remove()
-
-
-	//swap in container
-	interest3Container.appendChild(draggable)
-    interest3 = draggable.textContent
-
-	draggable.classList.remove('dragging')
-    draggable.classList.remove('draggable')
-    draggable.classList.add('locked')
-    draggable.setAttribute('draggable', false)
-    const copy = interest3Container.cloneNode(true)
-    interest3Container.replaceWith(copy)
-})
-
-interest4Container.addEventListener('dragenter', (e) => {
-	e.preventDefault()
-	const draggable = document.querySelector('.dragging')
-	if (!draggable) return
-
-	const container = interest4Container.firstElementChild
-    container.classList.add('dragover')
-
-	if (!container.classList.contains('drop')) {
-		//respawn element at top
-        const newElem = container.cloneNode(true)
-		interestGroup.appendChild(newElem)  
-	} 
-    container.remove()
-
-
-	//swap in container
-	interest4Container.appendChild(draggable)
-    interest4 = draggable.textContent
-
-	draggable.classList.remove('dragging')
-    draggable.classList.remove('draggable')
-    draggable.classList.add('locked')
-    draggable.setAttribute('draggable', false)
-    const copy = interest4Container.cloneNode(true)
-    interest4Container.replaceWith(copy)
-})
-
-interest5Container.addEventListener('dragenter', (e) => {
-	e.preventDefault()
-	const draggable = document.querySelector('.dragging')
-	if (!draggable) return
-
-	const container = interest5Container.firstElementChild
-    container.classList.add('dragover')
-
-	if (!container.classList.contains('drop')) {
-		//respawn element at top
-        const newElem = container.cloneNode(true)
-		interestGroup.appendChild(newElem)  
-	} 
-    container.remove()
-
-
-	//swap in container
-	interest5Container.appendChild(draggable)
-    interest5 = draggable.textContent
-
-	draggable.classList.remove('dragging')
-    draggable.classList.remove('draggable')
-    draggable.classList.add('locked')
-    draggable.setAttribute('draggable', false)
-    const copy = interest5Container.cloneNode(true)
-    interest5Container.replaceWith(copy)
+	})
+    dropContainer.addEventListener('dragleave', (e) => {
+        e.preventDefault()
+		const draggable = document.querySelector('.dragging')
+		if (!draggable) {
+			return
+		}
+        draggable.classList.remove('on-target')
+    })
 })
 
 function applyInterests() {
-    interest1Submit.value = interest1
-    interest2Submit.value = interest2
-    interest3Submit.value = interest3
-    interest4Submit.value = interest4
-    interest5Submit.value = interest5
+	interest1Submit.value = interests.interest1
+	interest2Submit.value = interests.interest2
+	interest3Submit.value = interests.interest3
+	interest4Submit.value = interests.interest4
+	interest5Submit.value = interests.interest5
 }
 
 //submit data
-form.addEventListener('submit', event => {
-    event.preventDefault()
-    applyInterests()
+form.addEventListener('submit', (event) => {
+	event.preventDefault()
+	applyInterests()
 
-    form.submit()
+	form.submit()
 })
