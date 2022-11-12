@@ -17,7 +17,6 @@ const UserSchema = new Schema({
         contentType: String
     },
     firstName: String,
-    lastName: String,
     interest1: String,
     interest2: String,
     interest3: String,

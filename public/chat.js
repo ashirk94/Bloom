@@ -23,7 +23,7 @@ function displayMessage(message) {
 	}
 }
 //enables chatting on development and production
-let socket;
+let socket
 
 if (window.location.href.slice(0,21) === 'http://localhost:3000') {
     socket = io('http://localhost:3000', {
