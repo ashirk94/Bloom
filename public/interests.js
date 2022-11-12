@@ -14,9 +14,6 @@ resetBtn.addEventListener('click', () => {
 	window.location.reload()
 })
 
-//emojis/icons?
-//once item is place, immediately replaces since it's on a drop zone
-
 const draggables = document.getElementById('interest-group')
 
 const interest1Container = document.getElementById('interest1-container')
@@ -63,7 +60,7 @@ drake.on('drag', function (el) {
 })
 drake.on('drop', function (el, target) {
 	//one item per box
-	if (target.children.length > 1) drake.cancel()
+	if (target.children.length > 1 && target.id !== 'interest-group') drake.cancel()
 	el.className += ' ex-moved'
 })
 drake.on('over', function (el, container) {
@@ -72,8 +69,6 @@ drake.on('over', function (el, container) {
 drake.on('out', function (el, container) {
 	container.className = container.className.replace('ex-over', '')
 })
-
-//put prior interest obj in zone?
 
 function applyInterests() {
     if (document.getElementById('interest1-container').firstElementChild) {

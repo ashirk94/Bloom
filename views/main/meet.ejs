@@ -39,6 +39,18 @@
 			<span class="profile-info"><strong>Values:</strong></span>
 
 			<span class="profile-info"><%= friend.value1 %></span>
+            <% if (friend.value2 && friend.value2 !== '') { %> 
+            <span class="profile-info">, <%= friend.value2 %></span>
+            <% } %> 
+            <% if (friend.value3 && friend.value3 !== '') { %> <br>
+            <span class="profile-info"><%= friend.value3 %></span>
+            <% } %> 
+            <% if (friend.value4 && friend.value4 !== '') { %>
+            <span class="profile-info">, <%= friend.value4 %></span>
+            <% } %> 
+            <% if (friend.value5 && friend.value5 !== '') { %>
+            <span class="profile-info">, <%= friend.value5 %></span>
+            <% } %> 
 			
 
 			<div class="btn-card-group">
