@@ -1,45 +1,48 @@
 <div class="main-wrapper">
-    <% if (locals.message) { %>
-        <h5><%= locals.message %></h5>
-        <% } %>
-    
-    <h2 class="title">Values</h2>
-    <div class="btn-group" id="value-group">
-        <div class="draggable" draggable="true" id="family">Family</div>
-        <div class="draggable" draggable="true" id="adventure">Adventure</div>
-        <div class="draggable" draggable="true" id="ambition">Ambition</div>
-        <div class="draggable" draggable="true" id="relax">Relaxation</div>
-        <div class="draggable" draggable="true" id="fitness">Fitness</div>
-    </div>
-    <div class="btn-group">
-        <div id="value1-container" class="drop-container">Value 1
-            <div class="drop">[Drop here]</div>
-        </div>
-        <div id="value2-container" class="drop-container">Value 2
-            <div class="drop">[Drop here]</div>
-        </div>
-        <div id="value3-container" class="drop-container">Value 3
-            <div class="drop">[Drop here]</div>
-        </div>
-        <div id="value4-container" class="drop-container">Value 4
-            <div class="drop">[Drop here]</div>
-        </div>
-        <div id="value5-container" class="drop-container">Value 5
-            <div class="drop">[Drop here]</div>
-        </div>
-    </div>
-    <form method="post" id="form">
-        <input type="hidden" name="interests" id="interest-submit">
-        <input type="hidden" name="values" id="value-submit">
-        <input class="btn btn-primary" type="submit" value="Submit">
-    </form>
-    
+	<% if (locals.message) { %>
+	<h5><%= locals.message %></h5>
+	<% } %>
+
+	<h2 class="title">Values</h2>
+	<div id="error"></div>
+	<div class="btn-group" id="value-group">
+		<div class="draggable" draggable="true" id="family">Family</div>
+		<div class="draggable" draggable="true" id="ambition">Ambition</div>
+		<div class="draggable" draggable="true" id="compassion">Compassion</div>
+		<div class="draggable" draggable="true" id="honesty">Honesty</div>
+		<div class="draggable" draggable="true" id="spirituality">
+			Spirituality
+		</div>
+	</div>
+	<div class="btn-group">
+		<div class="dropzone" id="value1-container"></div>
+		<div class="dropzone" id="value2-container"></div>
+		<div class="dropzone" id="value3-container"></div>
+		<div class="dropzone" id="value4-container"></div>
+		<div class="dropzone" id="value5-container"></div>
+	</div>
+	<div class="btn-group" id="info-group">
+		<div class="info">#1</div>
+		<div class="info">#2</div>
+		<div class="info">#3</div>
+		<div class="info">#4</div>
+		<div class="info">#5</div>
+	</div>
+	<form method="post" id="form">
+		<input type="hidden" name="value1" id="value-submit1" />
+		<input type="hidden" name="value2" id="value-submit2" />
+		<input type="hidden" name="value3" id="value-submit3" />
+		<input type="hidden" name="value4" id="value-submit4" />
+		<input type="hidden" name="value5" id="value-submit5" />
+		<div class="btn-group">
+			<input class="btn btn-primary" type="submit" value="Submit" />
+			<button class="btn" id="reset">Reset</button>
+		</div>
+	</form>
 </div>
 
-<input type="hidden" id="value1" value=<%= locals.user.value1 %>>
-<input type="hidden" id="value2" value=<%= locals.user.value2 %>>
-<input type="hidden" id="value3" value=<%= locals.user.value3 %>>
-<input type="hidden" id="value4" value=<%= locals.user.value4 %>>
-<input type="hidden" id="value5" value=<%= locals.user.value5 %>>
-<script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.11/lib/draggable.bundle.js" defer></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"
+	defer
+></script>
 <script src="/values.js" defer></script>

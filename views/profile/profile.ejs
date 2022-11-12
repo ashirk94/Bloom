@@ -5,13 +5,14 @@
         <input type="hidden" name="lon" id="lon">
         <label for="username">Username: <%= locals.user.username %></label><br/><br/>
         <input type="file" name="image" id="fileInput"><br/>
-        <div id="fileDisplayArea"></div>
-        <input class="btn btn-primary" type="submit" value="Update Profile">
+        <div id="fileDisplayArea"></div><br>
+        <input class="btn btn-primary" type="submit" value="Update Picture">
     </form>
     <br/><br/>
     <div class="btn-group">
-        <a href="/interests" class="btn-large btn-secondary">Interests and Values</a>
-        <a href="/bio" class="btn-large btn-secondary">Update Bio</a>
+        <a href="/interests" class="btn-large btn-secondary">Edit Interests</a>
+        <a href="/values" class="btn-large btn-secondary">Edit Values</a>
+        <a href="/bio" class="btn-large btn-secondary">Edit Bio</a>
     </div>
     <% if (locals.message) { %>
         <h5><%= locals.message %></h5>
