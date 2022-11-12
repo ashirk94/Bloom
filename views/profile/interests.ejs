@@ -3,6 +3,7 @@
     <% if (locals.message) { %>
         <h5><%= locals.message %></h5>
         <% } %>
+        <div id="error"></div>
     <div class="btn-group" id="interest-group">
         <div class="draggable" draggable="true" id="game">Gaming</div>
         <div class="draggable" draggable="true" id="code">Coding</div>
@@ -10,24 +11,25 @@
             <div class="draggable" draggable="true" id="art">Art</div>
         <div class="draggable" draggable="true" id="baseball">Baseball</div>
     </div>
-    <div class="btn-group">
-        <div id="interest1-container" class="drop-container">#1 Interest
-            <div class="drop">[Drop here]</div>
+    <div class="btn-group" >
+        <div class="dropzone" id="interest1-container">
         </div>
-        <div id="interest2-container" class="drop-container">#2 Interest
-            <div class="drop">[Drop here]</div>
+        <div class="dropzone" id="interest2-container">
         </div>
-        <div id="interest3-container" class="drop-container">#3 Interest
-            <div class="drop">[Drop here]</div>
+        <div class="dropzone" id="interest3-container">
         </div>
-        <div id="interest4-container" class="drop-container">#4 Interest
-            <div class="drop">[Drop here]</div>
+        <div class="dropzone" id="interest4-container">
         </div>
-        <div id="interest5-container" class="drop-container">#5 Interest
-            <div class="drop">[Drop here]</div>
+        <div class="dropzone" id="interest5-container">
         </div>
     </div>
-    
+    <div class="btn-group" id="info-group">
+        <div class="info">#1</div>
+        <div class="info">#2</div>
+        <div class="info">#3</div>
+        <div class="info">#4</div>
+        <div class="info">#5</div>
+    </div>
     <form method="post" id="form">
         <input type="hidden" name="interest1" id="interest-submit1">
         <input type="hidden" name="interest2" id="interest-submit2">
@@ -45,4 +47,6 @@
 <input type="hidden" id="interest3" value=<%= locals.user.interest3 %>>
 <input type="hidden" id="interest4" value=<%= locals.user.interest4 %>>
 <input type="hidden" id="interest5" value=<%= locals.user.interest5 %>>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js' defer></script>
 <script src="/interests.js" defer></script>

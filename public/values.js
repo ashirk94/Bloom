@@ -48,13 +48,14 @@ Array.from(dropContainers).forEach((dropContainer) => {
 		if (!container.classList.contains('drop')) {
 			//respawn element at top
 			const newElem = container.cloneNode(true)
-			interestGroup.appendChild(newElem)
+			
 			newElem.addEventListener('dragstart', () => {
 				draggable.classList.add('dragging')
 			})
 			newElem.addEventListener('dragend', () => {
 				draggable.classList.remove('dragging')
 			})
+            interestGroup.appendChild(newElem)
 		}
 		container.remove()
 
@@ -63,11 +64,6 @@ Array.from(dropContainers).forEach((dropContainer) => {
 		values[valueName] = draggable.textContent
 
 		draggable.classList.remove('dragging')
-		draggable.classList.remove('draggable')
-		draggable.classList.add('locked')
-		draggable.setAttribute('draggable', false)
-		const copy = dropContainer.cloneNode(true)
-		dropContainer.replaceWith(copy)
 	})
 })
 

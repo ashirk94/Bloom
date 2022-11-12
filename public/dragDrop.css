@@ -35,3 +35,28 @@
 #reset:hover {
     background-color: orange;
 }
+.dropzone {
+    background-color: white;
+    min-width: 50px;
+    min-height: 40px;
+    padding: 10px;
+    border-radius: 10px;
+}
+#interest-group {
+    padding: 30px;
+    min-width: 400px;
+}
+.info {
+    color: red;
+    padding: 20px 30px;
+    border-radius: 10px;
+    font-size: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: grey;
+    margin-bottom: 30px;
+}
+#error {
+    color: red;
+    font-size: 30px;
+}
