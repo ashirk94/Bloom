@@ -17,14 +17,6 @@
 			<% } else { %>
 			<div class="bio"><br /></div>
 			<% } %>
-			<span class="profile-info"><strong>Interests:</strong></span>
-			<% for (let interest of friend.interests) { %>
-			<span class="profile-info"><%= interest %></span>
-			<% } %><br />
-			<span class="profile-info"><strong>Values:</strong></span>
-			<% for (let value of friend.values) { %>
-			<span class="profile-info"><%= value %></span>
-			<% } %>
 
 			<div class="btn-card-group">
                 <form method="post" action="/users/<%= friend.id %>">
