@@ -19,6 +19,16 @@ resetBtn.addEventListener('click', () => {
 	window.location.reload()
 })
 
+const items = document.querySelectorAll('.draggable')
+
+function showElements() {
+    setTimeout(() => {
+        items.forEach(item => {
+            item.classList.remove('hidden')
+        })
+    }, 1500)
+}
+
 const draggables = document.getElementById('value-group')
 
 const drake = dragula(
@@ -57,16 +67,39 @@ const drake = dragula(
 drake.on('drag', function (el) {
 	el.className = el.className.replace('ex-moved', '')
 })
-drake.on('drop', function (el, target) {
+drake.on('drop', function (el, target, source) {
 	//one item per box
-	if (target.children.length > 1 && target.id !== 'value-group') drake.cancel()
+	if (target.children.length > 1 && target.id !== 'interest-group') {
+		source.append(target.children[0])
+	}
 	el.className += ' ex-moved'
 })
 drake.on('over', function (el, container) {
+    if (
+		el !== container.children[container.children.length - 1] &&
+		container.id !== 'interest-group'
+	) {
+		// otherwise: make it so
+		container.appendChild(el)
+	}
 	container.className += ' ex-over'
 })
 drake.on('out', function (el, container) {
 	container.className = container.className.replace('ex-over', '')
+})
+drake.on('shadow', function (el, container) {
+	if (container.children.length > 1 && container.id !== 'interest-group') {		
+        container.children[1].classList.add('hidden')
+	}
+	// check if the shadow copy is not already the last child of the container
+	if (
+		el !== container.children[container.children.length - 1] &&
+		container.id !== 'interest-group'
+	) {
+		// otherwise: make it so
+		container.appendChild(el)
+	}
+    showElements()
 })
 
 function applyValues() {
