@@ -149,3 +149,6 @@ ul, li {
 h5, ul {
     margin: 5px auto;
 }
+.hidden {
+    display: none;
+}
