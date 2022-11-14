@@ -1,18 +1,17 @@
 <div class="main-wrapper">
-	<h1 class="title">Bloom</h1>
-	<h4 class="subtitle">Login</h4>
+	<h1 class="title">Welcome to Bloom</h1>
 	<div class="error-msg">
 		<% if (locals.message.error) { %> <%= locals.message.error %> <% } %>
 	</div>
 
 	<form method="post" autocomplete="on">
-		Username:<br /><input type="text" name="uname" /> <br />
-		Password:<br /><input type="password" name="pw" /> <br /><br />
+		<input type="text" placeholder="Email Address" name="uname" />
+		<input type="password" name="pw" placeholder="Password" id="password" />
         <input type="hidden" name="lat" id="lat">
         <input type="hidden" name="lon" id="lon">
         <input
 			type="submit"
-			value="Submit"
+			value="Log In"
 			class="btn btn-primary"
 		/>
 	</form>
