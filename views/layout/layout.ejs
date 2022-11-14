@@ -36,7 +36,7 @@
 			<ul class="nav">
 				<% if (!locals.user) { %>
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="/">Log In</a>
+					<a class="nav-link nav-text" href="/login">Sign In</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link nav-text" href="/register">Register</a>
@@ -53,7 +53,7 @@
 					<a class="nav-link nav-text" href="/profile">My Profile</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link nav-text" href="/logout">Log Out</a>
+					<a class="nav-link nav-text" href="/logout">Sign Out</a>
 				</li>
 				<% if (locals.user.admin) { %>
 				<li class="nav-item">

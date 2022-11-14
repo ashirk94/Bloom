@@ -1,0 +1,14 @@
+<div class="login-wrapper">
+    <h1 class="title">Sign In</h1>
+	<div class="error-msg">
+		<% if (locals.message.error) { %> <%= locals.message.error %> <% } %>
+	</div>
+
+	<form method="post" autocomplete="on">
+		<input type="text" placeholder="Email Address" name="uname" />
+		<input type="password" name="pw" placeholder="Password" id="password" />
+		<input type="hidden" name="lat" id="lat" />
+		<input type="hidden" name="lon" id="lon" />
+		<input type="submit" value="Sign In" class="btn btn-primary" />
+	</form>
+</div>
