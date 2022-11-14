@@ -14,7 +14,19 @@ body {
     font-size: 16px;
     font-family: 'Encode Sans', sans-serif;
     margin: 0 auto;
-    background-color: #fffedf;
+    background-color: #F2FFFB;
+    color: #357376;
+}
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    font-size: 16px;
+    font-family: 'Encode Sans', sans-serif;
+    margin: 0 auto;
+    background-color: #FFFEDF;
     color: #357376;
 }
 .chat-wrapper {
@@ -26,7 +38,7 @@ body {
     font-size: 30px;
     font-family: 'Encode Sans', sans-serif;
     margin: 0 auto;
-    background-color: #fffedf;
+    background-color: #F2FFFB;
 }
 .room-area {
     display: flex;

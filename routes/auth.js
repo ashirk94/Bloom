@@ -7,6 +7,10 @@ const fs = require('fs')
 const path = require('path')
 
 //get routes
+router.get('/login', (req, res) => {
+	const message = req.flash()
+	res.render('auth/login', { user: req.user, message: message })
+})
 
 router.get('/register', (req, res) => {
 	const message = req.flash()
@@ -24,10 +28,10 @@ router.get('/logout', (req, res, next) => {
 //post routes
 
 router.post(
-	'/',
+	'/login',
 	passport.authenticate('local', {
-		failureRedirect: '/',
-		successRedirect: '/meet',
+		failureRedirect: '/login',
+		successRedirect: '/',
 		failureFlash: true
 	})
 )
