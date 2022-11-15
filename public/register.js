@@ -8,17 +8,36 @@ let unameRegex = /^[A-Za-z]\w{3,14}$/
 
 form.addEventListener('submit', event => {
     event.preventDefault()
-    const firstName = document.getElementById('first-name').value
+    const confirm = document.getElementById('confirm').value
     const password = document.getElementById('password').value
     const username = document.getElementById('username').value
-    if (password.match(passRegex) && username.match(unameRegex)) {
+    if (password === confirm && password.match(passRegex) && username.match(unameRegex)) {
         success.innerHTML = 'Success!'
         form.submit()      
     } else if(!password.match(passRegex)) {
         validation.innerHTML = 'Password must be 7-14 characters in length and contain a digit'
     } else if(!username.match(unameRegex)) {
         validation.innerHTML = 'Username must be between 3-14 characters in length'
-    } else if(!firstName.match(unameRegex)) {
-        validation.innerHTML = 'First name must be between 3-14 characters in length'
+    } else if(password !== confirm) {
+        validation.innerHTML = 'Password and confirmation password do not match'
     }
 })
+
+const passInput = document.getElementById('password')
+const confirmInput = document.getElementById('confirm')
+
+function showPassword() {
+    if (passInput.type === 'password') {
+        passInput.type = 'text'
+    } else {
+        passInput.type = 'password'
+    }
+}
+
+function showConfirm() {
+    if (confirmInput.type === 'password') {
+        confirmInput.type = 'text'
+    } else {
+        confirmInput.type = 'password'
+    }
+}

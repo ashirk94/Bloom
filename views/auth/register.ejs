@@ -1,22 +1,25 @@
 <div class="login-wrapper">
 	<h1 class="title">Create Your Account</h1>
-    <h2 class="subtitle">Please enter a username and password.</h2>
-    <div class="error-msg">
+	<h2 class="subtitle">Please enter a username and password.</h2>
+	<div class="error-msg">
 		<% if (locals.message.error) { %> <%= locals.message.error %> <% } %>
 	</div>
-    <div id="validation"></div>
-    <div id="success"></div>
+	<div id="validation"></div>
+	<div id="success"></div>
 	<form id="reg-form" method="post" autocomplete="off">
-		<input type="text" placeholder="Email Address" name="uname" id="username" />
-		<input type="password" name="pw" placeholder="Password" id="password" />
-        <input type="password" placeholder="Re-enter Password" id="confirm" />
-        <input type="hidden" name="lat" id="lat">
-        <input type="hidden" name="lon" id="lon">
-        <input
-			type="submit"
-			value="Create Account"
-            class="btn btn-primary"
+		<input
+			type="text"
+			placeholder="Email Address"
+			name="uname"
+			id="username"
 		/>
+		<input type="checkbox" class="eye" onclick="showPassword()" />
+		<input type="password" name="pw" placeholder="Password" id="password" />
+		<input type="checkbox" class="eye" onclick="showConfirm()" />
+		<input type="password" placeholder="Re-enter Password" id="confirm" />
+		<input type="hidden" name="lat" id="lat" />
+		<input type="hidden" name="lon" id="lon" />
+		<input type="submit" value="Create Account" class="btn btn-primary" />
 	</form>
 </div>
 <script src="/location.js" defer></script>

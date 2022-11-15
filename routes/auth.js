@@ -50,10 +50,6 @@ router.post('/register', async (req, res) => {
         if (!req.body.uname.match(unameRegex)) {
             throw new Error('Invalid username')
         }
-        //firstname
-        if (!req.body.firstName.match(unameRegex)) {
-            throw new Error('Invalid first name')
-        }
 
         //test for duplicate user
 		const testUser = await User.find({ username: req.body.uname })
@@ -72,7 +68,6 @@ router.post('/register', async (req, res) => {
 
 		const newUser = new User({
 			username: req.body.uname,
-            firstName: req.body.firstName,
 			hash: hashedPassword,
 			admin: false,
 			profilePic: {

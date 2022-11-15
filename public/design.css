@@ -1,68 +1,85 @@
 .nav-text {
-    color: #357376;
-    margin-left: 15px;
-    margin-right: 15px;
-    font-weight: bold;
-    font-size: 16px;
+	color: #357376;
+	margin-left: 15px;
+	margin-right: 15px;
+	font-weight: bold;
+	font-size: 16px;
 }
 .nav-text:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 .profile-info {
-    font-size: 20px;
-    font-weight: medium;
-    color: #434343;
-    margin-bottom: 29px;
+	font-size: 20px;
+	font-weight: medium;
+	color: #434343;
+	margin-bottom: 29px;
 }
 .title {
-    color: #357376;
-    font-size: 50px;
-    font-weight: 900;
-    margin-top: 10px;
-    margin-bottom: 40px;
+	color: #357376;
+	font-size: 50px;
+	font-weight: 900;
+	margin-top: 10px;
+	margin-bottom: 40px;
 }
 .subtitle {
-    color: #357376;
-    font-size: 20px;
+	color: #357376;
+	font-size: 20px;
 }
 .profile-name {
-    color: #434343;
-    font-size: 30px;
-    font-weight: bold;
+	color: #434343;
+	font-size: 30px;
+	font-weight: bold;
 }
 .navbar-logo {
-    width: 30px;
-    height: 30px;
+	width: 30px;
+	height: 30px;
 }
 .nav-item {
-    margin-top: 5px;
+	margin-top: 5px;
 }
-input[type=text], input[type=password] {
-    background-color: white;
-    color: #357376;
-    min-height: 40px;
-    min-width: 260px;
-    border-radius: 25px;
-    font-size: 17px;
-    padding: 0px 20px;
-    margin: 20px 10px;
-    display: block;
-    box-shadow: inset 0 7px 9px -7px rgba(0,0,0,0.5);
+input[type='text'],
+input[type='password'] {
+	background-color: white;
+	color: #357376;
+	min-height: 40px;
+	min-width: 260px;
+	border-radius: 25px;
+	font-size: 17px;
+	padding: 0px 20px;
+	margin: 20px 10px;
+	display: block;
+	box-shadow: inset 0 7px 9px -7px rgba(0, 0, 0, 0.5);
+}
+input[type='text']::placeholder,
+input[type='password']::placeholder {
+	color: #357376;
+	opacity: 1;
+}
+input[type='text']::-ms-input-placeholder,
+input[type='password']::-ms-input-placeholder {
+	color: #357376;
+	opacity: 1;
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: inset 0 7px 9px -7px rgba(0,0,0,0.5) !important;
-    box-shadow: inset 0 7px 9px -7px rgba(0,0,0,0.5) !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	-webkit-box-shadow: inset 0 7px 9px 30px white !important;
+	box-shadow: inset 0 7px 9px 30px white !important;
 }
 #success {
-    color: green;
-    margin-bottom: 10px;
+	color: green;
+	margin-bottom: 10px;
 }
 
 #validation {
-    color: red;
-    margin-bottom: 10px;
+	color: red;
+	margin-bottom: 10px;
+}
+.eye {
+    z-index: 2;
+    margin: 0;
+    position: absolute;
+    margin-left: 100px;
 }
