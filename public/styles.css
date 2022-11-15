@@ -2,7 +2,7 @@
 
 body {
     margin: 0 auto;
-    height: calc(100vh - 80px);
+    min-height: 100vh;
     text-align: center;
 }
 .main-wrapper {
@@ -105,8 +105,7 @@ input {
     background-color: #baffea;
     align-items: center;
     padding: 15px 0px;
-    position: absolute;
-    z-index: 1;
+    position: fixed;
 }
 .nav-link {
     text-decoration: none;
