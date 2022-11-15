@@ -8,65 +8,70 @@
 		<link rel="stylesheet" href="/styles.css" />
 		<link rel="stylesheet" href="/friends.css" />
 		<link rel="stylesheet" href="/design.css" />
-        <link rel="stylesheet" href="/dragDrop.css" />
-        <link rel="stylesheet" href="/dragula.css" />
+		<link rel="stylesheet" href="/dragDrop.css" />
+		<link rel="stylesheet" href="/dragula.css" />
 		<link rel="icon" href="/images/bloom-logo.png" />
-        <script>let forceStyleLoading = true;</script>
+		<script>
+			let forceStyleLoading = true
+		</script>
 	</head>
 	<body>
 		<div class="navbar">
-            <div class="inline-flex">
-            <a href="/"
-					><img class="navbar-logo" src="/images/bloom-logo.png"
-				/></a>
-			<ul class="nav">	
-				<li class="nav-item">
-					<a class="nav-link nav-text" href="/requests"
-						>Requests</a
-					>
-				</li>
-                <li class="nav-item">
-					<a class="nav-link nav-text" href="/connections"
-						>Chat</a
-					>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link nav-text" href="/meet">Find Friends</a>
-				</li>
-			</ul>
-            </div>
 			<div class="inline-flex">
-				<% if (!locals.user) { %>
-                    <ul class="nav">
-				<li class="nav-item">
-					<a class="nav-link nav-text" href="/register">Sign Up</a>
-				</li>
-                <li class="nav-item">
-					<a class="nav-link nav-text" href="/login">Sign In</a>
-				</li>
-            </ul>
-				<% } else { %> <% if (locals.user.profilePic.data) { %>
-				<a href="/profile">
-					<img
-						class="profile-pic"
-						src="data:image/<%=locals.user.profilePic.contentType%>;base64,
+				<ul class="nav">
+					<a href="/"
+						><img class="navbar-logo" src="/images/bloom-logo.png"
+					/></a>
+					<li class="nav-item">
+						<a class="nav-link nav-text" href="/requests"
+							>Requests</a
+						>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link nav-text" href="/connections"
+							>Chat</a
+						>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link nav-text" href="/meet"
+							>Find Friends</a
+						>
+					</li>
+				</ul>
+			</div>
+			<div class="inline-flex">
+				<ul class="nav">
+					<% if (!locals.user) { %>
+
+					<li class="nav-item">
+						<a class="nav-link nav-text" href="/register"
+							>Sign Up</a
+						>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link nav-text" href="/login">Sign In</a>
+					</li>
+					<% } else { %> <% if (locals.user.profilePic.data) { %>
+					<a href="/profile">
+						<img
+							class="profile-pic"
+							src="data:image/<%=locals.user.profilePic.contentType%>;base64,
                     <%=locals.user.profilePic.data.toString('base64')%>"
-				/></a>
-				<% } %>
-                <ul class="nav">
-				<li class="nav-item">
-					<a class="nav-link nav-text" href="/profile">Profile</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link nav-text" href="/logout">Sign Out</a>
-				</li>
-				<% if (locals.user.admin) { %>
-				<li class="nav-item">
-					<a class="nav-link nav-text" href="/admin">Admin</a>
-				</li>
-				<% } %> <% } %>
-			</ul>
-        </div>
+					/></a>
+					<% } %>
+					<li class="nav-item">
+						<a class="nav-link nav-text" href="/profile">Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link nav-text" href="/logout">Sign Out</a>
+					</li>
+					<% if (locals.user.admin) { %>
+					<li class="nav-item">
+						<a class="nav-link nav-text" href="/admin">Admin</a>
+					</li>
+					<% } %> <% } %>
+				</ul>
+			</div>
 		</div>
 		<%- body %>
 	</body>
