@@ -1,9 +1,8 @@
 .nav-text {
 	color: #357376;
-	margin-left: 15px;
-	margin-right: 15px;
+	margin: 15px;
 	font-weight: bold;
-	font-size: 16px;
+    font-size: 26px;
 }
 .nav-text:hover {
 	text-decoration: underline;
@@ -31,8 +30,10 @@
 	font-weight: bold;
 }
 .navbar-logo {
-	width: 30px;
-	height: 30px;
+	width: 50px;
+	height: 50px;
+    margin-top: 15px;
+    margin-left: 15px;
 }
 .nav-item {
 	margin-top: 5px;
@@ -82,4 +83,7 @@ input:-webkit-autofill:active {
     margin: 0;
     position: absolute;
     margin-left: 100px;
+}
+.inline-flex {
+    display: inline-flex;
 }

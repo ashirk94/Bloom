@@ -15,10 +15,11 @@
 	</head>
 	<body>
 		<div class="navbar">
-			<ul class="nav">
-				<a href="/"
+            <div class="inline-flex">
+            <a href="/"
 					><img class="navbar-logo" src="/images/bloom-logo.png"
 				/></a>
+			<ul class="nav">	
 				<li class="nav-item">
 					<a class="nav-link nav-text" href="/requests"
 						>Requests</a
@@ -33,14 +34,17 @@
 					<a class="nav-link nav-text" href="/meet">Find Friends</a>
 				</li>
 			</ul>
-			<ul class="nav">
+            </div>
+			<div class="inline-flex">
 				<% if (!locals.user) { %>
-				<li class="nav-item">
-					<a class="nav-link nav-text" href="/login">Sign In</a>
-				</li>
+                    <ul class="nav">
 				<li class="nav-item">
 					<a class="nav-link nav-text" href="/register">Sign Up</a>
 				</li>
+                <li class="nav-item">
+					<a class="nav-link nav-text" href="/login">Sign In</a>
+				</li>
+            </ul>
 				<% } else { %> <% if (locals.user.profilePic.data) { %>
 				<a href="/profile">
 					<img
@@ -49,6 +53,7 @@
                     <%=locals.user.profilePic.data.toString('base64')%>"
 				/></a>
 				<% } %>
+                <ul class="nav">
 				<li class="nav-item">
 					<a class="nav-link nav-text" href="/profile">Profile</a>
 				</li>
@@ -61,6 +66,7 @@
 				</li>
 				<% } %> <% } %>
 			</ul>
+        </div>
 		</div>
 		<%- body %>
 	</body>
