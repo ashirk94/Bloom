@@ -30,9 +30,9 @@
 	font-weight: bold;
 }
 .navbar-logo {
-	width: 50px;
-	height: 50px;
-    margin-top: 15px;
+	width: 70px;
+	height: 70px;
+    margin-top: 17px;
     margin-left: 15px;
 }
 .nav-item {
@@ -86,4 +86,7 @@ input:-webkit-autofill:active {
 }
 .inline-flex {
     display: inline-flex;
+}
+.invis {
+    opacity: 0.1;
 }
