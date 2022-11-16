@@ -3,16 +3,6 @@ const isAuth = require('../utilities/authMiddleware').isAuth
 const connection = require('../config/database')
 const User = connection.models.User
 
-//compare interests and values count
-function compare(a, b) {
-	if (b.count < a.count) {
-		return -1
-	} else if (b.count > a.count) {
-		return 1
-	}
-	return 0
-}
-
 //distance calculation formula (efficient)
 function distance(lat1, lon1, lat2, lon2) {
 	let p = 0.017453292519943295 // Math.PI / 180

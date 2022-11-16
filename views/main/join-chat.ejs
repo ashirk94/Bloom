@@ -20,13 +20,36 @@
                 <div class="bio"><br></div>
                 <% } %>
                 <span class="profile-info"><strong>Interests:</strong></span>
-                <% for (let interest of friend.interests) { %>
-                <span class="profile-info"><%= interest %></span>
-                <% } %><br />
+    
+                <span class="profile-info"><%= friend.interest1 %></span>
+                <% if (friend.interest2 && friend.interest2 !== '') { %> 
+                <span class="profile-info"> <%= friend.interest2 %></span>
+                <% } %> 
+                <% if (friend.interest3 && friend.interest3 !== '') { %> <br>
+                <span class="profile-info"><%= friend.interest3 %></span>
+                <% } %> 
+                <% if (friend.interest4 && friend.interest4 !== '') { %>
+                <span class="profile-info"> <%= friend.interest4 %></span>
+                <% } %> 
+                <% if (friend.interest5 && friend.interest5 !== '') { %>
+                <span class="profile-info"> <%= friend.interest5 %></span>
+                <% } %> 
+                <br><br>
                 <span class="profile-info"><strong>Values:</strong></span>
-                <% for (let value of friend.values) { %>
-                <span class="profile-info"><%= value %></span>
-                <% } %>
+    
+                <span class="profile-info"><%= friend.value1 %></span>
+                <% if (friend.value2 && friend.value2 !== '') { %> 
+                <span class="profile-info"> <%= friend.value2 %></span>
+                <% } %> 
+                <% if (friend.value3 && friend.value3 !== '') { %> <br>
+                <span class="profile-info"><%= friend.value3 %></span>
+                <% } %> 
+                <% if (friend.value4 && friend.value4 !== '') { %>
+                <span class="profile-info"> <%= friend.value4 %></span>
+                <% } %> 
+                <% if (friend.value5 && friend.value5 !== '') { %>
+                <span class="profile-info"> <%= friend.value5 %></span>
+                <% } %> 
     
                 <div class="btn-card-group">
                     <button
