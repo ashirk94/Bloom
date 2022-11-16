@@ -25,19 +25,25 @@ form.addEventListener('submit', event => {
 
 const passInput = document.getElementById('password')
 const confirmInput = document.getElementById('confirm')
+const passIcon = document.getElementById('pass-checkbox')
+const confirmIcon = document.getElementById('confirm-checkbox')
 
 function showPassword() {
     if (passInput.type === 'password') {
         passInput.type = 'text'
+        passIcon.src = 'images/eye-regular.svg'
     } else {
         passInput.type = 'password'
+        passIcon.src = 'images/eye-slash-regular.svg'
     }
 }
 
 function showConfirm() {
     if (confirmInput.type === 'password') {
         confirmInput.type = 'text'
+        confirmIcon.src = 'images/eye-regular.svg'
     } else {
         confirmInput.type = 'password'
+        confirmIcon.src = 'images/eye-slash-regular.svg'
     }
 }
