@@ -89,3 +89,10 @@ input:-webkit-autofill:active {
 .inline-flex {
     display: inline-flex;
 }
+.drop-wrapper {
+    width: 100px;
+    height: 100px;
+    color: red;
+    border: 1px solid black;
+    border-radius: 10px;
+}
