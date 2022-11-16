@@ -46,9 +46,9 @@ router.post('/register', async (req, res) => {
         }
 
         //check username
-        let unameRegex = /^[A-Za-z]\w{3,14}$/
+        let unameRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/
         if (!req.body.uname.match(unameRegex)) {
-            throw new Error('Invalid username')
+            throw new Error('Invalid email address')
         }
 
         //test for duplicate user
