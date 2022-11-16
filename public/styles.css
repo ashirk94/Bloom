@@ -27,7 +27,8 @@ body {
     font-family: 'Encode Sans', sans-serif;
     margin: 0 auto;
     background-image: url(/images/landing-page.jpg);
-    color: #357376;
+    color: #357376; 
+background-size:100%;
 }
 .login-wrapper {
     display: flex;
