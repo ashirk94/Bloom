@@ -29,6 +29,7 @@ body {
 	background-image: url(/images/landing-page.jpg);
 	color: #357376;
 	background-size: 100%;
+    background-repeat: no-repeat;
 }
 .login-wrapper {
 	display: flex;
