@@ -171,3 +171,11 @@ ul {
 .hidden {
 	display: none;
 }
+@media (max-width: 768px) {
+    .landing-wrapper {
+        height: 812px;
+    }
+    .navbar {
+        display: none;
+    }
+}
