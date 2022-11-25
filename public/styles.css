@@ -98,7 +98,7 @@ input {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
-	height: 74px;
+	min-height: 74px;
 	line-height: 50px;
 	border-bottom: 3px solid rgba(0, 0, 0, 0.3);
 	background-color: #baffea;
@@ -167,12 +167,68 @@ ul {
 .hidden {
 	display: none;
 }
-@media (max-width: 768px) {
-	.navbar {
-		display: none;
-	}
-}
 .background {
 	max-width: 100%;
 	height: auto;
+}
+.navbar .icon {
+	display: none;
+}
+.flex-center {
+	display: flex;
+	justify-content: center;
+}
+@media screen and (max-width: 900px) {
+	.navbar .icon {
+		height: auto;
+		width: 100%;
+		font-size: 50px;
+		color: white;
+		margin: 0 auto;
+		text-align: center;
+        text-decoration: none;
+        display: flex;
+		justify-content: center;
+        padding: 0;
+        align-items: center;
+	}
+	.nav-link {
+		width: 100%;
+		display: none;
+        margin: 0 auto;
+        line-height: 20px;
+	}
+	.nav-link.open {
+		display: block;
+	}
+	.navbar {
+		flex-direction: column;
+		align-items: center;
+		display: flex;
+		justify-content: center;
+        padding: 0;
+        margin: 0 auto;
+	}
+	.nav {
+		display: flex;
+		width: 100vw;
+        height: auto;
+		flex-direction: column;
+		background-color: #baffea;
+		padding: 0;
+		margin: 10px auto;
+	}
+	.nav-item {
+		display: flex;
+		justify-content: center;
+        padding: 0;
+        margin: 0 auto;
+        align-items: center;
+	}
+    .open {
+        display: block;
+    }
+    .mobile-invis {
+        display: none;
+    }
 }
