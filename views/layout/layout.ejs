@@ -11,28 +11,44 @@
 		<link rel="stylesheet" href="/dragDrop.css" />
 		<link rel="stylesheet" href="/dragula.css" />
 		<link rel="icon" href="/images/bloom-logo.png" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
 		<script>
-			let forceStyleLoading = true
+			void 0
 		</script>
 	</head>
 	<body>
-		<div class="navbar">
+		<div class="navbar" id="navbar">
 			<div class="inline-flex">
-				<ul class="nav">
-					<a href="/"
-						><img class="navbar-logo" src="/images/bloom-logo.png"
-					/></a>
-					<li class="nav-item">
+				<ul class="nav" id="top-nav">
+                    <li>
+                    <a
+						href="#"
+						class="icon"
+						id="navbar-toggle"
+					>
+						<i class="fa fa-bars"></i>
+					</a>
+                </li>
+                <li class="nav-item mobile-invis">
+                    <a href="/"
+                    ><img class="navbar-logo  mobile-invis" src="/images/bloom-logo.png"
+                /></a>
+                </li>
+					
+					<li class="nav-item mobile-invis">
 						<a class="nav-link nav-text" href="/requests"
 							>Requests</a
 						>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item mobile-invis">
 						<a class="nav-link nav-text" href="/connections"
 							>Chat</a
 						>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item mobile-invis">
 						<a class="nav-link nav-text" href="/meet"
 							>Find Friends</a
 						>
@@ -40,33 +56,35 @@
 				</ul>
 			</div>
 			<div class="inline-flex">
-				<ul class="nav">
+				<ul class="nav" id="bottom-nav">
 					<% if (!locals.user) { %>
 
-					<li class="nav-item">
+					<li class="nav-item mobile-invis">
 						<a class="nav-link nav-text" href="/register"
 							>Sign Up</a
 						>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item mobile-invis">
 						<a class="nav-link nav-text" href="/login">Sign In</a>
 					</li>
 					<% } else { %> <% if (locals.user.profilePic.data) { %>
+                        <li class="nav-item">
 					<a href="/profile">
 						<img
-							class="profile-pic"
+							class="profile-pic  mobile-invis"
 							src="data:image/<%=locals.user.profilePic.contentType%>;base64,
                     <%=locals.user.profilePic.data.toString('base64')%>"
 					/></a>
+                </li>
 					<% } %>
-					<li class="nav-item">
+					<li class="nav-item mobile-invis">
 						<a class="nav-link nav-text" href="/profile">Profile</a>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item mobile-invis">
 						<a class="nav-link nav-text" href="/logout">Sign Out</a>
 					</li>
 					<% if (locals.user.admin) { %>
-					<li class="nav-item">
+					<li class="nav-item mobile-invis">
 						<a class="nav-link nav-text" href="/admin">Admin</a>
 					</li>
 					<% } %> <% } %>
@@ -74,5 +92,6 @@
 			</div>
 		</div>
 		<%- body %>
+		<script src="/navigation.js" defer></script>
 	</body>
 </html>
