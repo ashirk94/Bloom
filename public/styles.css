@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans&display=swap');
 
+@keyframes appear {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
 body {
 	margin: 0 auto;
 	min-height: 100vh;
@@ -98,12 +102,12 @@ input {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
-	min-height: 74px;
+	min-height: 50px;
 	line-height: 50px;
 	border-bottom: 3px solid rgba(0, 0, 0, 0.3);
 	background-color: #baffea;
 	align-items: center;
-	padding: 15px 0px;
+	padding: 0;
 	position: fixed;
 }
 .nav-link {
@@ -178,11 +182,11 @@ ul {
 	display: flex;
 	justify-content: center;
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1100px) {
 	.navbar .icon {
 		height: auto;
 		width: 100%;
-		font-size: 50px;
+		font-size: 40px;
 		color: white;
 		margin: 0 auto;
 		text-align: center;
@@ -227,8 +231,10 @@ ul {
 	}
     .open {
         display: block;
+        animation-name: appear;
+        animation-duration: 750ms;
     }
     .mobile-invis {
-        display: none;
+        display: none !important;
     }
 }
