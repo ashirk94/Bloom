@@ -46,21 +46,19 @@
 }
 #drop-group {
     transition: all 5s;
+    flex-wrap: wrap;
 }
 #interest-group {
     padding: 30px;
     min-width: 400px;
 }
-.info {
-    color: red;
-    padding: 20px 30px;
-    border-radius: 10px;
-    font-size: 30px;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-bottom: 30px;
-}
 #error {
     color: red;
     font-size: 30px;
+}
+.drop-wrapper {
+    width: 100px;
+    height: 100px;
+    color: red;
+    border-radius: 10px;
 }

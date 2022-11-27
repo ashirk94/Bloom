@@ -164,6 +164,7 @@ li {
 	justify-content: center;
 	gap: 20px;
 	margin-top: 20px;
+    flex-wrap: wrap;
 }
 .active {
 	border: 2px solid red !important;
