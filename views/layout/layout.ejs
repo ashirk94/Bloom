@@ -21,74 +21,84 @@
 	</head>
 	<body>
 		<div class="navbar" id="navbar">
-			<div class="inline-flex" id="upper-navbar">
-				<ul class="nav" id="top-nav">
-                    <li>
-                    <a
-						href="#"
-						class="icon"
-						id="navbar-toggle"
-					>
-						<i class="fa fa-bars"></i>
-					</a>
-                </li>
-                <li class="nav-item mobile-invis">
-                    <a href="/"
-                    ><img class="navbar-logo  mobile-invis" src="/images/bloom-logo.png"
-                /></a>
-                </li>
-					
-					<li class="nav-item mobile-invis">
-						<a class="nav-link nav-text" href="/requests"
-							>Requests</a
-						>
-					</li>
-					<li class="nav-item mobile-invis">
-						<a class="nav-link nav-text" href="/connections"
-							>Chat</a
-						>
-					</li>
-					<li class="nav-item mobile-invis">
-						<a class="nav-link nav-text" href="/meet"
-							>Find Friends</a
-						>
+			<div class="hidden-desktop">
+				<ul class="nav">
+					<li class="icon">
+						<a href="#" class="icon" id="navbar-toggle">
+							<i class="fa fa-bars"></i>
+						</a>
 					</li>
 				</ul>
 			</div>
-			<div class="inline-flex mobile-invis" id="lower-navbar">
-				<ul class="nav" id="bottom-nav">
-					<% if (!locals.user) { %>
+			<div id="inner-navbar">
+				<div class="inline-flex mobile-invis" id="upper-navbar">
+					<ul class="nav" id="top-nav">
+						<li class="nav-item mobile-invis">
+							<a href="/"
+								><img
+									class="navbar-logo mobile-invis"
+									src="/images/bloom-logo.png"
+							/></a>
+						</li>
 
-					<li class="nav-item mobile-invis">
-						<a class="nav-link nav-text" href="/register"
-							>Sign Up</a
-						>
-					</li>
-					<li class="nav-item mobile-invis">
-						<a class="nav-link nav-text" href="/login">Sign In</a>
-					</li>
-					<% } else { %> <% if (locals.user.profilePic.data) { %>
-                        <li class="nav-item">
-					<a href="/profile">
-						<img
-							class="profile-pic  mobile-invis"
-							src="data:image/<%=locals.user.profilePic.contentType%>;base64,
+						<li class="nav-item mobile-invis">
+							<a class="nav-link nav-text" href="/requests"
+								>Requests</a
+							>
+						</li>
+						<li class="nav-item mobile-invis">
+							<a class="nav-link nav-text" href="/connections"
+								>Chat</a
+							>
+						</li>
+						<li class="nav-item mobile-invis">
+							<a class="nav-link nav-text" href="/meet"
+								>Find Friends</a
+							>
+						</li>
+					</ul>
+				</div>
+				<div class="inline-flex mobile-invis" id="lower-navbar">
+					<ul class="nav" id="bottom-nav">
+						<% if (!locals.user) { %>
+
+						<li class="nav-item mobile-invis">
+							<a class="nav-link nav-text" href="/register"
+								>Sign Up</a
+							>
+						</li>
+						<li class="nav-item mobile-invis">
+							<a class="nav-link nav-text" href="/login"
+								>Sign In</a
+							>
+						</li>
+						<% } else { %> <% if (locals.user.profilePic.data) { %>
+						<li class="nav-item">
+							<a href="/profile">
+								<img
+									class="profile-pic mobile-invis"
+									src="data:image/<%=locals.user.profilePic.contentType%>;base64,
                     <%=locals.user.profilePic.data.toString('base64')%>"
-					/></a>
-                </li>
-					<% } %>
-					<li class="nav-item mobile-invis">
-						<a class="nav-link nav-text" href="/profile">Profile</a>
-					</li>
-					<li class="nav-item mobile-invis">
-						<a class="nav-link nav-text" href="/logout">Sign Out</a>
-					</li>
-					<% if (locals.user.admin) { %>
-					<li class="nav-item mobile-invis">
-						<a class="nav-link nav-text" href="/admin">Admin</a>
-					</li>
-					<% } %> <% } %>
-				</ul>
+							/></a>
+						</li>
+						<% } %>
+						<li class="nav-item mobile-invis">
+							<a class="nav-link nav-text" href="/profile"
+								>Profile</a
+							>
+						</li>
+						<li class="nav-item mobile-invis">
+							<a class="nav-link nav-text" href="/logout"
+								>Sign Out</a
+							>
+						</li>
+						<% if (locals.user.admin) { %>
+						<li class="nav-item mobile-invis">
+							<a class="nav-link nav-text" href="/admin">Admin</a>
+						</li>
+						<% } %> <% } %>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<%- body %>
