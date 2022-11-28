@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans&display=swap');
 
-@keyframes item-appear {
-    0% {opacity: 0;}
-    50% {opacity: 0.1;}
-    80% {opacity: 0.2;}
-    100% {opacity: 1;}
-}
 @keyframes link-appear {
     0% {opacity: 0;}
     100% {opacity: 1;}
@@ -218,6 +212,7 @@ ul {
 		justify-content: center;
         padding: 0;
         align-items: center;
+        z-index: 6;
 	}
 	.nav-link {
 		width: 100%;
@@ -228,7 +223,7 @@ ul {
 	.nav-link.open {
 		display: block;
         animation-name: link-appear;
-        animation-duration: 5s;
+        animation-duration: 3s;
 	}
 	.navbar {
 		flex-direction: column;
