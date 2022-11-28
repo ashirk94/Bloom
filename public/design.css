@@ -89,3 +89,9 @@ input:-webkit-autofill:active {
 .inline-flex {
     display: inline-flex;
 }
+input[type='file'] {
+    min-height: 80px;
+    font-size: 20px;
+    margin: 0 auto;
+    background: none;
+}

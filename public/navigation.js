@@ -3,13 +3,10 @@ const navLinks = document.querySelectorAll('.nav-link')
 const navItems = document.querySelectorAll('.nav-item')
 const lowBar = document.getElementById('lower-navbar')
 const topBar = document.getElementById('upper-navbar')
-const navBar = document.getElementById('navbar')
 const innerBar = document.getElementById('inner-navbar')
 
 function toggleBar() {
 	innerBar.classList.toggle('pop-in')
-    topBar.classList.toggle('item-appear')
-    lowBar.classList.toggle('item-appear')
     topBar.classList.toggle('mobile-invis')
     lowBar.classList.toggle('mobile-invis')
 
