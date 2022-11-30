@@ -2,7 +2,7 @@
 	color: #357376;
 	margin: 15px;
 	font-weight: bold;
-    font-size: 26px;
+    font-size: 20px;
 }
 .nav-text:hover {
 	text-decoration: underline;
@@ -30,8 +30,8 @@
 	font-weight: bold;
 }
 .navbar-logo {
-	width: 70px;
-	height: 70px;
+	width: 60px;
+	height: 60px;
     margin-top: 17px;
     margin-left: 15px;
 }
@@ -94,4 +94,7 @@ input[type='file'] {
     font-size: 20px;
     margin: 0 auto;
     background: none;
+}
+.navbar-area {
+    height: 80px;
 }
