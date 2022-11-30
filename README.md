@@ -1,7 +1,7 @@
 # Bloom
 An application to bring people together and form friendships based on common interests and values.
 
-This is my largest scale project yet, and I am working with UX designer Sarah Martin.
+This is my largest scale project yet, and I am working with UX Designer Sarah Martin.
 
 ## Current Features
 
@@ -14,3 +14,6 @@ This is my largest scale project yet, and I am working with UX designer Sarah Ma
 - Drag and drop functionality implemented with the dragula library.
 - Responsive animated navbar made with vanilla JavaScript.
 - Profile picture uploading with immediate display on the browser.
+- Deployed to a Heroku Dyno with continuous integration.
+
+Development server: [Bloom on Heroku](https://bloom-friend-finder.herokuapp.com/)
