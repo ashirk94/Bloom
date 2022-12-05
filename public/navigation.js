@@ -11,7 +11,9 @@ function toggleBar() {
     lowBar.classList.toggle('mobile-invis')
 
     for (const navItem of navItems) {
-		navItem.classList.toggle('mobile-invis')
+        if (!navItem.classList.contains('navbar-logo')) {
+            navItem.classList.toggle('mobile-invis')
+        }
 	}
 	for (const navLink of navLinks) {
 		navLink.classList.toggle('open')
