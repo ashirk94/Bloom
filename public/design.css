@@ -1,8 +1,8 @@
 .nav-text {
 	color: #357376;
 	margin: 15px;
-	font-weight: bold;
-    font-size: 20px;
+	font-weight: 900;
+    font-size: 24px;
 }
 .nav-text:hover {
 	text-decoration: underline;
@@ -32,11 +32,10 @@
 .navbar-logo {
 	width: 60px;
 	height: 60px;
-    margin-top: 17px;
-    margin-left: 15px;
+    margin-left: 5%;
 }
 .nav-item {
-	margin-top: 5px;
+	margin: 5px 5px;
 }
 input[type='text'],
 input[type='password'] {
