@@ -14,10 +14,10 @@ form.addEventListener('submit', event => {
     if (password === confirm && password.match(passRegex) && username.match(unameRegex)) {
         success.innerHTML = 'Success!'
         form.submit()      
-    } else if(!password.match(passRegex)) {
-        validation.innerHTML = 'Password must be 7-14 characters in length and contain a digit'
     } else if(!username.match(unameRegex)) {
         validation.innerHTML = 'Invalid email address'
+    } else if(!password.match(passRegex)) {
+        validation.innerHTML = 'Password must be 7-14 characters in length and contain a digit'
     } else if(password !== confirm) {
         validation.innerHTML = 'Password and password confirmation do not match'
     }

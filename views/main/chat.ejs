@@ -1,28 +1,32 @@
 <div class="chat-wrapper">
-	<form id="form" autocomplete="off">
-		<div class="message-group">
-			<label for="message-input">Message</label>
-			<input type="text" id="message-input" />
-			<button type="submit" id="send-button">Send</button>
-		</div>
-	</form>
-	<div id="message-container">
-		<% for (const message of locals.messages) { %> <% if (message.username ===
-		locals.user.username) { %>
-		<div class="chat-heading">
-			<%= message.time %> <br /><%= message.username + `(you)`%>
-		</div>
-		
-		<% } %> <% if (message.username === locals.friend.username) { %>
-		<div class="chat-heading-other">
-			<%= message.time %> <br /><%= message.username %>
-		</div>
-        
-		<% } %>
-        <div class="message"><%= message.text %></div>
-        <% } %>
-	</div>
-</div>
+    <div class="left-side"></div>
+    <div class="right-side">
+        <form id="form" autocomplete="off">
+            <div class="message-group">
+                <label for="message-input">Message</label>
+                <input type="text" id="message-input" />
+                <button type="submit" id="send-button">Send</button>
+            </div>
+        </form>
+        <div id="message-container">
+            <% for (const message of locals.messages) { %> <% if (message.username ===
+            locals.user.username) { %>
+            <div class="chat-heading">
+                <%= message.time %> <br /><%= message.username + `(you)`%>
+            </div>
+            
+            <% } %> <% if (message.username === locals.friend.username) { %>
+            <div class="chat-heading-other">
+                <%= message.time %> <br /><%= message.username %>
+            </div>
+            
+            <% } %>
+            <div class="message"><%= message.text %></div>
+            <% } %>
+        </div>
+    </div>
+    </div>
+	
 <div id="room-name"></div>
 <% if (locals.user) { %>
 <input type="hidden" id="user-name-input" value="<%= locals.user.username %>" />
