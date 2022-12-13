@@ -97,3 +97,21 @@ input[type='file'] {
 .navbar-area {
     height: 80px;
 }
+.left-side {
+    position: relative;
+    flex: 30%;
+    background-color: #357376;
+    min-height: 200px;
+}
+.right-side {
+    position: relative;
+    flex: 70%;
+    background-color: #f2fffb;
+
+}
+#message-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
