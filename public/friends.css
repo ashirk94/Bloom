@@ -88,6 +88,8 @@
     color: white;
     border-radius: 10px;
     text-align: center;
+    max-width: 300px;
+    min-width: 200px;
 }
 .chat-heading-other {
     font-size: 14px;
@@ -95,6 +97,8 @@
     color: white;
     border-radius: 10px;
     text-align: center;
+    max-width: 300px;
+    min-width: 200px;
 }
 .btn-primary {
     background-color: #a2ffe2;
