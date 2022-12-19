@@ -1,37 +1,56 @@
 <div class="chat-wrapper">
-    <div class="left-side"></div>
-    <div class="right-side">
-        <form id="form" autocomplete="off">
-            <div class="message-group">
-                <label for="message-input">Message</label>
-                <input type="text" id="message-input" />
-                <button type="submit" id="send-button">Send</button>
-            </div>
-        </form>
-        <div id="message-container">
-            <% for (const message of locals.messages) { %> <% if (message.username ===
-            locals.user.username) { %>
-            <div class="chat-heading">
-                <%= message.time %> <br /><%= message.username + `(you)`%>
-            </div>
-            
-            <% } %> <% if (message.username === locals.friend.username) { %>
-            <div class="chat-heading-other">
-                <%= message.time %> <br /><%= message.username %>
-            </div>
-            
-            <% } %>
-            <div class="message"><%= message.text %></div>
-            <% } %>
+	<div class="left-side">
+        <div class="chat-header">
+            <div class="open-chats"><div class="open-chats-text">Open Chats</div></div>
         </div>
-    </div>
-    </div>
-	
+		<div class="chat-header">
+			<div class="user-img">
+				<img src="/images/anon.jpg" class="cover">
+			</div>
+            <div class="chat-username">Example User</div>
+            <ul class="chat-icons">
+                <li><ion-icon name="chatbox-outline"></ion-icon></li>
+                <li><ion-icon name="ellipsis-vertical-outline"></ion-icon></li>
+            </ul>
+		</div>
+	</div>
+	<div class="right-side">
+		<form id="form" autocomplete="off">
+			<div class="message-group">
+				<label for="message-input">Message</label>
+				<input type="text" id="message-input" />
+				<button type="submit" id="send-button">Send</button>
+			</div>
+		</form>
+		<div id="message-container">
+			<% for (const message of locals.messages) { %> <% if
+			(message.username === locals.user.username) { %>
+			<div class="chat-heading">
+				<%= message.time %> <br /><%= message.username + `(you)`%>
+			</div>
+
+			<% } %> <% if (message.username === locals.friend.username) { %>
+			<div class="chat-heading-other">
+				<%= message.time %> <br /><%= message.username %>
+			</div>
+
+			<% } %>
+			<div class="message"><%= message.text %></div>
+			<% } %>
+		</div>
+	</div>
+</div>
+
 <div id="room-name"></div>
 <% if (locals.user) { %>
 <input type="hidden" id="user-name-input" value="<%= locals.user.username %>" />
 <% } %> <% if (locals.friend) { %>
-<input type="hidden" id="friend-socket-input" value="<%= locals.friend.socketId %>" />
+<input
+	type="hidden"
+	id="friend-socket-input"
+	value="<%= locals.friend.socketId %>"
+/>
 <input type="hidden" id="friend-id-input" value="<%= locals.friend.id %>" />
 <% } %>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script src="/chat.js" type="module" defer></script>
