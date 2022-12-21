@@ -122,7 +122,7 @@ input[type='file'] {
     overflow: hidden;
     border-radius: 50%;
     cursor: pointer;
-    margin-left: 5%;
+    margin-left: 20%;
 }
 .cover {
     position: absolute;
@@ -137,6 +137,7 @@ input[type='file'] {
 }
 .chat-icons {
     display: flex;
+    margin-left: 150px;
 }
 .chat-icons li {
     cursor: pointer;

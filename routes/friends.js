@@ -29,11 +29,17 @@ router.get('/chat/:username', isAuth, async (req, res) => {
 			(message.recipient === username &&
 				message.sender === req.user.username)
 	)
+    //users with mutual likes
+	let users = await User.find({ _id: { $in: req.user.likes } })
+	users = users.filter((user) =>
+		user.likes.find((like) => like.id === req.user.id)
+	)
 
 	res.render('main/chat', {
 		friend: friend,
 		user: req.user,
-		messages: messages
+		messages: messages,
+        others: users
 	})
 })
 
