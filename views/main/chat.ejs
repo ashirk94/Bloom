@@ -23,29 +23,35 @@
 		<% } %>
 	</div>
 	<div class="right-side">
-		<form id="form" autocomplete="off">
+        <div class="chat-right-top">
+            <img
+					class="user-img"
+					src="data:image/<%= locals.friend.profilePic.contentType %>;base64,
+        <%= locals.friend.profilePic.data.toString('base64') %>"
+				/>
+            <%= locals.friend.username %>
+        </div>
+		<div id="message-container">
+			<% for (const message of locals.messages) { %> <% if
+			(message.username === locals.user.username) { %>
+			<div class="message"><%= message.text %></div>
+
+			<% } %> <% if (message.username === locals.friend.username) { %>
+			<div class="message-other"><%= message.text %></div>
+
+			<% } %>
+			<div class="chat-heading">
+				<%= message.time %> <br /><%= message.username %>
+			</div>
+			<% } %>
+		</div>
+        <form id="form" autocomplete="off">
 			<div class="message-group">
 				<label for="message-input">Message</label>
 				<input type="text" id="message-input" />
 				<button type="submit" id="send-button">Send</button>
 			</div>
 		</form>
-		<div id="message-container">
-			<% for (const message of locals.messages) { %> <% if
-			(message.username === locals.user.username) { %>
-			<div class="chat-heading">
-				<%= message.time %> <br /><%= message.username + `(you)`%>
-			</div>
-
-			<% } %> <% if (message.username === locals.friend.username) { %>
-			<div class="chat-heading-other">
-				<%= message.time %> <br /><%= message.username %>
-			</div>
-
-			<% } %>
-			<div class="message"><%= message.text %></div>
-			<% } %>
-		</div>
 	</div>
 </div>
 
