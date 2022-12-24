@@ -141,17 +141,19 @@ input[type='file'] {
 }
 .chat-icons li {
     cursor: pointer;
-    color: white;
+    color: #2f696b;
     margin-left: 20px;
 }
 .chat-username {
-    color: white;
+    color: #2f696b;
     margin-left: 20px;
     cursor: pointer;
 }
 .open-chats {
     color: white;
     margin-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     background-color: #2f696b;
     width: 100%;
 }
@@ -159,6 +161,13 @@ input[type='file'] {
     text-align: left;
     margin-left: 30px;
 }
-.message-p p {
-
+.unread {
+    color: lightblue;
+}
+.chat-right-top {
+    border-bottom: 2px solid #2f696b;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: left;
 }

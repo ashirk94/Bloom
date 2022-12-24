@@ -87,11 +87,12 @@ input {
 	display: flex;
 	flex-direction: row;
 }
-.message {
+.chat-heading {
 	min-width: 300px;
     text-align: center;
 	margin-top: 20px;
 	padding: 5px;
+    font-size: 14px;
 }
 .btn {
 	text-decoration: none;
