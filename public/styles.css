@@ -89,10 +89,11 @@ input {
 }
 .chat-heading {
 	min-width: 300px;
-    text-align: center;
-	margin-top: 20px;
+    text-align: left;
+	margin-top: 2px;
 	padding: 5px;
     font-size: 14px;
+    margin-left: 80px;
 }
 .btn {
 	text-decoration: none;

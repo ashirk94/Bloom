@@ -4,13 +4,13 @@ let timer = false
 
 function resizeEvent() {
         if (!started) {
-            if (window.innerWidth * window.devicePixelRatio > 833) {
+            if (window.innerWidth > 833) {
                 landingImage.src = '/images/landing-page.jpg'
-            } else if (window.innerWidth * window.devicePixelRatio <= 414) {
+            } else if (window.innerWidth <= 414) {
                 landingImage.src = '/images/mobile-breakpoint.jpg'
             } else if (
-                window.innerWidth * window.devicePixelRatio <= 833 &&
-                window.innerWidth * window.devicePixelRatio > 414
+                window.innerWidth <= 833 &&
+                window.innerWidth > 414
             ) {
                 landingImage.src = '/images/medium-breakpoint.jpg'
             } 
@@ -20,13 +20,13 @@ function resizeEvent() {
             setTimeout(() => {
                 started = false
                 timer = false
-                if (window.innerWidth * window.devicePixelRatio > 833) {
+                if (window.innerWidth > 833) {
                     landingImage.src = '/images/landing-page.jpg'
-                } else if (window.innerWidth * window.devicePixelRatio <= 414) {
+                } else if (window.innerWidth <= 414) {
                     landingImage.src = '/images/mobile-breakpoint.jpg'
                 } else if (
-                    window.innerWidth * window.devicePixelRatio <= 833 &&
-                    window.innerWidth * window.devicePixelRatio > 414
+                    window.innerWidth <= 833 &&
+                    window.innerWidth > 414
                 ) {
                     landingImage.src = '/images/medium-breakpoint.jpg'
                 } 
