@@ -31,19 +31,19 @@ const confirmIcon = document.getElementById('confirm-checkbox')
 function showPassword() {
     if (passInput.type === 'password') {
         passInput.type = 'text'
-        passIcon.src = 'images/eye-regular.svg'
+        passIcon.src = 'images/eye-regular.png'
     } else {
         passInput.type = 'password'
-        passIcon.src = 'images/eye-slash-regular.svg'
+        passIcon.src = 'images/eye-slash-regular.png'
     }
 }
 
 function showConfirm() {
     if (confirmInput.type === 'password') {
         confirmInput.type = 'text'
-        confirmIcon.src = 'images/eye-regular.svg'
+        confirmIcon.src = 'images/eye-regular.png'
     } else {
         confirmInput.type = 'password'
-        confirmIcon.src = 'images/eye-slash-regular.svg'
+        confirmIcon.src = 'images/eye-slash-regular.png'
     }
 }
