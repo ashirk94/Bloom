@@ -167,7 +167,34 @@ input[type='file'] {
 .chat-right-top {
     border-bottom: 2px solid #2f696b;
     margin-bottom: 20px;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+.chat-right-top-inner {
     text-align: left;
+    display: flex;
+    color: #2f696b;
+    margin-left: 20px;
+    gap: 20px;
+}
+.chat-right-top-inner img {
+    margin-left: 0px;
+}
+.chat-input-area {
+    background-color: white;
+    height: 100%;
+}
+#message-input {
+    width: 95%;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+#message-input:focus {
+    outline: none;
+}
+.send-btn {
+    width: 100px;
+    min-width: 0px !important;
+    margin-left: 80%;
 }

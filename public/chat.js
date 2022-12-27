@@ -3,7 +3,7 @@ import { io } from 'https://cdn.socket.io/4.4.1/socket.io.esm.min.js'
 //html elements
 const messageContainer = document.getElementById('message-container')
 const messageInput = document.getElementById('message-input')
-const form = document.getElementById('form')
+const form = document.getElementById('chat-form')
 const user = document.getElementById('user-name-input').value
 const friendId = document.getElementById('friend-id-input').value
 const friendSocket = document.getElementById('friend-socket-input').value

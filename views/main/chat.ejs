@@ -23,35 +23,41 @@
 		<% } %>
 	</div>
 	<div class="right-side">
-        <div class="chat-right-top">
-            <img
+		<div class="chat-right-top">
+			<div class="chat-right-top-inner">
+				<img
 					class="user-img"
 					src="data:image/<%= locals.friend.profilePic.contentType %>;base64,
-        <%= locals.friend.profilePic.data.toString('base64') %>"
+    <%= locals.friend.profilePic.data.toString('base64') %>"
 				/>
-            <%= locals.friend.username %>
-        </div>
-		<div id="message-container">
-			<% for (const message of locals.messages) { %> <% if
-			(message.username === locals.user.username) { %>
-			<div class="message"><%= message.text %></div>
-
-			<% } %> <% if (message.username === locals.friend.username) { %>
-			<div class="message-other"><%= message.text %></div>
-
-			<% } %>
-			<div class="chat-heading">
-				<%= message.time %> <br /><%= message.username %>
+				<%= locals.friend.firstName || locals.friend.username %>
 			</div>
-			<% } %>
 		</div>
-        <form id="form" autocomplete="off">
-			<div class="message-group">
-				<label for="message-input">Message</label>
-				<input type="text" id="message-input" />
-				<button type="submit" id="send-button">Send</button>
+		<div class="chat-area">
+			<div id="message-container">
+				<% for (const message of locals.messages) { %> <% if
+				(message.username === locals.user.username) { %>
+				<div class="message"><%= message.text %></div>
+
+				<% } %> <% if (message.username === locals.friend.username) { %>
+				<div class="message-other"><%= message.text %></div>
+
+				<% } %>
+				<div class="chat-heading">
+					<%= message.time %> <br /><%= message.username %>
+				</div>
+				<% } %>
 			</div>
-		</form>
+		</div>
+		<div class="chat-input-area">
+			<form id="chat-form" autocomplete="off">
+				<div class="message-group">
+					<label for="message-input">Message</label>
+					<input type="text" id="message-input" placeholder="Type something here..." />
+					<button type="submit" class="btn-primary send-btn" id="send-button">Send</button>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
 
