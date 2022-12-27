@@ -19,6 +19,8 @@
 	font-weight: 900;
 	margin-top: 60px;
 	margin-bottom: 40px;
+    text-shadow: 1.5px 0 #357376;
+    letter-spacing:1.5px;
 }
 .subtitle {
 	color: #357376;
