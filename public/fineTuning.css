@@ -1,0 +1,19 @@
+.landing-space {
+    width: 1920px;
+    height: 3800px;
+    position: absolute;
+}
+.landing-content {
+    position: absolute;
+    margin: 20px auto;
+}
+.landing-more {
+    position: absolute;
+    display: block;
+    margin: 20px auto;
+}
+.reset {
+    background: none;
+    color: #357376;
+    border: none;
+}

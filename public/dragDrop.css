@@ -4,6 +4,7 @@
 	color: white;
 	border-radius: 10px;
     transition: all 1s;
+    min-width: 100px;
 }
 .dragging {
 	opacity: 0.5;
@@ -26,19 +27,17 @@
 	height: 60px;
 }
 #reset {
-	background-color: red;
-	color: white;
-	font-size: 17px;
+	font-size: 14px;
 	font-weight: bold;
-	margin: 0 10px;
-	border-radius: 25px;
+    margin-top: 25px;
+    cursor: pointer;
 }
 #reset:hover {
-    background-color: orange;
+    text-decoration: underline;
 }
 .dropzone {
     border: 3px dotted black;
-    min-width: 50px;
+    min-width: 150px;
     min-height: 40px;
     padding: 10px;
     border-radius: 10px;
@@ -47,6 +46,7 @@
 #drop-group {
     transition: all 5s;
     flex-wrap: wrap;
+    gap: 30px;
 }
 #interest-group {
     padding: 30px;
@@ -57,8 +57,10 @@
     font-size: 30px;
 }
 .drop-wrapper {
-    width: 100px;
+    min-width: 100px;
     height: 100px;
-    color: red;
+    font-weight: bold;
+    font-size: 19px;
+    color: #357376;
     border-radius: 10px;
 }
