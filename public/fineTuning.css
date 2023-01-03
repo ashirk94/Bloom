@@ -1,19 +1,35 @@
-.landing-space {
-    width: 1920px;
-    height: 3800px;
-    position: absolute;
-}
 .landing-content {
     position: absolute;
-    margin: 20px auto;
+    z-index: 2;
 }
-.landing-more {
-    position: absolute;
+.landing-more a, .copyright a, .copyright p {
     display: block;
-    margin: 20px auto;
+    margin: 30px 5px;
+    color: #a2ffe2;
 }
 .reset {
     background: none;
     color: #357376;
     border: none;
+}
+.chat-header {
+    border: 1px solid #357376;
+    background: linear-gradient(to top,hsl(166, 38%, 64%), hsl(166, 38%, 72%));
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.copyright {
+    display: flex;
+    gap: 0px;
+    justify-content: center;
+    margin-top: 150px;
+}
+.desktop-height {
+    top: 4350px;
+}
+.medium-height {
+    top: 1600px;
+}
+.mobile-height {
+    top: 1100px;
 }
