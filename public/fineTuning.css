@@ -1,11 +1,29 @@
 .landing-content {
     position: absolute;
-    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
 }
-.landing-more a, .copyright a, .copyright p {
+.landing-more a {
     display: block;
-    margin: 30px 5px;
+    margin: 15px 5px;
     color: #a2ffe2;
+    position: relative;
+}
+.copyright a {
+    display: block;
+    margin-top: 0px;
+    color: #a2ffe2;
+    bottom: 60px;
+    position: relative;
+}
+.copyright p {
+    display: block;
+    margin-top: 0px;
+    color: #a2ffe2;
+    bottom: 60px;
+    position: relative;
 }
 .reset {
     background: none;
@@ -25,11 +43,16 @@
     margin-top: 150px;
 }
 .desktop-height {
-    top: 4350px;
+    top: 4320px;
 }
 .medium-height {
-    top: 1600px;
+    top: 3200px;
 }
 .mobile-height {
-    top: 1100px;
+    top: 4200px;
 }
+
+
+
+
+
