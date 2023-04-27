@@ -208,10 +208,11 @@ ul {
 		font-size: 60px;
 		color: #357376;
 		margin: 0 auto;
+        margin-right: 10%;
 		text-align: center;
 		text-decoration: none;
 		display: flex;
-		justify-content: center;
+		justify-content: flex-end;
 		padding: 0;
 		align-items: center;
 		z-index: 6;
