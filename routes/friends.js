@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const isAuth = require('../utilities/authMiddleware').isAuth
+const isVerified = require('../utilities/authMiddleware').isVerified
 const connection = require('../config/database')
 const User = connection.models.User
 
@@ -16,7 +17,7 @@ function distance(lat1, lon1, lat2, lon2) {
 }
 
 //private messages
-router.get('/chat/:username', isAuth, async (req, res) => {
+router.get('/chat/:username', isAuth, isVerified, async (req, res) => {
 	const username = req.params.username
 	const friendArray = await User.find({ username: username })
 	const friend = friendArray[0]
@@ -43,7 +44,7 @@ router.get('/chat/:username', isAuth, async (req, res) => {
 	})
 })
 
-router.get('/join-chat', isAuth, async (req, res) => {
+router.get('/join-chat', isAuth, isVerified, async (req, res) => {
 	const id = req.user._id
 	//users who you have chats with
 	const users = await User.find({
@@ -60,7 +61,7 @@ router.get('/join-chat', isAuth, async (req, res) => {
 	res.render('main/join-chat', { user: req.user, friends: users })
 })
 
-router.get('/meet', isAuth, async (req, res) => {
+router.get('/meet', isAuth, isVerified, async (req, res) => {
 	const id = req.user.id
 
 	//users who are not you and not in your connection requests
