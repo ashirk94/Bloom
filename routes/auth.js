@@ -73,7 +73,7 @@ router.post('/register', async (req, res) => {
 		const newUser = new User({
 			username: req.body.uname,
 			hash: hashedPassword,
-			admin: true, //create admin here
+			admin: false, //create admin here
 			profilePic: {
 				data: fs.readFileSync(
 					path.join(__dirname + '/../public/images/anon.jpg')
