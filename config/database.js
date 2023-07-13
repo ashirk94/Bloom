@@ -48,7 +48,8 @@ const UserSchema = new Schema({
     location: {
         lat: Number,
         lon: Number
-    }
+    },
+    confirmed: Boolean
 })
 
 const User = connection.model('User', UserSchema)
