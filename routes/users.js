@@ -28,13 +28,11 @@ router.post('/like/:id', isAuth, async (req, res) => {
 
 //email verification
 router.get('/verify/:token', isAuth, async (req, res) => {
-    console.log(req.user)
     const {token} = req.params
     try {
-        jwt.verify(token, 'ourSecretKey')
+        jwt.verify(token, 'JWT_SECRET')
         await User.findOneAndUpdate({username: req.user.username}, { confirmed: true })
     } catch (error) {
-        console.error(error)
         throw new Error('Error during verification')
     }
     res.redirect('/')

@@ -8,13 +8,13 @@ async function verify(user) {
         port: 465,
         auth: {
             user: 'alanshirkapps@zohomail.com', 
-            pass: 'ehrenmann94' //TODO put this in env variables
+            pass: EMAIL_PASS
         }
     })
     
     const token = jwt.sign({
             data: 'Token Data'
-        }, 'ourSecretKey', { expiresIn: '10m' }
+        }, JWT_SECRET, { expiresIn: '10m' }
     )
     
     const mailConfigurations = {
