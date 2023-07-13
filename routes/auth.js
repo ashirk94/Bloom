@@ -40,7 +40,7 @@ router.post(
 router.post('/register', async (req, res) => {
 	try {
         //delete all users
-        await User.deleteMany({})
+        //await User.deleteMany({})
 
         //check password
         let passRegex = /^(?=.*[0-9])[A-Za-z]\w{7,14}$/
