@@ -8,13 +8,13 @@ async function verify(user) {
         port: 465,
         auth: {
             user: 'alanshirkapps@zohomail.com', 
-            pass: EMAIL_PASS
+            pass: process.env.EMAIL_PASS
         }
     })
     
     const token = jwt.sign({
             data: 'Token Data'
-        }, JWT_SECRET, { expiresIn: '10m' }
+        }, process.env.JWT_SECRET, { expiresIn: '10m' }
     )
     
     const mailConfigurations = {
@@ -26,13 +26,11 @@ async function verify(user) {
         subject: 'Bloom Email Verification',
         
         text: `Please click this link to verify your email
-            http://localhost:3000/verify/${token}`     
+        https://bloom-friend-finder.herokuapp.com/verify/${token}`     
     }
     
     transporter.sendMail(mailConfigurations, function(error, info){
         if (error) throw Error(error)
-        console.log('Email Sent Successfully')
-        console.log(info)
     })
 }
 
