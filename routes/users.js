@@ -30,7 +30,7 @@ router.post('/like/:id', isAuth, async (req, res) => {
 router.get('/verify/:token', isAuth, async (req, res) => {
     const {token} = req.params
     try {
-        jwt.verify(token, JWT_SECRET)
+        jwt.verify(token, process.env.JWT_SECRET)
         await User.findOneAndUpdate({username: req.user.username}, { confirmed: true })
     } catch (error) {
         throw new Error('Error during verification')
