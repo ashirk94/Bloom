@@ -187,8 +187,8 @@ ul {
 	display: none;
 }
 .background {
-	width: 100%;
-	height: auto;
+	width: auto;
+	height: 100%;
 }
 .navbar .icon {
 	display: none;

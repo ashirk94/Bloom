@@ -5,19 +5,19 @@ let timer = false
 
 function resizeEvent() {
         if (!started) {
-            if (window.innerWidth > 1500) {
+            if (screen.availWidth > 833) {
                 landingImage.src = '/images/landing-page.jpg'
                 landingContent.classList.remove('mobile-height')
                 landingContent.classList.remove('medium-height')
                 landingContent.classList.add('desktop-height')
-            } else if (window.innerWidth <= 600) {
+            } else if (screen.availWidth <= 414) {
                 landingImage.src = '/images/mobile-breakpoint.jpg'
                 landingContent.classList.add('mobile-height')
                 landingContent.classList.remove('medium-height')
                 landingContent.classList.remove('desktop-height')
             } else if (
-                window.innerWidth <= 1500 &&
-                window.innerWidth > 600
+                screen.availWidth <= 833 &&
+                screen.availWidth > 414
             ) {
                 landingImage.src = '/images/medium-breakpoint.jpg'
                 landingContent.classList.remove('mobile-height')
@@ -30,19 +30,19 @@ function resizeEvent() {
             setTimeout(() => {
                 started = false
                 timer = false
-                if (window.innerWidth > 1500) {
+                if (screen.availWidth > 833) {
                     landingImage.src = '/images/landing-page.jpg'
                     landingContent.classList.remove('mobile-height')
                 landingContent.classList.remove('medium-height')
                 landingContent.classList.add('desktop-height')
-                } else if (window.innerWidth <= 600) {
+                } else if (screen.availWidth <= 414) {
                     landingImage.src = '/images/mobile-breakpoint.jpg'
                     landingContent.classList.add('mobile-height')
                 landingContent.classList.remove('medium-height')
                 landingContent.classList.remove('desktop-height')
                 } else if (
-                    window.innerWidth <= 1500 &&
-                    window.innerWidth > 600
+                    screen.availWidth <= 833 &&
+                    screen.availWidth > 414
                 ) {
                     landingImage.src = '/images/medium-breakpoint.jpg'
                     landingContent.classList.remove('mobile-height')
