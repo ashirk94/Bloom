@@ -175,6 +175,10 @@ li {
 	color: red;
 	margin-bottom: 20px;
 }
+.success-msg {
+	color: green;
+	margin-bottom: 20px;
+}
 h5,
 ul {
 	margin: 5px auto;

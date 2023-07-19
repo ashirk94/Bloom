@@ -12,9 +12,8 @@ async function verify(user) {
         }
     })
     
-    const token = jwt.sign({
-            data: 'Token Data'
-        }, process.env.JWT_SECRET, { expiresIn: '10m' }
+    const token = jwt.sign(
+        { username: user.username }, process.env.JWT_SECRET, { expiresIn: '10m' }
     )
     
     const mailConfigurations = {
@@ -25,8 +24,8 @@ async function verify(user) {
     
         subject: 'Bloom Email Verification',
         
-        text: `Please click this link to verify your email
-        https://bloom-friend-finder.herokuapp.com/verify/${token}`     
+        text: `Please click the link below to verify your email:\nhttps://bloom-friend-finder.herokuapp.com/verify/${token}`
+        // text: `Please click the link below to verify your email:\nhttp://localhost:3000/verify/${token}`
     }
     
     transporter.sendMail(mailConfigurations, function(error, info){
