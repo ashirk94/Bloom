@@ -19,6 +19,6 @@ module.exports.isVerified = (req, res, next) => {
     if (req.user.confirmed) {
         next()
     } else {
-        res.render('auth/unverified')
+        res.redirect('/unverified')
     }
 }

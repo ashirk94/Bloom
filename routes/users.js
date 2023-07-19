@@ -1,9 +1,11 @@
 const router = require('express').Router()
 const isAdmin = require('../utilities/authMiddleware').isAdmin
 const isAuth = require('../utilities/authMiddleware').isAuth
+const isVerified = require('../utilities/authMiddleware').isVerified
 const connection = require('../config/database')
 const jwt = require('jsonwebtoken')
 const User = connection.models.User
+const verify = require('../utilities/emailVerification').verify
 
 //delete by id
 router.post('/users/:id', isAdmin, async (req, res) => {
@@ -29,13 +31,40 @@ router.post('/like/:id', isAuth, async (req, res) => {
 //email verification
 router.get('/verify/:token', isAuth, async (req, res) => {
     const {token} = req.params
-    try {
-        jwt.verify(token, process.env.JWT_SECRET)
-        await User.findOneAndUpdate({username: req.user.username}, { confirmed: true })
-    } catch (error) {
-        throw new Error('Error during verification')
-    }
-    res.redirect('/')
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+            if (decoded.username != req.user.username) {
+                res.redirect('/wrong-user')
+            } else {
+                await User.findOneAndUpdate({username: req.user.username}, { confirmed: true })
+                res.redirect('/verified')
+            }
+        } catch (error) {
+            res.render('error', {error: error.message})
+        }
+
+})
+
+router.get('/verified', isAuth, isVerified, (req, res) => {
+    res.render('auth/verified', { user: req.user })
+})
+
+router.get('/unverified', isAuth, (req, res) => {
+    res.render('auth/unverified', { user: req.user })
+})
+
+router.get('/wrong-user', isAuth, (req, res) => {
+    res.render('auth/wrong-user', { user: req.user })
+})
+
+router.get('/verification-sent', isAuth, (req, res) => {
+    res.render('auth/verification-sent', { user: req.user })
+})
+
+router.post('/unverified', isAuth, async (req, res) => {
+    await verify(req.user)
+    res.redirect('/verification-sent')
 })
 
 module.exports = router
