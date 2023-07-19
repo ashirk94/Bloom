@@ -1,13 +1,13 @@
 .landing-content {
     position: absolute;
-    top: 0;
+    top: 10px;
     left: 0;
     width: 100%;
     height: auto;
 }
 .landing-more a {
     display: block;
-    margin: 15px 5px;
+    margin: 10px 10px;
     color: #a2ffe2;
     position: relative;
 }
@@ -15,14 +15,14 @@
     display: block;
     margin-top: 0px;
     color: #a2ffe2;
-    bottom: 60px;
+    bottom: 5px;
     position: relative;
 }
 .copyright p {
     display: block;
     margin-top: 0px;
     color: #a2ffe2;
-    bottom: 60px;
+    bottom: 5px;
     position: relative;
 }
 .reset {
@@ -40,16 +40,19 @@
     display: flex;
     gap: 0px;
     justify-content: center;
-    margin-top: 150px;
+    margin-top: 80px;
+    margin-bottom: 0px;
+    padding-top: 10px;
+    height: 40px;
 }
 .desktop-height {
     top: 4350px;
 }
 .medium-height {
-    top: 2840px;
+    top: 2820px;
 }
 .mobile-height {
-    top: 3600px;
+    top: 3580px;
 }
 
 
