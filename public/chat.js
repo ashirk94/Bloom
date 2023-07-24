@@ -40,6 +40,12 @@ if (window.location.href.slice(0,21) === 'http://localhost:3000') {
 socket.on('receive-message', ({ message }) => {
 	displayMessage(message)
 	// auto scroll feature?
+
+    Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+            new Notification(message.username + ': ' + message.text)
+        }
+    })
 })
 
 //message submit
