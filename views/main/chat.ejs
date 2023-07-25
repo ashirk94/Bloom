@@ -36,9 +36,11 @@
 				<% for (const message of locals.messages) { %> 
                     <div class="chat-heading">
                         <%  try { const date = new Date(message.time)
+                        const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
                         const fDate = new Intl.DateTimeFormat('en-us', {
                             dateStyle: 'medium',
-                            timeStyle: 'short'
+                            timeStyle: 'short',
+                            timeZone: localTimeZone
                         })
                         locals.time = fDate.format(date) } catch(e) {
                             console.error(e) } %>
