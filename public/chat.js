@@ -27,11 +27,11 @@ let socket
 
 if (window.location.href.slice(0,21) === 'http://localhost:3000') {
     socket = io('http://localhost:3000', {
-    withCredentials: true
+    withCredentials: false
   })
 } else {
     socket = io('https://bloom-friend-finder.herokuapp.com', {
-        withCredentials: true
+        withCredentials: false
       })
 }
 
