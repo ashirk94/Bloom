@@ -7,6 +7,8 @@ const flash = require('connect-flash')
 const passportConfig = require('./config/passport')
 const path = require('path')
 const expressLayouts = require('express-ejs-layouts')
+//const cors = require('cors')
+
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 }
@@ -25,7 +27,8 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server, {
     cors: {
       origin: "http://bloom-friend-finder.herokuapp.com",
-      methods: ["GET", "POST"]
+      methods: ["GET", "POST"],
+      credentials: true
     }
   })
 const {

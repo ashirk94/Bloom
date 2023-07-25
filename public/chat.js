@@ -10,14 +10,20 @@ const friendSocket = document.getElementById('friend-socket-input').value
 
 //creates div and appends with message
 function displayMessage(message) {
+    console.log(message.time)
+    let date = convertUTCDateToLocalDate(new Date(message.time))
+    console.log(date)
+    let time = date.toLocaleString()
+    console.log(time)
+
 	if (message.username.trim() === user.trim()) {
 		const div = document.createElement('div')
-		div.innerHTML = `<div class='chat-heading'>${message.time}<br>${message.username} (you)</div> ${message.text}`
+		div.innerHTML = `<div class='chat-heading'>${time}<br>${message.username} (you)</div> ${message.text}`
 		div.classList.add('message')
 		messageContainer.append(div)
 	} else {
 		const div = document.createElement('div')
-		div.innerHTML = `<div class='chat-heading-other'>${message.time}<br>${message.username}</div> ${message.text}`
+		div.innerHTML = `<div class='chat-heading-other'>${time}<br>${message.username}</div> ${message.text}`
 		div.classList.add('message')
 		messageContainer.append(div)
 	}
@@ -25,35 +31,35 @@ function displayMessage(message) {
 //enables chatting on development and production
 let socket
 
-if (window.location.href.slice(0,21) === 'http://localhost:3000') {
-    socket = io('http://localhost:3000', {
-    withCredentials: false
-  })
+if (window.location.href.slice(0, 21) === 'http://localhost:3000') {
+	socket = io('http://localhost:3000', {
+		withCredentials: true
+	})
 } else {
-    socket = io('https://bloom-friend-finder.herokuapp.com', {
-        withCredentials: false
-      })
+	socket = io('https://bloom-friend-finder.herokuapp.com', {
+		withCredentials: true
+	})
 }
-
 
 // message from server
 socket.on('receive-message', ({ message }) => {
 	displayMessage(message)
 	// auto scroll feature?
 
-    if (document.hidden && message.username.trim() !== user.trim()) {
-        document.title = 'New message(s) from ' + message.username + ' ' + document.title
-    }
+	if (document.hidden && message.username.trim() !== user.trim()) {
+		document.title =
+			'New message(s) from ' + message.username + ' ' + document.title
+	}
 
-    Notification.requestPermission().then((permission) => {
-        if (permission === 'granted') {
-            if (message.username.trim() !== user.trim()) {
-                new Notification(message.username, {
-                    body: message.text
-                })
-            }
-        }
-    })
+	Notification.requestPermission().then((permission) => {
+		if (permission === 'granted') {
+			if (message.username.trim() !== user.trim()) {
+				new Notification(message.username, {
+					body: message.text
+				})
+			}
+		}
+	})
 })
 
 //message submit
@@ -73,11 +79,26 @@ form.addEventListener('submit', (e) => {
 		message: msg,
 		to: friendSocket,
 		sender: user,
-        friendId: friendId
+		friendId: friendId
 	})
 	//clear input
 	messageInput.value = ''
 	messageInput.focus()
 })
+
+function convertUTCDateToLocalDate(date) {
+    //console.log(date.getTimezoneOffset())
+	var newDate = new Date(
+		date.getTime() - 8 * 60 * 1000
+	)
+        //hard coded PST - need to change
+
+	// var offset = date.getTimezoneOffset() / 60
+	// var hours = date.getHours()
+
+	// newDate.setHours(hours - offset)
+
+	return newDate
+}
 
 export default socket
