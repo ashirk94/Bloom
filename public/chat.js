@@ -10,12 +10,14 @@ const friendSocket = document.getElementById('friend-socket-input').value
 
 //creates div and appends with message
 function displayMessage(message) {
-    console.log(message.time)
-    let userTime = new Date(message.time)
-
+    const date = new Date(message.time)
+    const fDate = new Intl.DateTimeFormat('en-us', {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+    })
+    const time = fDate.format(date)
 
 	if (message.username.trim() === user.trim()) {
-        let time = userTime.toLocaleString()
 
 		const heading = document.createElement('div')
 		heading.innerHTML = `<div class='chat-heading'>${time}<br>${message.username} (you)</div>`
@@ -25,11 +27,6 @@ function displayMessage(message) {
 		msg.innerHTML = `<div class='message'>${message.text}</div> `
 		messageContainer.append(msg)
 	} else {
-        // let date = convertUTCDateToLocalDate(new Date(message.time))
-        // console.log(date)
-        let time = message.time.toLocaleString()
-        console.log(time)
-
 		const heading = document.createElement('div')
 		heading.innerHTML = `<div class='chat-heading-other'>${time}<br>${message.username} (you)</div>`
 		messageContainer.append(heading)
@@ -105,20 +102,5 @@ window.addEventListener('load', async () => {
 
     await Notification.requestPermission()
 })
-
-function convertUTCDateToLocalDate(date) {
-    //console.log(date.getTimezoneOffset())
-	var newDate = new Date(
-		date.getTime() - 8 * 60 * 60 * 1000
-	)
-        //hard coded PST - need to change
-
-	// var offset = date.getTimezoneOffset() / 60
-	// var hours = date.getHours()
-
-	// newDate.setHours(hours - offset)
-
-	return newDate
-}
 
 export default socket

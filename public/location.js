@@ -8,7 +8,7 @@ const successCallback = (position) => {
 }
 
 const errorCallback = (error) => {
-	console.log(error)
+	console.error(error)
 }
 
 const position = navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
