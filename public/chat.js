@@ -11,9 +11,12 @@ const friendSocket = document.getElementById('friend-socket-input').value
 //creates div and appends with message
 function displayMessage(message) {
     const date = new Date(message.time)
+    const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
     const fDate = new Intl.DateTimeFormat('en-us', {
         dateStyle: 'medium',
-        timeStyle: 'short'
+        timeStyle: 'short',
+        timeZone: localTimeZone
     })
     const time = fDate.format(date)
 
