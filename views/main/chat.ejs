@@ -33,18 +33,22 @@
 		</div>
 		<div class="chat-area">
 			<div id="message-container">
-				<% for (const message of locals.messages) { %> <% if
-				(message.username === locals.user.username) { %>
-				<div class="message"><%= message.text %></div>
+				<% for (const message of locals.messages) { %> 
+                    <div class="chat-heading">
+                        <%= message.time.toLocaleString() %> <br /><%= message.username %>
+                        <% if (message.username === locals.user.username) { %>
+                            &nbsp;&#40;you&#41;
+                        <% } %>
+                        </div>
+                    <% if (message.username === locals.user.username) { %>
 
-				<% } %> <% if (message.username === locals.friend.username) { %>
-				<div class="message-other"><%= message.text %></div>
+                        <div class="message"><%= message.text %></div>
 
-				<% } %>
-				<div class="chat-heading">
-					<%= message.time %> <br /><%= message.username %>
-				</div>
-				<% } %>
+                    <% } %> 
+                    <% if (message.username === locals.friend.username) { %>
+                        <div class="message-other"><%= message.text %></div>
+                    <% } %>
+                <% } %>
 			</div>
 		</div>
 		<div class="chat-input-area">
