@@ -11,17 +11,22 @@ const friendSocket = document.getElementById('friend-socket-input').value
 //creates div and appends with message
 function displayMessage(message) {
     console.log(message.time)
-    let date = convertUTCDateToLocalDate(new Date(message.time))
-    console.log(date)
-    let time = date.toLocaleString()
-    console.log(time)
+    let userTime = new Date(message.time)
+
 
 	if (message.username.trim() === user.trim()) {
+        let time = userTime.toLocaleString()
+
 		const div = document.createElement('div')
 		div.innerHTML = `<div class='chat-heading'>${time}<br>${message.username} (you)</div> ${message.text}`
 		div.classList.add('message')
 		messageContainer.append(div)
 	} else {
+        let date = convertUTCDateToLocalDate(new Date(message.time))
+        console.log(date)
+        let time = date.toLocaleString()
+        console.log(time)
+
 		const div = document.createElement('div')
 		div.innerHTML = `<div class='chat-heading-other'>${time}<br>${message.username}</div> ${message.text}`
 		div.classList.add('message')
@@ -45,7 +50,7 @@ if (window.location.href.slice(0, 21) === 'http://localhost:3000') {
 socket.on('receive-message', ({ message }) => {
 	displayMessage(message)
 	// auto scroll feature?
-
+    
 	if (document.hidden && message.username.trim() !== user.trim()) {
 		document.title =
 			'New message(s) from ' + message.username + ' ' + document.title
@@ -55,7 +60,8 @@ socket.on('receive-message', ({ message }) => {
 		if (permission === 'granted') {
 			if (message.username.trim() !== user.trim()) {
 				new Notification(message.username, {
-					body: message.text
+					body: message.text,
+                    icon: 'images/bloom-logo.png'
 				})
 			}
 		}
@@ -89,7 +95,7 @@ form.addEventListener('submit', (e) => {
 function convertUTCDateToLocalDate(date) {
     //console.log(date.getTimezoneOffset())
 	var newDate = new Date(
-		date.getTime() - 8 * 60 * 1000
+		date.getTime() - 8 * 60 * 60 * 1000
 	)
         //hard coded PST - need to change
 
