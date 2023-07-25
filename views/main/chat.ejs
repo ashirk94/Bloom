@@ -35,7 +35,7 @@
 			<div id="message-container">
 				<% for (const message of locals.messages) { %> 
                     <div class="chat-heading">
-                        <%= message.time %> <br /><%= message.username %>
+                        <%= message.time.toLocaleString() %> <br /><%= message.username %>
                         <% if (message.username === locals.user.username) { %>
                             &nbsp;&#40;you&#41;
                         <% } %>

@@ -25,9 +25,9 @@ function displayMessage(message) {
 		msg.innerHTML = `<div class='message'>${message.text}</div> `
 		messageContainer.append(msg)
 	} else {
-        let date = convertUTCDateToLocalDate(new Date(message.time))
-        console.log(date)
-        let time = date.toLocaleString()
+        // let date = convertUTCDateToLocalDate(new Date(message.time))
+        // console.log(date)
+        let time = message.time.toLocaleString()
         console.log(time)
 
 		const heading = document.createElement('div')
@@ -100,6 +100,12 @@ form.addEventListener('submit', (e) => {
 	messageInput.focus()
 })
 
+window.addEventListener('load', async () => {
+    window.scrollTo(0, messageContainer.scrollHeight - 580)
+
+    await Notification.requestPermission()
+})
+
 function convertUTCDateToLocalDate(date) {
     //console.log(date.getTimezoneOffset())
 	var newDate = new Date(
@@ -114,10 +120,5 @@ function convertUTCDateToLocalDate(date) {
 
 	return newDate
 }
-window.addEventListener('load', async () => {
-    window.scrollTo(0, messageContainer.scrollHeight - 580)
-
-    await Notification.requestPermission()
-})
 
 export default socket
