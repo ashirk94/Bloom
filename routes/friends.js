@@ -21,6 +21,13 @@ router.get('/chat/:username', isAuth, isVerified, async (req, res) => {
 	const username = req.params.username
 	const friendArray = await User.find({ username: username })
 	const friend = friendArray[0]
+    const user = await User.findById(req.user._id)
+
+    //reset messages
+    // user.messages = []
+    // friend.messages = []
+    // await user.save()
+    // await friend.save()
 
 	//get mutual messages
 	const messages = req.user.messages.filter(
