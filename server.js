@@ -29,7 +29,11 @@ const io = require('socket.io')(server, {
       origin: "http://bloom-friend-finder.herokuapp.com",
       methods: ["GET", "POST"],
       credentials: true
-    }
+    },
+    allowRequest: (req, callback) => {
+        const noOriginHeader = req.headers.origin === undefined;
+        callback(null, noOriginHeader);
+      }
   })
 const {
 	formatMessage,
