@@ -41,9 +41,17 @@ socket.on('receive-message', ({ message }) => {
 	displayMessage(message)
 	// auto scroll feature?
 
+    if (document.hidden && message.username.trim() !== user.trim()) {
+        document.title = 'New message(s) from ' + message.username + ' ' + document.title
+    }
+
     Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
-            new Notification(message.username + ': ' + message.text)
+            if (message.username.trim() !== user.trim()) {
+                new Notification(message.username, {
+                    body: message.text
+                })
+            }
         }
     })
 })

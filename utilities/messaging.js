@@ -4,10 +4,14 @@ const User = connection.models.User
 
 //format message for display with timestamp
 function formatMessage(user, text) {
+    const timestamp = moment()
+    //timestamp.utc()
+    timestamp.local()
+
 	const formatted = {
 		username: user,
 		text,
-		time: moment().format('dd h:mm A')
+		time: timestamp.format('dd h:mm A')
 	}
 	return formatted
 }
