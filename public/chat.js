@@ -1,7 +1,7 @@
 import { io } from 'https://cdn.socket.io/4.4.1/socket.io.esm.min.js'
 
 //html elements
-const messageContainer = document.getElementById('message-container')
+let messageContainer = document.getElementById('message-container')
 const messageInput = document.getElementById('message-input')
 const form = document.getElementById('chat-form')
 const user = document.getElementById('user-name-input').value
@@ -17,20 +17,26 @@ function displayMessage(message) {
 	if (message.username.trim() === user.trim()) {
         let time = userTime.toLocaleString()
 
-		const div = document.createElement('div')
-		div.innerHTML = `<div class='chat-heading'>${time}<br>${message.username} (you)</div> ${message.text}`
-		div.classList.add('message')
-		messageContainer.append(div)
+		const heading = document.createElement('div')
+		heading.innerHTML = `<div class='chat-heading'>${time}<br>${message.username} (you)</div>`
+		messageContainer.append(heading)
+
+        const msg = document.createElement('div')
+		msg.innerHTML = `<div class='message'>${message.text}</div> `
+		messageContainer.append(msg)
 	} else {
         let date = convertUTCDateToLocalDate(new Date(message.time))
         console.log(date)
         let time = date.toLocaleString()
         console.log(time)
 
-		const div = document.createElement('div')
-		div.innerHTML = `<div class='chat-heading-other'>${time}<br>${message.username}</div> ${message.text}`
-		div.classList.add('message')
-		messageContainer.append(div)
+		const heading = document.createElement('div')
+		heading.innerHTML = `<div class='chat-heading-other'>${time}<br>${message.username} (you)</div>`
+		messageContainer.append(heading)
+
+        const msg = document.createElement('div')
+		msg.innerHTML = `<div class='message-other'>${message.text}</div> `
+		messageContainer.append(msg)
 	}
 }
 //enables chatting on development and production
@@ -49,7 +55,9 @@ if (window.location.href.slice(0, 21) === 'http://localhost:3000') {
 // message from server
 socket.on('receive-message', ({ message }) => {
 	displayMessage(message)
-	// auto scroll feature?
+
+	// auto scroll feature
+    window.scrollTo(0, messageContainer.scrollHeight - 580)
     
 	if (document.hidden && message.username.trim() !== user.trim()) {
 		document.title =
@@ -106,5 +114,10 @@ function convertUTCDateToLocalDate(date) {
 
 	return newDate
 }
+window.addEventListener('load', async () => {
+    window.scrollTo(0, messageContainer.scrollHeight - 580)
+
+    await Notification.requestPermission()
+})
 
 export default socket
