@@ -62,7 +62,7 @@ socket.on('receive-message', ({ message }) => {
 	if (document.hidden && message.username.trim() !== user.trim()) {
 		document.title =
 			'New message(s) from ' + message.username + ' ' + document.title
-	}
+	} //need set interval here? or activate when tabbed out
 
 	Notification.requestPermission().then((permission) => {
 		if (permission === 'granted') {

@@ -1,5 +1,7 @@
 const landingImage = document.getElementById('landing-background')
 const landingContent = document.getElementById('landing-content')
+const loader = document.getElementById('loader')
+const wrapper = document.getElementById('wrapper')
 let started = false
 let timer = false
 
@@ -52,5 +54,14 @@ function resizeEvent() {
             }, 300)
         }      
 }
+
+function loading() {
+    setTimeout(() => {
+        loader.classList.add('hidden')
+        wrapper.classList.remove('hidden')
+    }, 2000)
+}
+
 window.addEventListener('load', resizeEvent)
 window.addEventListener('resize', resizeEvent)
+window.addEventListener('load', loading)
