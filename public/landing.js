@@ -59,7 +59,7 @@ function loading() {
     setTimeout(() => {
         loaderContainer.remove()
         wrapper.classList.remove('hidden')
-    }, 1500)
+    }, 800)
 }
 
 window.addEventListener('load', resizeEvent)
