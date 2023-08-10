@@ -5,7 +5,6 @@ const User = connection.models.User
 //format message for display with timestamp
 function formatMessage(user, text) {
     const timestamp = moment()
-    timestamp.utc()
 
 	const formatted = {
 		username: user,

@@ -7,6 +7,7 @@ const form = document.getElementById('chat-form')
 const user = document.getElementById('user-name-input').value
 const friendId = document.getElementById('friend-id-input').value
 const friendSocket = document.getElementById('friend-socket-input').value
+let times = document.querySelectorAll('.chat-time')
 
 //creates div and appends with message
 function displayMessage(message) {
@@ -21,17 +22,24 @@ function displayMessage(message) {
     const time = fDate.format(date)
 
 	if (message.username.trim() === user.trim()) {
-
+        //trying to change date by appending in order
 		const heading = document.createElement('div')
-		heading.innerHTML = `<div class='chat-heading'>${time}<br>${message.username} (you)</div>`
-		messageContainer.append(heading)
+		heading.classList.add('chat-heading')
+        const timeDisplay = document.createElement('div')
+        timeDisplay.innerHTML = `<div class='chat-time'>${time}</div>`
+        const usernameDisplay = document.createElement('div')
+        usernameDisplay.innerHTML = `<div>${message.username} (you)</div>`
+        messageContainer.append(heading)
+        heading.append(timeDisplay)
+        heading.append(usernameDisplay)
 
         const msg = document.createElement('div')
 		msg.innerHTML = `<div class='message'>${message.text}</div> `
 		messageContainer.append(msg)
 	} else {
 		const heading = document.createElement('div')
-		heading.innerHTML = `<div class='chat-heading-other'>${time}<br>${message.username} (you)</div>`
+        heading.classList.add('chat-heading-other')
+		heading.innerHTML = `<div class='chat-time'>${time}</div>${message.username} (you)</div>`
 		messageContainer.append(heading)
 
         const msg = document.createElement('div')
@@ -102,6 +110,19 @@ form.addEventListener('submit', (e) => {
 
 window.addEventListener('load', async () => {
     window.scrollTo(0, messageContainer.scrollHeight - 580)
+
+    times.forEach (time => {
+        let date = new Date(time.innerHTML)
+        const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    
+        const fDate = new Intl.DateTimeFormat('en-us', {
+            dateStyle: 'medium',
+            timeStyle: 'short',
+            timeZone: localTimeZone
+        })
+        const newTime = fDate.format(date)
+        time.innerHTML = newTime
+    })
 
     await Notification.requestPermission()
 })
