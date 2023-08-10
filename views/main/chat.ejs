@@ -35,16 +35,10 @@
 			<div id="message-container">
 				<% for (const message of locals.messages) { %> 
                     <div class="chat-heading">
-                        <%  try { const date = new Date(message.time)
-                        const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-                        const fDate = new Intl.DateTimeFormat('en-us', {
-                            dateStyle: 'medium',
-                            timeStyle: 'short',
-                            timeZone: localTimeZone
-                        })
-                        locals.time = fDate.format(date) } catch(e) {
-                            console.error(e) } %>
-                        <%= locals.time || 'Corrupted Date' %> <br /><%= message.username %>
+                        <div class="chat-time">
+                            <%= message.time %>
+                        </div>
+                        <%= message.username %>
                         <% if (message.username === locals.user.username) { %>
                             &nbsp;&#40;you&#41;
                         <% } %>
