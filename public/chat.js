@@ -8,6 +8,8 @@ const user = document.getElementById('user-name-input').value
 const friendId = document.getElementById('friend-id-input').value
 const friendSocket = document.getElementById('friend-socket-input').value
 let times = document.querySelectorAll('.chat-time')
+const loaderContainer = document.getElementById('loader-container')
+const wrapper = document.getElementById('wrapper')
 
 //creates div and appends with message
 function displayMessage(message) {
@@ -107,6 +109,14 @@ form.addEventListener('submit', (e) => {
 	messageInput.value = ''
 	messageInput.focus()
 })
+
+function loading() {
+    setTimeout(() => {
+        loaderContainer.remove()
+        wrapper.classList.remove('hidden')
+    }, 800)
+}
+window.addEventListener('load', loading)
 
 window.addEventListener('load', async () => {
     window.scrollTo(0, messageContainer.scrollHeight - 580)
