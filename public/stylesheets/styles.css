@@ -18,7 +18,7 @@
 }
 body {
 	margin: 0 auto;
-	min-height: 100vh;
+	height: 100vh;
 	text-align: center;
 }
 .main-wrapper {
@@ -57,7 +57,7 @@ body {
 }
 .chat-wrapper {
 	display: flex;
-	min-height: 90%;
+	min-height: calc(100vh - 80px);
 	flex-direction: row;
 	font-size: 30px;
 	font-family: 'Encode Sans', sans-serif;
