@@ -67,7 +67,7 @@ socket.on('receive-message', ({ message }) => {
 	displayMessage(message)
 
 	// auto scroll feature
-    window.scrollTo(0, messageContainer.scrollHeight - 580)
+    window.scrollTo(0, messageContainer.scrollHeight)
     
 	if (document.hidden && message.username.trim() !== user.trim()) {
 		document.title =
@@ -114,13 +114,12 @@ function loading() {
     setTimeout(() => {
         loaderContainer.remove()
         wrapper.classList.remove('hidden')
+        window.scrollTo(0, messageContainer.scrollHeight)
     }, 800)
 }
 window.addEventListener('load', loading)
 
 window.addEventListener('load', async () => {
-    window.scrollTo(0, messageContainer.scrollHeight - 580)
-
     times.forEach (time => {
         let date = new Date(time.innerHTML)
         const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone

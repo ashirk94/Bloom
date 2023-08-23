@@ -63,6 +63,7 @@ body {
 	font-family: 'Encode Sans', sans-serif;
 	margin: 0 auto;
 	background-color: #f2fffb;
+    overflow: hidden;
 }
 .room-area {
 	display: flex;
@@ -122,6 +123,7 @@ input {
 	align-items: center;
 	padding: 0;
 	position: fixed;
+    z-index: 10;
 }
 .nav-link {
 	text-decoration: none;

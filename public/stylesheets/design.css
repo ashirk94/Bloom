@@ -115,7 +115,7 @@ input[type='file'] {
     position: relative;
     flex: 70%;
     background-color: #dbf6ed;
-    min-height: 92vh;
+    min-height: 80vh;
 }
 #message-container {
     display: flex;
