@@ -31,9 +31,10 @@
     border: none;
 }
 .chat-header {
+    display: flex; 
     border: 1px solid #357376;
     background: linear-gradient(to top,hsl(166, 38%, 64%), hsl(166, 38%, 72%));
-    padding-top: 5px;
+    padding-top: 15px;
     padding-bottom: 5px;
 }
 .copyright {
@@ -73,6 +74,11 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-
+  #chat-form {
+    width: 70%;
+  }
+.chat-link {
+    text-decoration: none;
+}
 
 

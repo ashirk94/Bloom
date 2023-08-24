@@ -15,9 +15,9 @@
         <%= other.profilePic.data.toString('base64') %>"
 				/>
 			</div>
-			<div class="chat-username"><%= other.username %></div>
+			<div><a class="chat-link chat-username" href="/chat/<%= other.username %>"><%= other.username %></a></div>
 			<ul class="chat-icons">
-				<li><ion-icon name="chatbox-outline"></ion-icon></li>
+				<li><a class="chat-link chat-username" href="/chat/<%= other.username %>"><ion-icon name="chatbox-outline"></ion-icon></a></li>
 				<li><ion-icon name="ellipsis-vertical-outline"></ion-icon></li>
 			</ul>
 		</div>
@@ -60,7 +60,6 @@
 		<div class="chat-input-area">
 			<form id="chat-form" autocomplete="off">
 				<div class="message-group">
-					<label for="message-input">Message</label>
 					<input type="text" id="message-input" placeholder="Type something here..." />
 					<button type="submit" class="btn-primary send-btn" id="send-button">Send</button>
 				</div>
