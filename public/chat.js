@@ -5,6 +5,7 @@ let messageContainer = document.getElementById('message-container')
 const messageInput = document.getElementById('message-input')
 const form = document.getElementById('chat-form')
 const user = document.getElementById('user-name-input').value
+const userId = document.getElementById('user-id-input').value
 const friendId = document.getElementById('friend-id-input').value
 const friendSocket = document.getElementById('friend-socket-input').value
 let times = document.querySelectorAll('.chat-time')
@@ -67,7 +68,16 @@ if (window.location.href.slice(0, 21) === 'http://localhost:3000') {
 socket.on('receive-message', ({ message }) => {
 	displayMessage(message)
 
-    user.hasUnreadMessage = false
+    let currentUser = fetchUserData()
+
+    currentUser.hasUnreadMessage = false //TODO post to user object
+    fetch(`https://bloom-friend-finder.herokuapp.com/users/${userId}`, {
+        method: 'POST',
+        body: JSON.stringify(currentUser),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
 
 	// auto scroll feature
 	window.scrollTo(0, messageContainer.scrollHeight)
@@ -125,8 +135,9 @@ form.addEventListener('submit', (e) => {
 })
 
 // Function to fetch user data from the server
-async function fetchUserData(username) {
-	const response = await fetch(`https://bloom-friend-finder.herokuapp.com/users/${username}`)
+async function fetchUserData() {
+    console.log(userId, user)
+	const response = await fetch(`https://bloom-friend-finder.herokuapp.com/users/${userId}`)
 	const userData = await response.json()
 	return userData
 }
@@ -134,7 +145,7 @@ async function fetchUserData(username) {
 // Periodically check for unread messages and activate interval
 setInterval(async () => {
 	try {
-		const userData = await fetchUserData(user)
+		const userData = await fetchUserData()
 
 		if (userData && userData.hasUnreadMessage && document.hidden) {
 			startFlashingInterval()
