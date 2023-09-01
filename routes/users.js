@@ -11,7 +11,7 @@ const verify = require('../utilities/emailVerification').verify
 router.get('/users/:username', isAuth, async (req, res) => {
     try {
         const user = await User.find({username: req.params.username})
-        res.json(user)
+        res.json({user: user})
     } catch (err) {
         console.error(err)
     }
