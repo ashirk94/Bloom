@@ -7,6 +7,16 @@ const jwt = require('jsonwebtoken')
 const User = connection.models.User
 const verify = require('../utilities/emailVerification').verify
 
+//get unread message flag
+router.get('/users/:username', isAuth, async (req, res) => {
+    try {
+        const user = await User.find({username: req.params.username})
+        res.json(user)
+    } catch (err) {
+        console.error(err)
+    }
+})
+
 //delete by id
 router.post('/users/:id', isAdmin, async (req, res) => {
     try {

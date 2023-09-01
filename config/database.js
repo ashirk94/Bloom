@@ -49,7 +49,8 @@ const UserSchema = new Schema({
         lat: Number,
         lon: Number
     },
-    confirmed: Boolean
+    confirmed: Boolean,
+    hasUnreadMessage: Boolean
 })
 
 const User = connection.model('User', UserSchema)

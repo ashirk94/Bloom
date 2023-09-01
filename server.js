@@ -67,12 +67,16 @@ io.on('connection', async (socket) => {
     await user.save()
 
 	socket.on('send-message', async ({message, to, sender, friendId}) => {
-        //join their room on message - may change later
+        //join their room on message
         socket.join(to)
 		
         //format and store message in db
 		const send = formatMessage(sender, message)
         await storeMessage(send, userId, friendId)
+        
+        const friend = await User.find(friendId)
+        friend.hasUnreadMessage = true
+        await friend.save()
 
 		io.to(to).to(socket.id).emit('receive-message', { message: send })
 	})

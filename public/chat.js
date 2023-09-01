@@ -10,41 +10,42 @@ const friendSocket = document.getElementById('friend-socket-input').value
 let times = document.querySelectorAll('.chat-time')
 const loaderContainer = document.getElementById('loader-container')
 const wrapper = document.getElementById('wrapper')
+const title = document.title
 
 //creates div and appends with message
 function displayMessage(message) {
-    const date = new Date(message.time)
-    const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+	const date = new Date(message.time)
+	const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-    const fDate = new Intl.DateTimeFormat('en-us', {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-        timeZone: localTimeZone
-    })
-    const time = fDate.format(date)
+	const fDate = new Intl.DateTimeFormat('en-us', {
+		dateStyle: 'medium',
+		timeStyle: 'short',
+		timeZone: localTimeZone
+	})
+	const time = fDate.format(date)
 
 	if (message.username.trim() === user.trim()) {
-        //trying to change date by appending in order
+		//trying to change date by appending in order
 		const heading = document.createElement('div')
 		heading.classList.add('chat-heading')
-        const timeDisplay = document.createElement('div')
-        timeDisplay.innerHTML = `<div class='chat-time'>${time}</div>`
-        const usernameDisplay = document.createElement('div')
-        usernameDisplay.innerHTML = `<div>${message.username} (you)</div>`
-        messageContainer.append(heading)
-        heading.append(timeDisplay)
-        heading.append(usernameDisplay)
+		const timeDisplay = document.createElement('div')
+		timeDisplay.innerHTML = `<div class='chat-time'>${time}</div>`
+		const usernameDisplay = document.createElement('div')
+		usernameDisplay.innerHTML = `<div>${message.username} (you)</div>`
+		messageContainer.append(heading)
+		heading.append(timeDisplay)
+		heading.append(usernameDisplay)
 
-        const msg = document.createElement('div')
+		const msg = document.createElement('div')
 		msg.innerHTML = `<div class='message'>${message.text}</div> `
 		messageContainer.append(msg)
 	} else {
 		const heading = document.createElement('div')
-        heading.classList.add('chat-heading-other')
+		heading.classList.add('chat-heading-other')
 		heading.innerHTML = `<div class='chat-time'>${time}</div>${message.username} (you)</div>`
 		messageContainer.append(heading)
 
-        const msg = document.createElement('div')
+		const msg = document.createElement('div')
 		msg.innerHTML = `<div class='message-other'>${message.text}</div> `
 		messageContainer.append(msg)
 	}
@@ -66,25 +67,38 @@ if (window.location.href.slice(0, 21) === 'http://localhost:3000') {
 socket.on('receive-message', ({ message }) => {
 	displayMessage(message)
 
+    user.hasUnreadMessage = false
+
 	// auto scroll feature
-    window.scrollTo(0, messageContainer.scrollHeight)
-    
-	if (document.hidden && message.username.trim() !== user.trim()) {
-		document.title =
-			'New message(s) from ' + message.username + ' ' + document.title
-	} //need set interval here? or activate when tabbed out
+	window.scrollTo(0, messageContainer.scrollHeight)
 
 	Notification.requestPermission().then((permission) => {
 		if (permission === 'granted') {
 			if (message.username.trim() !== user.trim()) {
 				new Notification(message.username, {
 					body: message.text,
-                    icon: 'images/bloom-logo.png'
+					icon: 'images/bloom-logo.png'
 				})
 			}
 		}
 	})
 })
+
+function startFlashingInterval() {
+	// Check if the page is currently hidden
+	if (document.hidden) {
+		// Flash the title
+		setInterval(() => {
+                if (document.title == title) {
+                    document.title = 'New message | ' + title
+                } else {
+                    document.title = title
+                }
+		}, 1000)
+	} else {
+        document.title = title
+    }
+}
 
 //message submit
 form.addEventListener('submit', (e) => {
@@ -110,30 +124,51 @@ form.addEventListener('submit', (e) => {
 	messageInput.focus()
 })
 
+// Function to fetch user data from the server
+async function fetchUserData(username) {
+	const response = await fetch(`/users/${username}`)
+	const userData = await response.json()
+	return userData
+}
+
+// Periodically check for unread messages and activate interval
+setInterval(async () => {
+	try {
+		const userData = await fetchUserData(user)
+
+		if (userData && userData.hasUnreadMessage && document.hidden) {
+			startFlashingInterval()
+		}
+	} catch (error) {
+		console.error('Error fetching user data:', error)
+	}
+}, 1000 * 5)
+//1000 * 60
+
 function loading() {
-    setTimeout(() => {
-        loaderContainer.remove()
-        wrapper.classList.remove('hidden')
-        window.scrollTo(0, messageContainer.scrollHeight)
-    }, 800)
+	setTimeout(() => {
+		loaderContainer.remove()
+		wrapper.classList.remove('hidden')
+		window.scrollTo(0, messageContainer.scrollHeight)
+	}, 800)
 }
 window.addEventListener('load', loading)
 
 window.addEventListener('load', async () => {
-    times.forEach (time => {
-        let date = new Date(time.innerHTML)
-        const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    
-        const fDate = new Intl.DateTimeFormat('en-us', {
-            dateStyle: 'medium',
-            timeStyle: 'short',
-            timeZone: localTimeZone
-        })
-        const newTime = fDate.format(date)
-        time.innerHTML = newTime
-    })
+	times.forEach((time) => {
+		let date = new Date(time.innerHTML)
+		const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-    await Notification.requestPermission()
+		const fDate = new Intl.DateTimeFormat('en-us', {
+			dateStyle: 'medium',
+			timeStyle: 'short',
+			timeZone: localTimeZone
+		})
+		const newTime = fDate.format(date)
+		time.innerHTML = newTime
+	})
+
+	await Notification.requestPermission()
 })
 
 export default socket
