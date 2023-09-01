@@ -26,7 +26,7 @@ const app = express()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server, {
     cors: {
-      origin: "https://bloom-friend-finder.herokuapp.com",
+      origin: "http://localhost:3000, https://bloom-friend-finder.herokuapp.com",
       methods: ["GET", "POST"],
       credentials: true
     },
@@ -85,6 +85,8 @@ io.on('connection', async (socket) => {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
+
+app.use(cors())
 
 app.use(flash())
 
