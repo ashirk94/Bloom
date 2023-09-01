@@ -8,11 +8,13 @@ const User = connection.models.User
 const verify = require('../utilities/emailVerification').verify
 
 //get unread message flag
-router.get('/users/:username', isAuth, async (req, res) => {
+router.get('/users/:id', isAuth, async (req, res) => {
+    console.log(req.params.id)
 	try {
-		const user = await User.findOne({ username: req.params.username })
+		const user = await User.findById(req.params.id)
+        console.log(user)
 		if (user) {
-			res.json({ user: user })
+			res.json(user)
 		} else {
 			res.status(404).json({ message: 'User not found' })
 		}
@@ -22,8 +24,19 @@ router.get('/users/:username', isAuth, async (req, res) => {
 	}
 })
 
-//delete by id
+//alter user
 router.post('/users/:id', isAdmin, async (req, res) => {
+	try {
+		const user = await User.findById(req.params.id)
+        const data = JSON.stringify(req.body)
+        console.log(data)
+	} catch (err) {
+		console.error(err)
+	}
+})
+
+//delete by id
+router.post('/delete-users/:id', isAdmin, async (req, res) => {
 	try {
 		await User.findByIdAndDelete(req.params.id)
 		res.redirect('/admin')

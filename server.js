@@ -7,7 +7,7 @@ const flash = require('connect-flash')
 const passportConfig = require('./config/passport')
 const path = require('path')
 const expressLayouts = require('express-ejs-layouts')
-//const cors = require('cors')
+const cors = require('cors')
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
@@ -26,7 +26,7 @@ const app = express()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server, {
     cors: {
-      origin: "http://bloom-friend-finder.herokuapp.com",
+      origin: "https://bloom-friend-finder.herokuapp.com",
       methods: ["GET", "POST"],
       credentials: true
     },
@@ -74,7 +74,7 @@ io.on('connection', async (socket) => {
 		const send = formatMessage(sender, message)
         await storeMessage(send, userId, friendId)
         
-        const friend = await User.find(friendId)
+        const friend = await User.findById(friendId)
         friend.hasUnreadMessage = true
         await friend.save()
 

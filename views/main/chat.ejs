@@ -71,6 +71,7 @@
 <div id="room-name"></div>
 <% if (locals.user) { %>
 <input type="hidden" id="user-name-input" value="<%= locals.user.username %>" />
+<input type="hidden" id="user-id-input" value="<%= locals.user.id %>" />
 <% } %> <% if (locals.friend) { %>
 <input
 	type="hidden"
