@@ -126,7 +126,7 @@ form.addEventListener('submit', (e) => {
 
 // Function to fetch user data from the server
 async function fetchUserData(username) {
-	const response = await fetch(`/users/${username}`)
+	const response = await fetch(`https://bloom-friend-finder.herokuapp.com/users/${username}`)
 	const userData = await response.json()
 	return userData
 }
@@ -142,7 +142,7 @@ setInterval(async () => {
 	} catch (error) {
 		console.error('Error fetching user data:', error)
 	}
-}, 1000 * 5)
+}, 1000 * 30)
 //1000 * 60
 
 function loading() {
