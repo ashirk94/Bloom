@@ -142,7 +142,7 @@ setInterval(async () => {
 	} catch (error) {
 		console.error('Error fetching user data:', error)
 	}
-}, 1000 * 5)
+}, 1000 * 30)
 //1000 * 60
 
 function loading() {
