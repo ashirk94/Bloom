@@ -28,7 +28,7 @@ router.get('/users/:id', async (req, res) => {
 router.post('/users/:id', async (req, res) => {
 	try {
 		const userId = req.params.id
-		if (req.body.flag.seen == true) {
+		if (req.body.seen == 'true') {
             const user = await User.findById(userId)
             user.hasUnreadMessage = false
             await user.save()

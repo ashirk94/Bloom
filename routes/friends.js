@@ -26,8 +26,8 @@ router.get('/chat/:username', isAuth, isVerified, async (req, res) => {
     friend.hasUnreadMessage = false
 
     //reset messages
-    // user.messages = []
-    // friend.messages = []
+    //user.messages = []
+    //friend.messages = []
     await user.save()
     await friend.save()
 

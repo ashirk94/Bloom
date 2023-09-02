@@ -59,15 +59,18 @@ function displayMessage(message) {
 }
 //enables chatting on development and production
 let socket
+let local
 
 if (window.location.href.slice(0, 21) === 'http://localhost:3000') {
 	socket = io('http://localhost:3000', {
 		withCredentials: true
 	})
+    local = true
 } else {
 	socket = io('https://bloom-friend-finder.herokuapp.com', {
 		withCredentials: true
 	})
+    local = false
 }
 
 // message from server
@@ -169,7 +172,6 @@ setInterval(async () => {
 	try {
 		if (document.hidden) {
 			const userData = await fetchUserData()
-            console.log(userData)
 
 			if (userData && userData.hasUnreadMessage == true) {
 				startFlashingInterval()
@@ -178,8 +180,7 @@ setInterval(async () => {
 	} catch (error) {
 		console.error('Error fetching user data:', error.message)
 	}
-}, 1000 * 15)
-//1000 * 60
+}, 1000 * 30) //60 for minute
 
 function loading() {
 	setTimeout(() => {
@@ -191,29 +192,43 @@ function loading() {
 
 async function sendMessageSeen() {
     const flag = {
-        seen: true
+        seen: 'true'
     }
+
+    let response
+    
     try {
-        const response = await fetch(
-            `https://bloom-friend-finder.herokuapp.com/users/${userId}`,
-            {
-                method: 'POST',
-                body: flag,
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8'
-                },
-                credentials: 'include',
-                mode: 'no-cors'
-            }
-        )
+        if (local) {
+            response = await fetch(
+                `http://localhost:3000/users/${userId}`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify(flag),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include'
+                }
+            )
+        } else {
+            response = await fetch(
+                `https://bloom-friend-finder.herokuapp.com/users/${userId}`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify(flag),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include'
+                }
+            )
+        }
+
         if (!response.ok) {
             throw new Error(
                 `Request failed with status: ${response.status} (${response.statusText})`
             )
         }
-
-        // const userData = await response.json()
-        // console.log(userData)
     } catch (error) {
         console.error('Error modifying user data:', error.message)
     }
