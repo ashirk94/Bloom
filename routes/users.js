@@ -9,12 +9,12 @@ const verify = require('../utilities/emailVerification').verify
 
 //get unread message flag
 router.get('/users/:id', async (req, res) => {
-    console.log(req.params.id)
 	try {
 		const user = await User.findById(req.params.id)
+		user.hasUnreadMessage = false
+		user.save()
 
-        const userData = user.toJSON()
-        console.log(userData)
+		const userData = user.toJSON()
 		if (user) {
 			res.json(userData)
 		} else {
@@ -29,11 +29,15 @@ router.get('/users/:id', async (req, res) => {
 //alter user
 router.post('/users/:id', async (req, res) => {
 	try {
-		const user = await User.findById(req.params.id)
-        const data = JSON.stringify(req.body)
-        console.log(data)
+		const userId = req.params.id
+		const hasUnreadMessage = req.body.hasUnreadMessage
+
+		await User.findByIdAndUpdate(userId, { hasUnreadMessage })
+
+		res.status(200).json({ message: 'User updated successfully' })
 	} catch (err) {
 		console.error(err)
+		res.status(500).json({ message: 'Internal server error' })
 	}
 })
 

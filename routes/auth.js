@@ -85,7 +85,8 @@ router.post('/register', async (req, res) => {
             location: {
                 lat: lat,
                 lon: lon
-            }
+            },
+            hasUnreadMessage: false
 		})
 
 		await newUser.save()
