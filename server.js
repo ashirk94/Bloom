@@ -86,7 +86,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
-app.use(cors())
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://bloom-friend-finder.herokuapp.com'],
+    credentials: true
+}))
 
 app.use(flash())
 

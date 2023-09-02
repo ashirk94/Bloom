@@ -8,13 +8,15 @@ const User = connection.models.User
 const verify = require('../utilities/emailVerification').verify
 
 //get unread message flag
-router.get('/users/:id', isAuth, async (req, res) => {
+router.get('/users/:id', async (req, res) => {
     console.log(req.params.id)
 	try {
 		const user = await User.findById(req.params.id)
-        console.log(user)
+
+        const userData = user.toJSON()
+        console.log(userData)
 		if (user) {
-			res.json(user)
+			res.json(userData)
 		} else {
 			res.status(404).json({ message: 'User not found' })
 		}
@@ -25,7 +27,7 @@ router.get('/users/:id', isAuth, async (req, res) => {
 })
 
 //alter user
-router.post('/users/:id', isAdmin, async (req, res) => {
+router.post('/users/:id', async (req, res) => {
 	try {
 		const user = await User.findById(req.params.id)
         const data = JSON.stringify(req.body)

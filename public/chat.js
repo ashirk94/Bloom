@@ -67,17 +67,27 @@ if (window.location.href.slice(0, 21) === 'http://localhost:3000') {
 // message from server
 socket.on('receive-message', ({ message }) => {
 	displayMessage(message)
+    try {
+        let currentUser = fetchUserData()
+        console.log(currentUser)
 
-    let currentUser = fetchUserData()
+        currentUser.hasUnreadMessage = false
+    } catch (error) {
+		console.error('Error fetching user data:', error.message)
+	}
 
-    currentUser.hasUnreadMessage = false //TODO post to user object
-    fetch(`https://bloom-friend-finder.herokuapp.com/users/${userId}`, {
-        method: 'POST',
-        body: JSON.stringify(currentUser),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
-        }
-    })
+    try {
+        fetch(`https://bloom-friend-finder.herokuapp.com/users/${userId}`, {
+            method: 'POST',
+            body: JSON.stringify(currentUser),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+    } 
+    catch (error) {
+		console.error('Error modifying user data:', error.message)
+	}
 
 	// auto scroll feature
 	window.scrollTo(0, messageContainer.scrollHeight)
@@ -136,24 +146,45 @@ form.addEventListener('submit', (e) => {
 
 // Function to fetch user data from the server
 async function fetchUserData() {
-    console.log(userId, user)
-	const response = await fetch(`https://bloom-friend-finder.herokuapp.com/users/${userId}`)
-	const userData = await response.json()
-	return userData
+    try {
+        const response = await fetch(`https://bloom-friend-finder.herokuapp.com/users/${userId}`, {
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            throw new Error(`Request failed with status: ${response.status} (${response.statusText})`);
+        }
+
+        const contentType = response.headers.get('content-type');
+
+        if (contentType && contentType.includes('application/json')) {
+            const userData = await response.json();
+            console.log(userData);
+            return userData;
+        } else {
+            console.error('Response is not in JSON format');
+            return null; // Handle the response format error as needed
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error.message);
+        return null; // Handle the error as needed
+    }
 }
+
 
 // Periodically check for unread messages and activate interval
 setInterval(async () => {
 	try {
 		const userData = await fetchUserData()
+        console.log(userData)
 
 		if (userData && userData.hasUnreadMessage && document.hidden) {
 			startFlashingInterval()
 		}
 	} catch (error) {
-		console.error('Error fetching user data:', error)
+		console.error('Error fetching user data:', error.message)
 	}
-}, 1000 * 30)
+}, 1000)
 //1000 * 60
 
 function loading() {
