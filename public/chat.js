@@ -77,8 +77,7 @@ socket.on('receive-message', ({ message }) => {
 	// auto scroll feature
 	window.scrollTo(0, messageContainer.scrollHeight)
 
-	Notification.requestPermission().then((permission) => {
-		if (permission === 'granted') {
+		if (Notification.permission === 'granted') {
 			if (message.username.trim() !== user.trim()) {
 				new Notification(message.username, {
 					body: message.text,
@@ -86,7 +85,6 @@ socket.on('receive-message', ({ message }) => {
 				})
 			}
 		}
-	})
 })
 
 function startFlashingInterval() {
@@ -107,6 +105,7 @@ function startFlashingInterval() {
 	} else {
 		document.title = title
 		clearInterval(interval)
+        sendMessageSeen()
 	}
 }
 
@@ -154,7 +153,6 @@ async function fetchUserData() {
 
 		if (contentType && contentType.includes('application/json')) {
 			const userData = await response.json()
-			console.log(userData)
 			return userData
 		} else {
 			console.error('Response is not in JSON format')
@@ -190,45 +188,39 @@ function loading() {
 	}, 800)
 }
 
+async function sendMessageSeen() {
+    try {
+        const response = await fetch(
+            `https://bloom-friend-finder.herokuapp.com/users/${userId}`,
+            {
+                method: 'POST',
+                body: 'message-seen',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+                credentials: 'include',
+                mode: 'no-cors'
+            }
+        )
+        if (!response.ok) {
+            throw new Error(
+                `Request failed with status: ${response.status} (${response.statusText})`
+            )
+        }
+
+        // const userData = await response.json()
+        // console.log(userData)
+    } catch (error) {
+        console.error('Error modifying user data:', error.message)
+    }
+}
+
 document.addEventListener('visibilitychange', async () => {
 	if (!document.hidden) {
 		clearInterval(interval)
 		document.title = title
-
-		try {
-			let currentUser = await fetchUserData()
-			console.log(currentUser)
-
-			currentUser.hasUnreadMessage = false
-
-			try {
-				const response = await fetch(
-					`https://bloom-friend-finder.herokuapp.com/users/${userId}`,
-					{
-						method: 'POST',
-						body: JSON.stringify(currentUser),
-						headers: {
-							'Content-Type': 'application/json; charset=UTF-8'
-						},
-						credentials: 'include',
-						mode: 'no-cors'
-					}
-				)
-				if (!response.ok) {
-					throw new Error(
-						`Request failed with status: ${response.status} (${response.statusText})`
-					)
-				}
-
-				const userData = await response.json()
-				console.log(userData)
-			} catch (error) {
-				console.error('Error modifying user data:', error.message)
-			}
-		} catch (error) {
-			console.error('Error fetching user data:', error.message)
-		}
-	}
+        sendMessageSeen()
+        }
 })
 
 window.addEventListener('load', loading)

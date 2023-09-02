@@ -28,11 +28,13 @@ router.get('/users/:id', async (req, res) => {
 router.post('/users/:id', async (req, res) => {
 	try {
 		const userId = req.params.id
-		const hasUnreadMessage = req.body.hasUnreadMessage
+		if (req.body = 'message-seen') {
+            await User.findByIdAndUpdate(userId, { hasUnreadMessage })
 
-		await User.findByIdAndUpdate(userId, { hasUnreadMessage })
-
-		res.status(200).json({ message: 'User updated successfully' })
+            res.status(200).json({ message: 'User updated successfully' })
+        } else {
+            res.status(200).json({ message: 'No update applied' })
+        }
 	} catch (err) {
 		console.error(err)
 		res.status(500).json({ message: 'Internal server error' })
