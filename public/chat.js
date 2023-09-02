@@ -28,7 +28,6 @@ function displayMessage(message) {
 	const time = fDate.format(date)
 
 	if (message.username.trim() === user.trim()) {
-		//trying to change date by appending in order
 		const heading = document.createElement('div')
 		heading.classList.add('chat-heading')
 		const timeDisplay = document.createElement('div')
@@ -43,10 +42,15 @@ function displayMessage(message) {
 		msg.innerHTML = `<div class='message'>${message.text}</div> `
 		messageContainer.append(msg)
 	} else {
-		const heading = document.createElement('div')
+        const heading = document.createElement('div')
 		heading.classList.add('chat-heading-other')
-		heading.innerHTML = `<div class='chat-time'>${time}</div>${message.username} (you)</div>`
+		const timeDisplay = document.createElement('div')
+		timeDisplay.innerHTML = `<div class='chat-time'>${time}</div>`
+		const usernameDisplay = document.createElement('div')
+		usernameDisplay.innerHTML = `<div>${message.username} (you)</div>`
 		messageContainer.append(heading)
+		heading.append(timeDisplay)
+		heading.append(usernameDisplay)
 
 		const msg = document.createElement('div')
 		msg.innerHTML = `<div class='message-other'>${message.text}</div> `
@@ -175,7 +179,7 @@ setInterval(async () => {
 	} catch (error) {
 		console.error('Error fetching user data:', error.message)
 	}
-}, 1000 * 3)
+}, 1000 * 15)
 //1000 * 60
 
 function loading() {

@@ -32,6 +32,8 @@ async function storeMessage(message, senderId, recieverId) {
 	user1.messages.push(fullMsg)
 	user2.messages.push(fullMsg)
 
+    user2.hasUnreadMessage = true
+
 	await user1.save()
 	await user2.save()
 }

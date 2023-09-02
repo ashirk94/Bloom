@@ -11,8 +11,6 @@ const verify = require('../utilities/emailVerification').verify
 router.get('/users/:id', async (req, res) => {
 	try {
 		const user = await User.findById(req.params.id)
-		user.hasUnreadMessage = false
-		user.save()
 
 		const userData = user.toJSON()
 		if (user) {

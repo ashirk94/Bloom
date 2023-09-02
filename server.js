@@ -73,10 +73,6 @@ io.on('connection', async (socket) => {
         //format and store message in db
 		const send = formatMessage(sender, message)
         await storeMessage(send, userId, friendId)
-        
-        const friend = await User.findById(friendId)
-        friend.hasUnreadMessage = true
-        await friend.save()
 
 		io.to(to).to(socket.id).emit('receive-message', { message: send })
 	})
