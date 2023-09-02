@@ -29,7 +29,9 @@ router.post('/users/:id', async (req, res) => {
 	try {
 		const userId = req.params.id
 		if (req.body.flag.seen == true) {
-            await User.findByIdAndUpdate(userId, { hasUnreadMessage })
+            const user = await User.findById(userId)
+            user.hasUnreadMessage = false
+            await user.save()
 
             res.status(200).json({ message: 'User updated successfully' })
         } else {
