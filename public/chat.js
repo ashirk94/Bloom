@@ -12,6 +12,13 @@ let times = document.querySelectorAll('.chat-time')
 const loaderContainer = document.getElementById('loader-container')
 const wrapper = document.getElementById('wrapper')
 const title = document.title
+const favicon = document.getElementById('favicon')
+
+const currentURL = window.location.href
+const baseURL = currentURL.split('/chat/')[0]
+const faviconURL = `${baseURL}/images/bloom-logo.png`
+const newFaviconURL = `${baseURL}/images/bloom-logo-notification.png`
+
 
 let interval
 
@@ -43,11 +50,11 @@ function displayMessage(message) {
 		messageContainer.append(msg)
 	} else {
         const heading = document.createElement('div')
-		heading.classList.add('chat-heading-other')
+		heading.classList.add('chat-heading')
 		const timeDisplay = document.createElement('div')
 		timeDisplay.innerHTML = `<div class='chat-time'>${time}</div>`
 		const usernameDisplay = document.createElement('div')
-		usernameDisplay.innerHTML = `<div>${message.username} (you)</div>`
+		usernameDisplay.innerHTML = `<div>${message.username}</div>`
 		messageContainer.append(heading)
 		heading.append(timeDisplay)
 		heading.append(usernameDisplay)
@@ -91,8 +98,10 @@ socket.on('receive-message', ({ message }) => {
 })
 
 function startFlashingInterval() {
+    
 	// Check if the page is currently hidden
 	if (document.hidden) {
+        favicon.setAttribute('href', newFaviconURL)
 		// Flash the title
 		interval = setInterval(() => {
 			if (document.hidden) {
@@ -232,6 +241,8 @@ async function sendMessageSeen() {
     } catch (error) {
         console.error('Error modifying user data:', error.message)
     }
+
+    favicon.setAttribute('href', faviconURL)
 }
 
 document.addEventListener('visibilitychange', async () => {
