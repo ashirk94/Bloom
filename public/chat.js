@@ -190,12 +190,15 @@ function loading() {
 }
 
 async function sendMessageSeen() {
+    const flag = {
+        seen: true
+    }
     try {
         const response = await fetch(
             `https://bloom-friend-finder.herokuapp.com/users/${userId}`,
             {
                 method: 'POST',
-                body: 'message-seen',
+                body: flag,
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8'
                 },

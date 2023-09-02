@@ -28,7 +28,7 @@ router.get('/users/:id', async (req, res) => {
 router.post('/users/:id', async (req, res) => {
 	try {
 		const userId = req.params.id
-		if (req.body = 'message-seen') { //TODO needs to be an object?
+		if (req.body.flag.seen == true) {
             await User.findByIdAndUpdate(userId, { hasUnreadMessage })
 
             res.status(200).json({ message: 'User updated successfully' })
