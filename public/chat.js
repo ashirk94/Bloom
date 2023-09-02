@@ -13,6 +13,8 @@ const loaderContainer = document.getElementById('loader-container')
 const wrapper = document.getElementById('wrapper')
 const title = document.title
 
+let interval
+
 //creates div and appends with message
 function displayMessage(message) {
 	const date = new Date(message.time)
@@ -67,27 +69,6 @@ if (window.location.href.slice(0, 21) === 'http://localhost:3000') {
 // message from server
 socket.on('receive-message', ({ message }) => {
 	displayMessage(message)
-    try {
-        let currentUser = fetchUserData()
-        console.log(currentUser)
-
-        currentUser.hasUnreadMessage = false
-    } catch (error) {
-		console.error('Error fetching user data:', error.message)
-	}
-
-    try {
-        fetch(`https://bloom-friend-finder.herokuapp.com/users/${userId}`, {
-            method: 'POST',
-            body: JSON.stringify(currentUser),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        })
-    } 
-    catch (error) {
-		console.error('Error modifying user data:', error.message)
-	}
 
 	// auto scroll feature
 	window.scrollTo(0, messageContainer.scrollHeight)
@@ -108,16 +89,21 @@ function startFlashingInterval() {
 	// Check if the page is currently hidden
 	if (document.hidden) {
 		// Flash the title
-		setInterval(() => {
-                if (document.title == title) {
+		interval = setInterval(() => {
+			if (document.hidden) {
+				if (document.title == title) {
                     document.title = 'New message | ' + title
                 } else {
                     document.title = title
                 }
+			} else {
+                clearInterval(interval)
+            }
 		}, 1000)
 	} else {
-        document.title = title
-    }
+		document.title = title
+		clearInterval(interval)
+	}
 }
 
 //message submit
@@ -146,45 +132,50 @@ form.addEventListener('submit', (e) => {
 
 // Function to fetch user data from the server
 async function fetchUserData() {
-    try {
-        const response = await fetch(`https://bloom-friend-finder.herokuapp.com/users/${userId}`, {
-            credentials: 'include',
-        });
+	try {
+		const response = await fetch(
+			`https://bloom-friend-finder.herokuapp.com/users/${userId}`,
+			{
+				credentials: 'include'
+			}
+		)
 
-        if (!response.ok) {
-            throw new Error(`Request failed with status: ${response.status} (${response.statusText})`);
-        }
+		if (!response.ok) {
+			throw new Error(
+				`Request failed with status: ${response.status} (${response.statusText})`
+			)
+		}
 
-        const contentType = response.headers.get('content-type');
+		const contentType = response.headers.get('content-type')
 
-        if (contentType && contentType.includes('application/json')) {
-            const userData = await response.json();
-            console.log(userData);
-            return userData;
-        } else {
-            console.error('Response is not in JSON format');
-            return null; // Handle the response format error as needed
-        }
-    } catch (error) {
-        console.error('Error fetching user data:', error.message);
-        return null; // Handle the error as needed
-    }
+		if (contentType && contentType.includes('application/json')) {
+			const userData = await response.json()
+			console.log(userData)
+			return userData
+		} else {
+			console.error('Response is not in JSON format')
+			return null
+		}
+	} catch (error) {
+		console.error('Error fetching user data:', error.message)
+		return null
+	}
 }
-
 
 // Periodically check for unread messages and activate interval
 setInterval(async () => {
 	try {
-		const userData = await fetchUserData()
-        console.log(userData)
+		if (document.hidden) {
+			const userData = await fetchUserData()
 
-		if (userData && userData.hasUnreadMessage && document.hidden) {
-			startFlashingInterval()
+			if (userData && userData.hasUnreadMessage == true) {
+				startFlashingInterval()
+			}
 		}
 	} catch (error) {
 		console.error('Error fetching user data:', error.message)
 	}
-}, 1000)
+}, 1000 * 3)
 //1000 * 60
 
 function loading() {
@@ -194,6 +185,48 @@ function loading() {
 		window.scrollTo(0, messageContainer.scrollHeight)
 	}, 800)
 }
+
+document.addEventListener('visibilitychange', async () => {
+	if (!document.hidden) {
+		clearInterval(interval)
+		document.title = title
+
+		try {
+			let currentUser = await fetchUserData()
+			console.log(currentUser)
+
+			currentUser.hasUnreadMessage = false
+
+			try {
+				const response = await fetch(
+					`https://bloom-friend-finder.herokuapp.com/users/${userId}`,
+					{
+						method: 'POST',
+						body: JSON.stringify(currentUser),
+						headers: {
+							'Content-Type': 'application/json; charset=UTF-8'
+						},
+						credentials: 'include',
+						mode: 'no-cors'
+					}
+				)
+				if (!response.ok) {
+					throw new Error(
+						`Request failed with status: ${response.status} (${response.statusText})`
+					)
+				}
+
+				const userData = await response.json()
+				console.log(userData)
+			} catch (error) {
+				console.error('Error modifying user data:', error.message)
+			}
+		} catch (error) {
+			console.error('Error fetching user data:', error.message)
+		}
+	}
+})
+
 window.addEventListener('load', loading)
 
 window.addEventListener('load', async () => {
