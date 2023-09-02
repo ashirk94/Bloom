@@ -169,6 +169,7 @@ setInterval(async () => {
 	try {
 		if (document.hidden) {
 			const userData = await fetchUserData()
+            console.log(userData)
 
 			if (userData && userData.hasUnreadMessage == true) {
 				startFlashingInterval()
