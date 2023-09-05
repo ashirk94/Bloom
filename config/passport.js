@@ -1,5 +1,6 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const GoogleStrategy = require('passport-google-oauth20').Strategy
 const connection = require('./database')
 const User = connection.models.User
 const validPassword = require('../utilities/passwordUtils').validPassword
@@ -34,9 +35,28 @@ function passportConfig(passport) {
 			})
 	}
 
-	const strategy = new LocalStrategy(customFields, verifyCallback)
+	const localStrategy = new LocalStrategy(customFields, verifyCallback)
 
-	passport.use(strategy)
+	passport.use(localStrategy)
+
+    //     passport.use(
+    //     new GoogleStrategy(
+    //         {
+    //             clientID: process.env.GOOGLE_CLIENT_ID,
+    //             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    //             callbackURL: '/auth/google/callback', // Define this route in your routes
+    //         },
+    //         (accessToken, refreshToken, profile, done) => {
+    //             // You can handle user creation or login here based on the Google profile
+    //             // Typically, you would find or create a user with the Google profile information
+    //             // and call the done() callback with the user.
+    //             // For example:
+    //             // User.findOrCreate({ googleId: profile.id }, (err, user) => {
+    //             //     return done(err, user);
+    //             // });
+    //         }
+    //     )
+    // );
 
 	passport.serializeUser((user, done) => {
 		done(null, user._id)

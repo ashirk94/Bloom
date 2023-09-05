@@ -17,6 +17,7 @@ const homeRoutes = require('./routes/index')
 const authRoutes = require('./routes/auth')
 const friendRoutes = require('./routes/friends')
 const userRoutes = require('./routes/users')
+const infoRoutes = require('./routes/info')
 
 const User = connection.models.User
 
@@ -117,6 +118,7 @@ app.use(homeRoutes)
 app.use(authRoutes)
 app.use(friendRoutes)
 app.use(userRoutes)
+app.use(infoRoutes)
 
 //error handler
 app.use(errorHandler)
