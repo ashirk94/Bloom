@@ -33,6 +33,16 @@ body {
 	background-color: #f2fffb;
 	color: #357376;
 }
+.info-wrapper {
+	min-height: calc(80vh - 80px);
+	font-size: 16px;
+	font-family: 'Encode Sans', sans-serif;
+	margin: 20px 50px;
+	background-color: #f2fffb;
+	color: #357376;
+    text-align: left;
+    padding-bottom: 20px;
+}
 .landing-wrapper {
 	display: flex;
 	justify-content: center;

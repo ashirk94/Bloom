@@ -50,7 +50,8 @@ const UserSchema = new Schema({
         lon: Number
     },
     confirmed: Boolean,
-    hasUnreadMessage: Boolean
+    hasUnreadMessage: Boolean,
+    googleId: String
 })
 
 const User = connection.model('User', UserSchema)

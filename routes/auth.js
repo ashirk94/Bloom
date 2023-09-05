@@ -8,6 +8,24 @@ const path = require('path')
 const verify = require('../utilities/emailVerification').verify
 
 //get routes
+
+router.get(
+	'/auth/google',
+	passport.authenticate('google', {
+		scope: ['profile', 'email'] // Adjust scopes as needed
+	})
+)
+
+// Google OAuth callback route
+router.get(
+	'/auth/google/callback',
+	passport.authenticate('google', { failureRedirect: '/' }),
+	(req, res) => {
+		// Redirect to the appropriate page after successful authentication
+		res.redirect('/') // Change this to your desired route
+	}
+)
+
 router.get('/login', (req, res) => {
 	const message = req.flash()
 	res.render('auth/login', { user: req.user, message: message })
@@ -27,7 +45,6 @@ router.get('/logout', (req, res, next) => {
 	res.redirect('/')
 })
 
-
 //post routes
 
 router.post(
@@ -41,36 +58,36 @@ router.post(
 
 router.post('/register', async (req, res) => {
 	try {
-        //delete all users
-        //await User.deleteMany({})
+		//delete all users
+		//await User.deleteMany({})
 
-        //check password
-        let passRegex = /^(?=.*[0-9])[A-Za-z]\w{7,14}$/
+		//check password
+		let passRegex = /^(?=.*[0-9])[A-Za-z]\w{7,14}$/
 
-        if (!req.body.pw.match(passRegex)) {
-            throw new Error('Invalid password')
-        }
+		if (!req.body.pw.match(passRegex)) {
+			throw new Error('Invalid password')
+		}
 
-        //check username
-        let unameRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/
-        if (!req.body.uname.match(unameRegex)) {
-            throw new Error('Invalid email address')
-        }
+		//check username
+		let unameRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/
+		if (!req.body.uname.match(unameRegex)) {
+			throw new Error('Invalid email address')
+		}
 
-        //test for duplicate user
+		//test for duplicate user
 		const testUser = await User.find({ username: req.body.uname })
 		if (testUser[0] && testUser[0].username === req.body.uname) {
 			throw new Error('Duplicate username')
 		}
 		const hashedPassword = await genPassword(req.body.pw)
 
-        //location
-        let lat = null
-        let lon = null
-        if (req.body.lat != '' && req.body.lon != '') {
-            lat = Number(req.body.lat)
-            lon = Number(req.body.lon)
-        }
+		//location
+		let lat = null
+		let lon = null
+		if (req.body.lat != '' && req.body.lon != '') {
+			lat = Number(req.body.lat)
+			lon = Number(req.body.lon)
+		}
 
 		const newUser = new User({
 			username: req.body.uname,
@@ -82,16 +99,16 @@ router.post('/register', async (req, res) => {
 				),
 				contentType: 'image/jpg'
 			},
-            location: {
-                lat: lat,
-                lon: lon
-            }
+			location: {
+				lat: lat,
+				lon: lon
+			}
 		})
 
 		await newUser.save()
 
-        await verify(newUser)
-        //immediate login
+		await verify(newUser)
+		//immediate login
 		req.login(newUser, (err) => {
 			if (err) {
 				req.flash('error', err.message)

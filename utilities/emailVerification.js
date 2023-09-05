@@ -25,7 +25,6 @@ async function verify(user) {
         subject: 'Bloom Email Verification',
         
         text: `Please click the link below to verify your email:\nhttps://bloom-friend-finder.herokuapp.com/verify/${token}`
-        // text: `Please click the link below to verify your email:\nhttp://localhost:3000/verify/${token}`
     }
     
     transporter.sendMail(mailConfigurations, function(error, info){
