@@ -203,6 +203,11 @@ ul {
 	width: auto;
 	height: 100%;
 }
+@media (min-width: 1920px) {
+    .background {
+        max-width: 100%;
+    }
+}
 .navbar .icon {
 	display: none;
 }
