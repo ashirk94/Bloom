@@ -37,11 +37,12 @@ body {
 	min-height: calc(80vh - 80px);
 	font-size: 16px;
 	font-family: 'Encode Sans', sans-serif;
-	margin: 20px 50px;
-	background-color: #f2fffb;
+	margin: 0px 20px;
+	background-color: white;
 	color: #357376;
     text-align: left;
-    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-bottom: 40px;
 }
 .landing-wrapper {
 	display: flex;
