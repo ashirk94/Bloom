@@ -1,8 +1,0 @@
-Windows
-"start http://localhost:3000 && nodemon server.js"
-
-Macintosh
-"open http://localhost:3000 && nodemon server.js"
-
-Linux
-"xdg-open http://localhost:3000 && nodemon server.js"
