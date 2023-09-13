@@ -51,7 +51,7 @@ const UserSchema = new Schema({
   },
   confirmed: Boolean,
   hasUnreadMessage: Boolean,
-  googleId: String,
+  githubId: String,
 });
 
 const User = connection.model("User", UserSchema);

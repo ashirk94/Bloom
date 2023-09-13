@@ -1,5 +1,6 @@
 const LocalStrategy = require("passport-local").Strategy;
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GitHubStrategy = require("passport-github2").Strategy;
+//const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const connection = require("./database");
 const User = connection.models.User;
 const validPassword = require("../utilities/passwordUtils").validPassword;
@@ -24,7 +25,7 @@ async function downloadProfilePicture(profilePictureUrl) {
   }
 }
 
-//both local and google auth strategies
+//both local and github auth strategies
 function passportConfig(passport) {
   const customFields = {
     usernameField: "uname",
@@ -60,16 +61,16 @@ function passportConfig(passport) {
 
   passport.use(localStrategy);
 
-  const googleStrategyConfig = {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/auth/google/callback",
-    authorizationURL: "https://accounts.google.com/o/oauth2/auth",
+  const githubStrategyConfig = {
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "/auth/github/callback",
+    scope: ['user:email']
   };
 
   passport.use(
-    new GoogleStrategy(
-      googleStrategyConfig,
+    new GitHubStrategy(
+      githubStrategyConfig,
       async (accessToken, refreshToken, profile, done) => {
         const profilePictureUrl = profile.photos[0].value;
         let userProfilePic;
@@ -84,7 +85,7 @@ function passportConfig(passport) {
         }
 
         if (existingUser) {
-          existingUser.googleId = profile.id;
+          existingUser.githubId = profile.id;
           existingUser.save((err) => {
             if (err) {
               return done(err);
@@ -100,9 +101,9 @@ function passportConfig(passport) {
           console.error(err);
         }
 
-        // Creates a new user with Google profile information
+        // Creates a new user with Github profile information
         const newUser = new User({
-          googleId: profile.id,
+          githubId: profile.id,
           username: profile.emails[0].value,
           profilePic: userProfilePic,
         });
@@ -118,6 +119,65 @@ function passportConfig(passport) {
       },
     ),
   );
+
+//   const googleStrategyConfig = {
+//     clientID: process.env.GOOGLE_CLIENT_ID,
+//     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//     callbackURL: "/auth/google/callback",
+//     authorizationURL: "https://accounts.google.com/o/oauth2/auth",
+//   };
+
+//   passport.use(
+//     new GoogleStrategy(
+//       googleStrategyConfig,
+//       async (accessToken, refreshToken, profile, done) => {
+//         const profilePictureUrl = profile.photos[0].value;
+//         let userProfilePic;
+//         let existingUser;
+
+//         try {
+//           existingUser = await User.findOne({
+//             username: profile.emails[0].value,
+//           });
+//         } catch (error) {
+//           return done(error);
+//         }
+
+//         if (existingUser) {
+//           existingUser.googleId = profile.id;
+//           existingUser.save((err) => {
+//             if (err) {
+//               return done(err);
+//             }
+//           });
+
+//           return done(null, existingUser);
+//         }
+
+//         try {
+//           userProfilePic = await downloadProfilePicture(profilePictureUrl);
+//         } catch (err) {
+//           console.error(err);
+//         }
+
+//         // Creates a new user with Google profile information
+//         const newUser = new User({
+//           googleId: profile.id,
+//           username: profile.emails[0].value,
+//           profilePic: userProfilePic,
+//         });
+
+//         newUser.save((err) => {
+//           if (err) {
+//             return done(err);
+//           }
+
+//           // User created successfully, log them in
+//           return done(null, newUser);
+//         });
+//       },
+//     ),
+//   );
 
   passport.serializeUser((user, done) => {
     done(null, user._id);

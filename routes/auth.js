@@ -9,20 +9,34 @@ const verify = require("../utilities/emailVerification").verify;
 
 //get routes
 
-router.get(
-  "/auth/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  }),
-);
+// router.get(
+//   "/auth/google",
+//   passport.authenticate("google", {
+//     scope: ["profile", "email"],
+//   }),
+// );
+
+// router.get(
+//   "/auth/google/callback",
+//   passport.authenticate("google", { failureRedirect: "/login" }),
+//   (req, res) => {
+//     res.redirect("/");
+//   },
+// );
 
 router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => {
-    res.redirect("/");
-  },
-);
+    "/auth/github",
+    passport.authenticate("github", {
+      scope: ["user:email"],
+    }),
+  );
+  
+  router.get(
+    "/auth/github/callback",
+    passport.authenticate("github", {
+        successRedirect: "/",
+        failureRedirect: "/login" })
+  );
 
 router.get("/login", (req, res) => {
   const message = req.flash();
