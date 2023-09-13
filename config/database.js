@@ -16,7 +16,7 @@ const UserSchema = new Schema({
         data: Buffer,
         contentType: String
     },
-    firstName: String,
+    displayName: String,
     interest1: String,
     interest2: String,
     interest3: String,

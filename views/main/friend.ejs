@@ -7,7 +7,7 @@
     <%= friend.profilePic.data.toString('base64') %>"
             />
         </div>
-        <div class="profile-name"><%= friend.firstName %></div>
+        <div class="profile-name"><%= friend.displayName %></div>
                 <% if (friend.bio) { %>
                 <div class="bio"><%= friend.bio %></div>
                 <% } else { %>

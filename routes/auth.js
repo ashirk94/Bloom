@@ -12,17 +12,15 @@ const verify = require('../utilities/emailVerification').verify
 router.get(
 	'/auth/google',
 	passport.authenticate('google', {
-		scope: ['profile', 'email'] // Adjust scopes as needed
+		scope: ['profile', 'email']
 	})
 )
 
-// Google OAuth callback route
 router.get(
 	'/auth/google/callback',
 	passport.authenticate('google', { failureRedirect: '/' }),
 	(req, res) => {
-		// Redirect to the appropriate page after successful authentication
-		res.redirect('/') // Change this to your desired route
+		res.redirect('/')
 	}
 )
 
@@ -58,7 +56,7 @@ router.post(
 
 router.post('/register', async (req, res) => {
 	try {
-		//delete all users
+		//to delete all users
 		//await User.deleteMany({})
 
 		//check password
