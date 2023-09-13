@@ -1,4 +1,5 @@
 # Bloom
+
 An application to bring people together and form friendships based on common interests and values.
 
 This is my largest scale project yet, and I am working with UX Designer Sarah Martin.
