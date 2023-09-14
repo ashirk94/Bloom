@@ -1,3 +1,5 @@
+const submitBtn = document.getElementById('upload-pic');
+
 //create image preview
 window.onload = function () {
   const fileInput = document.getElementById("fileInput");
@@ -17,6 +19,8 @@ window.onload = function () {
         img.src = reader.result;
 
         fileDisplayArea.appendChild(img);
+
+        submitBtn.classList.remove('hidden');
       };
 
       reader.readAsDataURL(file);
