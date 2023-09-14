@@ -64,7 +64,7 @@ function passportConfig(passport) {
   const githubStrategyConfig = {
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "/auth/github/callback",
+    callbackURL: "https://bloom-friend-finder.herokuapp.com/auth/github/callback",
     scope: ['user:email']
   };
 
