@@ -1,83 +1,117 @@
 .landing-content {
-    position: absolute;
-    top: 10px;
-    left: 0;
-    width: 100%;
-    height: auto;
+	position: absolute;
+	top: 10px;
+	left: 0;
+	width: 100%;
+	height: auto;
 }
 .landing-more a {
-    display: block;
-    margin: 10px 10px;
-    color: #a2ffe2;
-    position: relative;
+	display: block;
+	margin: 10px 10px;
+	color: #a2ffe2;
+	position: relative;
 }
 .copyright a {
-    display: block;
-    margin-top: 0px;
-    color: #a2ffe2;
-    bottom: 5px;
-    position: relative;
+	display: block;
+	margin-top: 0px;
+	color: #a2ffe2;
+	bottom: 5px;
+	position: relative;
 }
 .copyright p {
-    display: block;
-    margin-top: 0px;
-    color: #a2ffe2;
-    bottom: 5px;
-    position: relative;
+	display: block;
+	margin-top: 0px;
+	color: #a2ffe2;
+	bottom: 5px;
+	position: relative;
 }
 .reset {
-    background: none;
-    color: #357376;
-    border: none;
+	background: none;
+	color: #357376;
+	border: none;
 }
 .chat-header {
-    display: flex; 
-    border: 1px solid #357376;
-    background: linear-gradient(to top,hsl(166, 38%, 64%), hsl(166, 38%, 72%));
-    padding-top: 15px;
-    padding-bottom: 5px;
+	display: flex;
+	border: 1px solid #357376;
+	background: linear-gradient(to top, hsl(166, 38%, 64%), hsl(166, 38%, 72%));
+	padding-top: 15px;
+	padding-bottom: 5px;
 }
 .copyright {
-    display: flex;
-    gap: 0px;
-    justify-content: center;
-    margin-top: 80px;
-    margin-bottom: 0px;
-    padding-top: 10px;
-    height: 40px;
+	display: flex;
+	gap: 0px;
+	justify-content: center;
+	margin-top: 80px;
+	margin-bottom: 0px;
+	padding-top: 10px;
+	height: 40px;
 }
 .desktop-height {
-    top: 4350px;
+	top: 4350px;
 }
 .medium-height {
-    top: 2820px;
+	top: 2820px;
 }
 .mobile-height {
-    top: 3580px;
+	top: 3580px;
 }
 #loader-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 90vh;
 }
 .loader {
-    border: 16px solid #f3f3f3; 
-    border-top: 16px solid #357376; 
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 0.75s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  #chat-form {
-    width: 70%;
-  }
-.chat-link {
-    text-decoration: none;
+	border: 16px solid #f3f3f3;
+	border-top: 16px solid #357376;
+	border-radius: 50%;
+	width: 120px;
+	height: 120px;
+	animation: spin 0.75s linear infinite;
 }
 
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+#chat-form {
+	width: 70%;
+}
+.chat-link {
+	text-decoration: none;
+}
+.github-login-button {
+	display: inline-block;
+	background-color: hsl(210, 8%, 30%);
+	color: #fff;
+	border: none;
+	border-radius: 10px;
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	transition: background-color 0.3s ease;
+}
+.github-login-button:hover {
+	background-color: #242424;
+}
+.github-logo {
+	vertical-align: middle;
+	margin-right: 10px;
+	width: 20px;
+	height: 20px;
+}
+.center-button {
+	text-align: center;
+}
+.button-container {
+	margin-top: 20px;
+}
+.text {
+    font-size: 20px;
+}

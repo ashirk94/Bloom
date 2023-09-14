@@ -31,7 +31,7 @@
 					src="data:image/<%= locals.friend.profilePic.contentType %>;base64,
     <%= locals.friend.profilePic.data.toString('base64') %>"
 				/>
-				<%= locals.friend.firstName || locals.friend.username %>
+				<%= locals.friend.displayName|| locals.friend.username %>
 			</div>
 		</div>
 		<div class="chat-area">

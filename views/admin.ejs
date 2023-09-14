@@ -4,14 +4,17 @@
 		<% for (let friend of locals.accounts) { %>
 		<div class="friend-box" id="<%= friend.id %>">
 			<div class="box-top">
+				<% if (friend.profilePic && friend.profilePic.contentType) { %>
 				<a href="/user/<%= friend.username %>">
 					<img
 						class="list-pic"
 						src="data:image/<%= friend.profilePic.contentType %>;base64,
             <%= friend.profilePic.data.toString('base64') %>"
-				/></a>
+					/>
+				</a>
+				<% } %>
 			</div>
-			<div class="profile-name"><%= friend.firstName %></div>
+			<div class="profile-name"><%= friend.displayName %></div>
 			<% if (friend.bio) { %>
 			<div class="bio"><%= friend.bio %></div>
 			<% } else { %>
@@ -19,11 +22,10 @@
 			<% } %>
 
 			<div class="btn-card-group">
-                <form method="post" action="/delete-users/<%= friend.id %>">
-                    <input type="submit" class="btn-delete" value="Delete" />
-                </form>
+				<form method="post" action="/delete-users/<%= friend.id %>">
+					<input type="submit" class="btn-delete" value="Delete" />
+				</form>
 			</div>
-
 		</div>
 
 		<% } %>

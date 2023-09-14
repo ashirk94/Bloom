@@ -1,27 +1,31 @@
+const submitBtn = document.getElementById('upload-pic');
+
 //create image preview
 window.onload = function () {
-	const fileInput = document.getElementById('fileInput')
-	const fileDisplayArea = document.getElementById('fileDisplayArea')
+  const fileInput = document.getElementById("fileInput");
+  const fileDisplayArea = document.getElementById("fileDisplayArea");
 
-	fileInput.addEventListener('change', () => {
-		const file = fileInput.files[0]
-		const imageType = /image.*/
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    const imageType = /image.*/;
 
-		if (file.type.match(imageType)) {
-			const reader = new FileReader()
+    if (file.type.match(imageType)) {
+      const reader = new FileReader();
 
-			reader.onload = () => {
-				fileDisplayArea.innerHTML = ''
+      reader.onload = () => {
+        fileDisplayArea.innerHTML = "";
 
-				const img = new Image()
-				img.src = reader.result
+        const img = new Image();
+        img.src = reader.result;
 
-				fileDisplayArea.appendChild(img)
-			}
+        fileDisplayArea.appendChild(img);
 
-			reader.readAsDataURL(file)
-		} else {
-			fileDisplayArea.innerHTML = 'File not supported!'
-		}
-	})
-}
+        submitBtn.classList.remove('hidden');
+      };
+
+      reader.readAsDataURL(file);
+    } else {
+      fileDisplayArea.innerHTML = "File not supported!";
+    }
+  });
+};

@@ -1,12 +1,13 @@
 <div class="main-wrapper">
     <h1 class="title">My Profile</h1>
+    <h2 class="subtitle">Email: <%= locals.user.username %></h2><br>
+    <div class="text">Change Profile Picture</div><br>
     <form method="post" enctype="multipart/form-data" autocomplete="off">
         <input type="hidden" name="lat" id="lat">
         <input type="hidden" name="lon" id="lon">
-        <label for="username">Username: <%= locals.user.username %></label><br/><br/>
         <input type="file" name="image" id="fileInput"><br/>
         <div id="fileDisplayArea"></div><br>
-        <input class="btn btn-primary" type="submit" value="Update Picture">
+        <input class="btn btn-primary hidden" type="submit" value="Update Picture" id="upload-pic">
     </form>
     <br/><br/>
     <div class="btn-group">
