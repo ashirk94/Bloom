@@ -35,14 +35,15 @@ body {
 }
 .info-wrapper {
   min-height: calc(80vh - 80px);
-  font-size: 16px;
+  font-size: 18px;
   font-family: "Encode Sans", sans-serif;
-  margin: 0px 20px;
+  margin: 0px auto;
   background-color: white;
   color: #357376;
   text-align: left;
   padding-left: 20px;
   padding-bottom: 40px;
+  max-width: 50vw;
 }
 .landing-wrapper {
   display: flex;
