@@ -8,4 +8,8 @@ router.get("/terms-of-service", (req, res) => {
 	res.render("info/terms-of-service", { user: req.user });
 });
 
+router.get("/about", (req, res) => {
+	res.render("info/about", { user: req.user });
+});
+
 module.exports = router;

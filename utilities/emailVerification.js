@@ -13,7 +13,7 @@ async function verify(user) {
   });
 
   const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, {
-    expiresIn: "10m",
+    expiresIn: "1d",
   });
 
   const mailConfigurations = {

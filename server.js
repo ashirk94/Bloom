@@ -8,16 +8,17 @@ const passportConfig = require("./config/passport");
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
 const cors = require("cors");
-
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
+const { formatMessage, storeMessage } = require("./utilities/messaging");
 
 const homeRoutes = require("./routes/index");
 const authRoutes = require("./routes/auth");
 const friendRoutes = require("./routes/friends");
 const userRoutes = require("./routes/users");
 const infoRoutes = require("./routes/info");
+
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+  }
 
 const User = connection.models.User;
 
@@ -36,7 +37,6 @@ const io = require("socket.io")(server, {
     callback(null, noOriginHeader);
   },
 });
-const { formatMessage, storeMessage } = require("./utilities/messaging");
 
 //mongoDB session storage
 const sessionStore = new MongoStore({
@@ -98,10 +98,10 @@ app.set("view engine", "ejs");
 app.set("layout", "layout/layout");
 app.use(expressLayouts);
 
-function errorTest(req, res, next) {
-  let error = new Error("Custom error");
-  next(error);
-}
+// function errorTest(req, res, next) {
+//   let error = new Error("Custom error");
+//   next(error);
+// }
 
 function errorHandler(err, req, res, next) {
   console.error(err.stack);
