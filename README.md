@@ -1,10 +1,8 @@
-# Bloom
-
-A unique social platform that helps foster friendships through shared interests and values.
+Bloom is a unique social platform that helps foster friendships through shared interests and values.
 
 Made in collaboration with UI/UX designer [Sarah Martin](https://www.sarahmartinart.com/).
 
-## Current Features
+## Top Features
 
 - Beautiful logo and designs made by Sarah Martin.
 - Matching algorithm designed to connect people based on their ranked interests and values.
