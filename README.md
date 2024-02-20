@@ -1,3 +1,5 @@
+# Bloom
+
 Bloom is a unique social platform that helps foster friendships through shared interests and values.
 
 Made in collaboration with UI/UX designer [Sarah Martin](https://www.sarahmartinart.com/).
