@@ -1,15 +1,13 @@
-const connection = require("../config/database");
-const User = connection.models.User;
+const { User } = require("../config/database");
 
 //format message for display with timestamp
-function formatMessage(user, text) {
+function formatMessage(user, text, timeZone) {
 	const date = new Date();
-	const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 	const fDate = new Intl.DateTimeFormat("en-us", {
 		dateStyle: "medium",
 		timeStyle: "short",
-		timeZone: localTimeZone
+		timeZone: timeZone
 	});
 	const timestamp = fDate.format(date);
 
