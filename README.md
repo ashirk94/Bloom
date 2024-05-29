@@ -7,14 +7,15 @@ It was made in collaboration with [Sarah Martin](https://www.sarahmartinart.com/
 
 ## Features
 
-- Matching algorithm
+- Matching algorithm based on interests and values
 - Email and password authentication
 - GitHub authentication option
-- Recommends users based on location
+- Displays nearby users based on location data
 - Drag and drop functionality
-- Profile picture uploading
+- Profile picture uploading and profile customization
 - Instant messaging between users
-- Notifications on new messages
+- Notifications for new messages
+- Friend requests and a friends list
 
 ## Live Demo
 Bloom: [https://bloom-friend-finder.herokuapp.com](https://bloom-friend-finder.herokuapp.com/)
