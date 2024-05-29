@@ -10,7 +10,7 @@ It was made in collaboration with [Sarah Martin](https://www.sarahmartinart.com/
 - Matching algorithm
 - Email and password authentication
 - GitHub authentication option
-- Location data connects users based on proximity
+- Recommends users based on location
 - Drag and drop functionality
 - Profile picture uploading
 - Instant messaging between users
