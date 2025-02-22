@@ -16,6 +16,3 @@ It was made in collaboration with [Sarah Martin](https://www.sarahmartinart.com/
 - Instant messaging between users
 - Notifications for new messages
 - Friend requests and a friends list
-
-## Live Demo
-Bloom: [https://bloom-friend-finder.herokuapp.com](https://bloom-friend-finder.herokuapp.com/)
