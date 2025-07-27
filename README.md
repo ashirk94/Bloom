@@ -1,10 +1,11 @@
 # Bloom
 
-Bloom is a unique social platform that helps foster friendships through shared interests and values.
+This project was developed for my software engineering portfolio to demonstrate my full stack web development skills.
+It is a unique social platform designed to create new friendships through shared interests and values.
 
 Made in collaboration with Artist and UI/UX designer [Sarah Martin](https://www.sarahmartinart.com/).
 
-## Top Features
+## Features
 
 - Matching algorithm designed to connect people based on their ranked interests and values.
 - Authentication implemented with the Passport and Bcrypt libraries.
