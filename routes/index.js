@@ -83,8 +83,10 @@ router.post("/profile", isAuth, upload.single("image"), async (req, res) => {
 		const user = await User.findById(req.user._id);
 
 		if (req.body.lat != "" && req.body.lon != "") {
-			user.location.lat = Number(req.body.lat);
-			user.location.lon = Number(req.body.lon);
+			user.location = {
+				type: 'Point',
+				coordinates: [Number(req.body.lon), Number(req.body.lat)] // [longitude, latitude]
+			};
 		}
 		if (req.file != null) {
 			user.profilePic.data = fs.readFileSync(
@@ -112,6 +114,33 @@ router.post("/profile", isAuth, upload.single("image"), async (req, res) => {
 		req.flash("error", err.message);
 	}
 	res.redirect("/profile");
+});
+
+// Update user location
+router.post("/update-location", isAuth, async (req, res) => {
+	try {
+		const { lat, lon } = req.body;
+		
+		if (!lat || !lon) {
+			return res.status(400).json({ error: 'Latitude and longitude are required' });
+		}
+		
+		const user = await User.findById(req.user.id);
+		
+		// Use GeoJSON format for the 2dsphere index
+		user.location = {
+			type: 'Point',
+			coordinates: [parseFloat(lon), parseFloat(lat)] // [longitude, latitude] order for GeoJSON
+		};
+		
+		await user.save();
+		console.log(`Updated location for ${user.username}: ${lat}, ${lon}`);
+		
+		res.json({ success: true, message: 'Location updated successfully' });
+	} catch (error) {
+		console.error('Error updating location:', error);
+		res.status(500).json({ error: 'Failed to update location' });
+	}
 });
 
 router.post("/interests", isAuth, async (req, res) => {

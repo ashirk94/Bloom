@@ -79,17 +79,20 @@ router.get("/meet", isAuth, isVerified, async (req, res) => {
 
 	//filter users by distance
 	users = users.filter((user) => {
-		const dist = distance(
-			user.location.lat,
-			user.location.lon,
-			req.user.location.lat,
-			req.user.location.lon
-		);
-		if (dist <= 50) {
-			return true;
-		} else {
+		// Handle both old {lat, lon} and new GeoJSON {coordinates: [lon, lat]} formats
+		const userLat = req.user.location?.coordinates ? req.user.location.coordinates[1] : req.user.location?.lat;
+		const userLon = req.user.location?.coordinates ? req.user.location.coordinates[0] : req.user.location?.lon;
+		const otherLat = user.location?.coordinates ? user.location.coordinates[1] : user.location?.lat;
+		const otherLon = user.location?.coordinates ? user.location.coordinates[0] : user.location?.lon;
+		
+		// Skip if either user doesn't have valid location
+		if (!userLat || !userLon || !otherLat || !otherLon || 
+			userLat === 0 || userLon === 0 || otherLat === 0 || otherLon === 0) {
 			return false;
 		}
+		
+		const dist = distance(otherLat, otherLon, userLat, userLon);
+		return dist <= 50;
 	}); //closer than 50mi
 
 	//match based on values and interests

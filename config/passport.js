@@ -41,6 +41,13 @@ function passportConfig(passport) {
 					});
 				}
 
+				// Check if user has a password hash (local auth user)
+				if (!user.hash) {
+					return done(null, false, {
+						message: "This account was created with GitHub. Please use the GitHub login button."
+					});
+				}
+
 				validPassword(password, user.hash).then((isValid) => {
 					if (isValid) {
 						return done(null, user);
@@ -54,17 +61,16 @@ function passportConfig(passport) {
 			.catch((err) => {
 				return done(err);
 			});
-	};
-
-	const localStrategy = new LocalStrategy(customFields, verifyCallback);
+	};	const localStrategy = new LocalStrategy(customFields, verifyCallback);
 
 	passport.use(localStrategy);
 
 	const githubStrategyConfig = {
 		clientID: process.env.GITHUB_CLIENT_ID,
 		clientSecret: process.env.GITHUB_CLIENT_SECRET,
-		callbackURL:
-			"https://bloom-friend-finder.herokuapp.com/auth/github/callback",
+		callbackURL: process.env.NODE_ENV === "production" 
+			? "https://bloom-friend-finder.herokuapp.com/auth/github/callback"
+			: "http://localhost:3000/auth/github/callback",
 		scope: ["user:email"]
 	};
 

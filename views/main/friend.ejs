@@ -1,11 +1,18 @@
 <div class="main-wrapper">
 	<div class="friend-box">
 		<div class="box-top">
-                <img
-                    class="list-pic"
-                    src="data:image/<%= friend.profilePic.contentType %>;base64,
+                <% if (friend.profilePic && friend.profilePic.data) { %>
+                    <img
+                        class="list-pic"
+                        src="data:image/<%= friend.profilePic.contentType %>;base64,
     <%= friend.profilePic.data.toString('base64') %>"
-            />
+                    />
+                <% } else { %>
+                    <img
+                        class="list-pic"
+                        src="/images/anon.jpg"
+                    />
+                <% } %>
         </div>
         <div class="profile-name"><%= friend.displayName %></div>
                 <% if (friend.bio) { %>

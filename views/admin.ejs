@@ -4,14 +4,21 @@
 		<% for (let friend of locals.accounts) { %>
 		<div class="friend-box" id="<%= friend.id %>">
 			<div class="box-top">
-				<% if (friend.profilePic && friend.profilePic.contentType) { %>
-				<a href="/user/<%= friend.username %>">
-					<img
-						class="list-pic"
-						src="data:image/<%= friend.profilePic.contentType %>;base64,
+				<% if (friend.profilePic && friend.profilePic.data) { %>
+					<a href="/user/<%= friend.username %>">
+						<img
+							class="list-pic"
+							src="data:image/<%= friend.profilePic.contentType %>;base64,
             <%= friend.profilePic.data.toString('base64') %>"
-					/>
-				</a>
+						/>
+					</a>
+				<% } else { %>
+					<a href="/user/<%= friend.username %>">
+						<img
+							class="list-pic"
+							src="/images/anon.jpg"
+						/>
+					</a>
 				<% } %>
 			</div>
 			<div class="profile-name"><%= friend.displayName %></div>

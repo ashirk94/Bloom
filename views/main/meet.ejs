@@ -1,18 +1,33 @@
 <div class="main-wrapper">
 	<h2 class="title">Potential Friends</h2>
 	<div class="friends-container">
-        <% if (!locals.user.location.lat) { %> 
+        <% 
+        const hasLocation = locals.user.location && 
+                           ((locals.user.location.coordinates && locals.user.location.coordinates.length === 2 && 
+                             locals.user.location.coordinates[0] !== 0 && locals.user.location.coordinates[1] !== 0) ||
+                            (locals.user.location.lat && locals.user.location.lon && 
+                             locals.user.location.lat !== 0 && locals.user.location.lon !== 0));
+        %>
+        <% if (!hasLocation) { %> 
             <h3 class="subtitle">In order for the app to work, we need your location. On your profile page, please allow this app to access your location and click "update-profile".</h3><% } else if (locals.friends.length == 0) { %> 
             <h3 class="subtitle">There are currently no more users in the area.</h3><% } %> 
 		<% for (let friend of locals.friends) { %>
 		<div class="friend-box" id="<%= friend.id %>">
 			<div class="box-top">
 				<a href="/user/<%= friend.username %>">
-					<img
-						class="list-pic"
-						src="data:image/<%= friend.profilePic.contentType %>;base64,
+					<% if (friend.profilePic && friend.profilePic.data) { %>
+						<img
+							class="list-pic"
+							src="data:image/<%= friend.profilePic.contentType %>;base64,
         <%= friend.profilePic.data.toString('base64') %>"
-				/></a>
+						/>
+					<% } else { %>
+						<img
+							class="list-pic"
+							src="/images/anon.jpg"
+						/>
+					<% } %>
+				</a>
 			</div>
 			<div class="profile-name"><%= friend.displayName %></div>
 			<% if (friend.bio) { %>
