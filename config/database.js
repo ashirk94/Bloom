@@ -47,8 +47,15 @@ const UserSchema = new mongoose.Schema({
 	admin: Boolean,
 	socketId: String,
 	location: {
-		lat: Number,
-		lon: Number
+		type: {
+			type: String,
+			enum: ['Point'],
+			default: 'Point'
+		},
+		coordinates: {
+			type: [Number], // [longitude, latitude]
+			default: [0, 0]
+		}
 	},
 	confirmed: Boolean,
 	hasUnreadMessage: Boolean,

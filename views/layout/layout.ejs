@@ -81,7 +81,7 @@
 								>Sign In</a
 							>
 						</li>
-						<% } else { %> <% if (locals.user.profilePic.data) { %>
+						<% } else { %> <% if (locals.user.profilePic && locals.user.profilePic.data) { %>
 						<li class="nav-item navbar-logo">
 							<a href="/profile">
 								<img

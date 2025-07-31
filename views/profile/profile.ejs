@@ -1,6 +1,23 @@
 <div class="main-wrapper">
     <h1 class="title">My Profile</h1>
     <h2 class="subtitle">Email: <%= locals.user.username %></h2><br>
+    
+    <!-- Location Status Display -->
+    <div class="location-status">
+        <% 
+        const hasLocation = (locals.user.location && 
+                           ((locals.user.location.coordinates && locals.user.location.coordinates.length === 2) || 
+                            (locals.user.location.lat && locals.user.location.lon && locals.user.location.lat !== 0 && locals.user.location.lon !== 0)));
+        %>
+        <% if (hasLocation) { %>
+            <p class="location-set">📍 Location set - Ready to find friends nearby!</p>
+        <% } else { %>
+            <p class="location-needed">⚠️ Location needed to find friends in your area</p>
+        <% } %>
+        <button class="btn btn-primary" id="update-location-btn">Update Location</button>
+    </div>
+    <br>
+    
     <div class="text">Change Profile Picture</div><br>
     <form method="post" enctype="multipart/form-data" autocomplete="off">
         <input type="hidden" name="lat" id="lat">
@@ -19,6 +36,80 @@
         <h5><%= locals.message %></h5>
         <% } %>
 </div>
+
+<style>
+.location-status {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.location-set {
+    color: #28a745;
+    margin: 0 0 10px 0;
+}
+
+.location-needed {
+    color: #dc3545;
+    margin: 0 0 10px 0;
+}
+
+#update-location-btn {
+    margin-top: 10px;
+}
+</style>
+
 <script src="/profilePic.js" defer></script>
 <script src="/location.js" defer></script>
+
+<script>
+document.getElementById('update-location-btn').addEventListener('click', function() {
+    const button = this;
+    button.textContent = 'Getting location...';
+    button.disabled = true;
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            async function(position) {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                
+                try {
+                    const response = await fetch('/update-location', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ lat, lon })
+                    });
+                    
+                    if (response.ok) {
+                        button.textContent = '✅ Location Updated!';
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        throw new Error('Failed to update location');
+                    }
+                } catch (error) {
+                    console.error('Error updating location:', error);
+                    button.textContent = 'Error - Try Again';
+                    button.disabled = false;
+                }
+            },
+            function(error) {
+                console.error('Geolocation error:', error);
+                button.textContent = 'Location Access Denied';
+                button.disabled = false;
+                alert('Please enable location access in your browser to find friends nearby.');
+            }
+        );
+    } else {
+        alert('Geolocation is not supported by this browser.');
+        button.disabled = false;
+    }
+});
+</script>
 

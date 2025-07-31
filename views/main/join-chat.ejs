@@ -7,11 +7,19 @@
             <div class="friend-box" id="<%= friend.id %>">
                 <div class="box-top">
                     <a href="/user/<%= friend.username %>">
-                        <img
-                            class="list-pic"
-                            src="data:image/<%= friend.profilePic.contentType %>;base64,
+                        <% if (friend.profilePic && friend.profilePic.data) { %>
+                            <img
+                                class="list-pic"
+                                src="data:image/<%= friend.profilePic.contentType %>;base64,
             <%= friend.profilePic.data.toString('base64') %>"
-                    /></a>
+                            />
+                        <% } else { %>
+                            <img
+                                class="list-pic"
+                                src="/images/anon.jpg"
+                            />
+                        <% } %>
+                    </a>
                 </div>
                 <div class="profile-name"><%= friend.displayName %></div>
                 <% if (friend.bio) { %>
