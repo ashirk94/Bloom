@@ -27,7 +27,7 @@ const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
 	cors: {
-		origin: "http://localhost:3000, https://bloom-friend-finder.herokuapp.com",
+		origin: "http://localhost:3000",
 		methods: ["GET", "POST"],
 		credentials: true
 	},
@@ -101,11 +101,6 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.set("layout", "layout/layout");
 app.use(expressLayouts);
-
-// function errorTest(req, res, next) {
-//   let error = new Error("Custom error");
-//   next(error);
-// }
 
 function errorHandler(err, req, res, next) {
 	console.error(err.stack);

@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const isAdmin = require("../utilities/authMiddleware").isAdmin;
 const isAuth = require("../utilities/authMiddleware").isAuth;
-const isVerified = require("../utilities/authMiddleware").isVerified;
 const jwt = require("jsonwebtoken");
 const { User } = require("../config/database");
 const verify = require("../utilities/emailVerification").verify;
@@ -54,12 +53,22 @@ router.post("/delete-users/:id", isAdmin, async (req, res) => {
 
 //adds a like from a user to another
 router.post("/like/:id", isAuth, async (req, res) => {
-	const user = await User.findById(req.params.id);
+	try {
+		const user = await User.findById(req.params.id);
+		const currentUser = await User.findById(req.user._id);
 
-	//stops user from liking the same one multiple times
-	if (!user.likes.some((x) => x.username === req.user.username)) {
-		user.likes.push(req.user);
-		await user.save();
+		//stops user from liking the same one multiple times
+		if (!user.likes.some((x) => x._id.toString() === currentUser._id.toString())) {
+			user.likes.push({
+				_id: currentUser._id,
+				username: currentUser.username
+			});
+			await user.save();
+		}
+		res.status(200).json({ success: true });
+	} catch (error) {
+		console.error("Like route error:", error);
+		res.status(500).json({ error: "Failed to process like" });
 	}
 });
 
@@ -83,7 +92,7 @@ router.get("/verify/:token", isAuth, async (req, res) => {
 	}
 });
 
-router.get("/verified", isAuth, isVerified, (req, res) => {
+router.get("/verified", isAuth, (req, res) => {
 	res.render("auth/verified", { user: req.user });
 });
 
