@@ -67,17 +67,10 @@ function displayMessage(message) {
 let socket;
 let local;
 
-if (window.location.href.slice(0, 21) === "http://localhost:3000") {
-	socket = io("http://localhost:3000", {
-		withCredentials: true
-	});
-	local = true;
-} else {
-	socket = io("https://bloom-friend-finder.herokuapp.com", {
-		withCredentials: true
-	});
-	local = false;
-}
+socket = io("http://localhost:3000", {
+    withCredentials: true
+});
+local = true;
 
 // message from server
 socket.on("receive-message", ({ message }) => {
@@ -151,7 +144,7 @@ form.addEventListener("submit", (e) => {
 async function fetchUserData() {
 	try {
 		const response = await fetch(
-			`https://bloom-friend-finder.herokuapp.com/users/${userId}`,
+			`http://localhost:3000/users/${userId}`,
 			{
 				credentials: "include"
 			}
@@ -209,28 +202,14 @@ async function sendMessageSeen() {
 	let response;
 
 	try {
-		if (local) {
-			response = await fetch(`http://localhost:3000/users/${userId}`, {
-				method: "POST",
-				body: JSON.stringify(flag),
-				headers: {
-					"Content-Type": "application/json"
-				},
-				credentials: "include"
-			});
-		} else {
-			response = await fetch(
-				`https://bloom-friend-finder.herokuapp.com/users/${userId}`,
-				{
-					method: "POST",
-					body: JSON.stringify(flag),
-					headers: {
-						"Content-Type": "application/json"
-					},
-					credentials: "include"
-				}
-			);
-		}
+        response = await fetch(`http://localhost:3000/users/${userId}`, {
+            method: "POST",
+            body: JSON.stringify(flag),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include"
+        });
 
 		if (!response.ok) {
 			throw new Error(

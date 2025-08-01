@@ -147,7 +147,6 @@ router.post("/update-location", isAuth, async (req, res) => {
 		};
 		
 		await user.save();
-		console.log(`Updated location for ${user.username}: ${lat}, ${lon}`);
 		
 		res.json({ success: true, message: 'Location updated successfully' });
 	} catch (error) {
