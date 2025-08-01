@@ -4,13 +4,10 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="google-site-verification" content="u0kDu4TJKHXbmMfkJ2_9V74fRB4iCXUjI7Tm0edGJzU" />
 		<title>Bloom</title>
 		<link rel="stylesheet" href="/stylesheets/styles.css" />
 		<link rel="stylesheet" href="/stylesheets/friends.css" />
 		<link rel="stylesheet" href="/stylesheets/design.css" />
-		<link rel="stylesheet" href="/stylesheets/dragDrop.css" />
-		<link rel="stylesheet" href="/stylesheets/dragula.css" />
         <link rel="stylesheet" href="/stylesheets/fineTuning.css" />
 		<link rel="icon" href="/images/bloom-logo.png" id="favicon" />
 		<link
@@ -81,16 +78,23 @@
 								>Sign In</a
 							>
 						</li>
-						<% } else { %> <% if (locals.user.profilePic && locals.user.profilePic.data) { %>
+						<% } else { %>
 						<li class="nav-item navbar-logo">
 							<a href="/profile">
+								<% if (locals.user.profilePic && locals.user.profilePic.data) { %>
 								<img
 									class="navbar-logo profile-pic mobile-invis"
 									src="data:image/<%=locals.user.profilePic.contentType%>;base64,
                     <%=locals.user.profilePic.data.toString('base64')%>"
-							/></a>
+								/>
+								<% } else { %>
+								<img
+									class="navbar-logo profile-pic mobile-invis"
+									src="/images/anon.jpg"
+								/>
+								<% } %>
+							</a>
 						</li>
-						<% } %>
 						<li class="nav-item mobile-invis">
 							<a class="nav-link nav-text" href="/profile"
 								>Profile</a

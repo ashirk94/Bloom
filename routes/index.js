@@ -34,39 +34,52 @@ const upload = multer({
 //get routes
 
 router.get("/", (req, res) => {
-	const message = req.flash();
-	res.render("index", { user: req.user, message: message });
+	const successMessage = req.flash("success");
+	const errorMessage = req.flash("error");
+	res.render("index", { 
+		user: req.user, 
+		successMessage: successMessage.length > 0 ? successMessage[0] : null,
+		errorMessage: errorMessage.length > 0 ? errorMessage[0] : null
+	});
 });
 
 router.get("/profile", isAuth, (req, res) => {
-	const message = req.flash();
+	const successMessage = req.flash("success");
+	const errorMessage = req.flash("error");
 	res.render("profile/profile", {
 		user: req.user,
-		message: message.success || message.error
+		successMessage: successMessage.length > 0 ? successMessage[0] : null,
+		errorMessage: errorMessage.length > 0 ? errorMessage[0] : null
 	});
 });
 
 router.get("/bio", isAuth, (req, res) => {
-	const message = req.flash();
+	const successMessage = req.flash("success");
+	const errorMessage = req.flash("error");
 	res.render("profile/bio", {
 		user: req.user,
-		message: message.success || message.error
+		successMessage: successMessage.length > 0 ? successMessage[0] : null,
+		errorMessage: errorMessage.length > 0 ? errorMessage[0] : null
 	});
 });
 
 router.get("/interests", isAuth, (req, res) => {
-	const message = req.flash();
+	const successMessage = req.flash("success");
+	const errorMessage = req.flash("error");
 	res.render("profile/interests", {
 		user: req.user,
-		message: message.success || message.error
+		successMessage: successMessage.length > 0 ? successMessage[0] : null,
+		errorMessage: errorMessage.length > 0 ? errorMessage[0] : null
 	});
 });
 
 router.get("/values", isAuth, (req, res) => {
-	const message = req.flash();
+	const successMessage = req.flash("success");
+	const errorMessage = req.flash("error");
 	res.render("profile/values", {
 		user: req.user,
-		message: message.success || message.error
+		successMessage: successMessage.length > 0 ? successMessage[0] : null,
+		errorMessage: errorMessage.length > 0 ? errorMessage[0] : null
 	});
 });
 
@@ -141,6 +154,19 @@ router.post("/update-location", isAuth, async (req, res) => {
 		console.error('Error updating location:', error);
 		res.status(500).json({ error: 'Failed to update location' });
 	}
+});
+
+router.post("/display-name", isAuth, async (req, res) => {
+	try {
+		const user = await User.findById(req.user.id);
+		user.displayName = req.body.displayName;
+		await user.save();
+		req.flash("success", "Display name updated!");
+	} catch (err) {
+		console.error(err);
+		req.flash("error", err.message);
+	}
+	res.redirect("/profile");
 });
 
 router.post("/interests", isAuth, async (req, res) => {

@@ -1,56 +1,418 @@
 <div class="main-wrapper">
-	<% if (locals.message) { %>
-	<h5><%= locals.message %></h5>
+	<h2 class="title">Select & Rank Your Values</h2>
+	<p class="subtitle">Choose up to 5 values and rank them in order of importance (1 = most important)</p>
+	<% if (locals.successMessage) { %>
+		<div class="success-msg">✅ <%= locals.successMessage %></div>
 	<% } %>
-
-	<h2 class="title">Values</h2>
-	<div id="error"></div>
-	<div class="btn-group" id="value-group">
-		<div class="draggable" draggable="true" id="family">Family 👪</div>
-		<div class="draggable" draggable="true" id="ambition">Ambition 🚀</div>
-		<div class="draggable" draggable="true" id="compassion">
-			Compassion ❤️
+	<% if (locals.errorMessage) { %>
+		<div class="error-msg">❌ <%= locals.errorMessage %></div>
+	<% } %>
+	
+	<form method="post" id="values-form">
+		<div class="values-grid">
+			<label class="value-item" data-value="Family">
+				<input type="checkbox" name="values" value="Family">
+				<span class="item-content">👪 Family</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Ambition">
+				<input type="checkbox" name="values" value="Ambition">
+				<span class="item-content">🚀 Ambition</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Compassion">
+				<input type="checkbox" name="values" value="Compassion">
+				<span class="item-content">❤️ Compassion</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Honesty">
+				<input type="checkbox" name="values" value="Honesty">
+				<span class="item-content">✋ Honesty</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Spirituality">
+				<input type="checkbox" name="values" value="Spirituality">
+				<span class="item-content">🙏 Spirituality</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Adventure">
+				<input type="checkbox" name="values" value="Adventure">
+				<span class="item-content">🗺️ Adventure</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Creativity">
+				<input type="checkbox" name="values" value="Creativity">
+				<span class="item-content">🎨 Creativity</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Growth">
+				<input type="checkbox" name="values" value="Growth">
+				<span class="item-content">📈 Growth</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Independence">
+				<input type="checkbox" name="values" value="Independence">
+				<span class="item-content">🦅 Independence</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Innovation">
+				<input type="checkbox" name="values" value="Innovation">
+				<span class="item-content">💡 Innovation</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Learning">
+				<input type="checkbox" name="values" value="Learning">
+				<span class="item-content">📖 Learning</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Friendship">
+				<input type="checkbox" name="values" value="Friendship">
+				<span class="item-content">🤝 Friendship</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Humor">
+				<input type="checkbox" name="values" value="Humor">
+				<span class="item-content">😄 Humor</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Reliability">
+				<input type="checkbox" name="values" value="Reliability">
+				<span class="item-content">⚡ Reliability</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Peace">
+				<input type="checkbox" name="values" value="Peace">
+				<span class="item-content">☮️ Peace</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Health">
+				<input type="checkbox" name="values" value="Health">
+				<span class="item-content">💪 Health</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Mindfulness">
+				<input type="checkbox" name="values" value="Mindfulness">
+				<span class="item-content">🧠 Mindfulness</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="value-item" data-value="Balance">
+				<input type="checkbox" name="values" value="Balance">
+				<span class="item-content">⚖️ Balance</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
 		</div>
-		<div class="draggable" draggable="true" id="honesty">Honesty ✋</div>
-		<div class="draggable" draggable="true" id="spirituality">Faith 🙏</div>
-	</div>
-	<div class="btn-group" id="drop-group">
-		<div class="drop-wrapper">
-			#1
-			<div class="dropzone" id="value1-container"></div>
-		</div>
-		<div class="drop-wrapper">
-            #2
-			<div class="dropzone" id="value2-container"></div>
-		</div>
-		<div class="drop-wrapper">
-            #3
-			<div class="dropzone" id="value3-container"></div>
-		</div>
-		<div class="drop-wrapper">
-            #4
-			<div class="dropzone" id="value4-container"></div>
-		</div>
-		<div class="drop-wrapper">
-            #5
-			<div class="dropzone" id="value5-container"></div>
-		</div>
-	</div>
-	<form method="post" id="form">
-		<input type="hidden" name="value1" id="value-submit1" />
-		<input type="hidden" name="value2" id="value-submit2" />
-		<input type="hidden" name="value3" id="value-submit3" />
-		<input type="hidden" name="value4" id="value-submit4" />
-		<input type="hidden" name="value5" id="value-submit5" />
+		
+		<!-- Hidden inputs for ranked values -->
+		<input type="hidden" name="value1" id="value1" />
+		<input type="hidden" name="value2" id="value2" />
+		<input type="hidden" name="value3" id="value3" />
+		<input type="hidden" name="value4" id="value4" />
+		<input type="hidden" name="value5" id="value5" />
+		
 		<div class="btn-group">
-			<input class="btn btn-primary" type="submit" value="Submit" />
-			<button class="btn" id="reset">Reset</button>
+			<input class="btn btn-primary" type="submit" value="Save Values" />
+			<a href="/profile" class="btn btn-secondary">Back to Profile</a>
 		</div>
 	</form>
 </div>
 
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"
-	defer
-></script>
-<script src="/values.js" defer></script>
+<style>
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.value-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    gap: 12px;
+}
+
+.value-item:hover {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.value-item.selected {
+    border-color: #007bff;
+    background-color: #e7f3ff;
+}
+
+.value-item input[type="checkbox"] {
+    margin: 0;
+    transform: scale(1.2);
+}
+
+.item-content {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.rank-select {
+    padding: 4px 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 70px;
+    background: white;
+}
+
+.rank-select:disabled {
+    background: #f8f9fa;
+    color: #6c757d;
+}
+
+.rank-select:enabled {
+    border-color: #007bff;
+    background: #fff;
+}
+
+.subtitle {
+    color: #6c757d;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .value-item {
+        padding: 10px 12px;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('values-form');
+    const valueItems = document.querySelectorAll('.value-item');
+    const hiddenInputs = {
+        1: document.getElementById('value1'),
+        2: document.getElementById('value2'),
+        3: document.getElementById('value3'),
+        4: document.getElementById('value4'),
+        5: document.getElementById('value5')
+    };
+
+    // Handle checkbox changes
+    valueItems.forEach(item => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        const rankSelect = item.querySelector('.rank-select');
+        
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                // Check if we already have 5 selected
+                const selectedCount = document.querySelectorAll('input[name="values"]:checked').length;
+                if (selectedCount > 5) {
+                    this.checked = false;
+                    alert('You can select maximum 5 values');
+                    return;
+                }
+                
+                item.classList.add('selected');
+                rankSelect.disabled = false;
+                
+                // Auto-assign next available rank
+                const usedRanks = Array.from(document.querySelectorAll('.rank-select:enabled'))
+                    .map(select => select.value)
+                    .filter(value => value !== '');
+                
+                for (let i = 1; i <= 5; i++) {
+                    if (!usedRanks.includes(i.toString())) {
+                        rankSelect.value = i.toString();
+                        break;
+                    }
+                }
+            } else {
+                item.classList.remove('selected');
+                rankSelect.disabled = true;
+                rankSelect.value = '';
+            }
+            updateHiddenInputs();
+        });
+
+        // Handle rank changes
+        rankSelect.addEventListener('change', function() {
+            updateHiddenInputs();
+        });
+    });
+
+    function updateHiddenInputs() {
+        // Clear all hidden inputs
+        Object.values(hiddenInputs).forEach(input => input.value = '');
+        
+        // Get all selected items with ranks
+        const rankedItems = Array.from(document.querySelectorAll('.value-item.selected'))
+            .map(item => ({
+                value: item.getAttribute('data-value'),
+                rank: parseInt(item.querySelector('.rank-select').value) || 999
+            }))
+            .filter(item => item.rank !== 999)
+            .sort((a, b) => a.rank - b.rank);
+
+        // Update hidden inputs based on ranks
+        rankedItems.forEach((item) => {
+            if (hiddenInputs[item.rank]) {
+                hiddenInputs[item.rank].value = item.value;
+            }
+        });
+    }
+
+    // Form validation
+    form.addEventListener('submit', function(e) {
+        const selectedCount = document.querySelectorAll('input[name="values"]:checked').length;
+        const rankedCount = Object.values(hiddenInputs).filter(input => input.value !== '').length;
+        
+        if (selectedCount === 0) {
+            e.preventDefault();
+            alert('Please select at least one value');
+            return;
+        }
+        
+        if (selectedCount !== rankedCount) {
+            e.preventDefault();
+            alert('Please assign ranks to all selected values');
+            return;
+        }
+    });
+});
+</script>

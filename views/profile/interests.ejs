@@ -1,57 +1,418 @@
 <div class="main-wrapper">
-	<h2 class="title">Interests</h2>
-	<% if (locals.message) { %>
-	<h5><%= locals.message %></h5>
+	<h2 class="title">Select & Rank Your Interests</h2>
+	<p class="subtitle">Choose up to 5 interests and rank them in order of importance (1 = most important)</p>
+	<% if (locals.successMessage) { %>
+		<div class="success-msg">✅ <%= locals.successMessage %></div>
 	<% } %>
-	<div id="error"></div>
-	<div class="btn-group" id="interest-group">
-		<div class="draggable" draggable="true" id="game">Gaming 🎮</div>
-		<div class="draggable" draggable="true" id="code">Coding 💻</div>
-		<div class="draggable" draggable="true" id="swim">Swimming 🏊</div>
-		<div class="draggable" draggable="true" id="art">Painting 🎨</div>
-		<div class="draggable" draggable="true" id="baseball">Baseball ⚾</div>
-		<div class="draggable" draggable="true" id="writing">Writing ✏️</div>
-		<div class="draggable" draggable="true" id="running">Running 🏃</div>
-        <div class="draggable" draggable="true" id="biking">Biking 🚴</div>
-        <div class="draggable" draggable="true" id="movies">Movies 📽️</div>
-	</div>
-	<div class="btn-group" id="drop-group">
-		<div class="drop-wrapper">
-			#1
-			<div class="dropzone" id="interest1-container"></div>
+	<% if (locals.errorMessage) { %>
+		<div class="error-msg">❌ <%= locals.errorMessage %></div>
+	<% } %>
+	
+	<form method="post" id="interests-form">
+		<div class="interests-grid">
+			<label class="interest-item" data-interest="Photography">
+				<input type="checkbox" name="interests" value="Photography">
+				<span class="item-content">📸 Photography</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Hiking">
+				<input type="checkbox" name="interests" value="Hiking">
+				<span class="item-content">🥾 Hiking</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Travel">
+				<input type="checkbox" name="interests" value="Travel">
+				<span class="item-content">✈️ Travel</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Art">
+				<input type="checkbox" name="interests" value="Art">
+				<span class="item-content">🎨 Art</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Reading">
+				<input type="checkbox" name="interests" value="Reading">
+				<span class="item-content">📚 Reading</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Technology">
+				<input type="checkbox" name="interests" value="Technology">
+				<span class="item-content">� Technology</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Gaming">
+				<input type="checkbox" name="interests" value="Gaming">
+				<span class="item-content">🎮 Gaming</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Coffee">
+				<input type="checkbox" name="interests" value="Coffee">
+				<span class="item-content">☕ Coffee</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Music">
+				<input type="checkbox" name="interests" value="Music">
+				<span class="item-content">🎵 Music</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Movies">
+				<input type="checkbox" name="interests" value="Movies">
+				<span class="item-content">� Movies</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Yoga">
+				<input type="checkbox" name="interests" value="Yoga">
+				<span class="item-content">🧘 Yoga</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Gardening">
+				<input type="checkbox" name="interests" value="Gardening">
+				<span class="item-content">� Gardening</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Cooking">
+				<input type="checkbox" name="interests" value="Cooking">
+				<span class="item-content">👨‍� Cooking</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Meditation">
+				<input type="checkbox" name="interests" value="Meditation">
+				<span class="item-content">🕯️ Meditation</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Nature">
+				<input type="checkbox" name="interests" value="Nature">
+				<span class="item-content">🌲 Nature</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Writing">
+				<input type="checkbox" name="interests" value="Writing">
+				<span class="item-content">✍️ Writing</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Fitness">
+				<input type="checkbox" name="interests" value="Fitness">
+				<span class="item-content">� Fitness</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
+			<label class="interest-item" data-interest="Sports">
+				<input type="checkbox" name="interests" value="Sports">
+				<span class="item-content">⚽ Sports</span>
+				<select class="rank-select" disabled>
+					<option value="">Rank</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
+			</label>
 		</div>
-		<div class="drop-wrapper">
-			#2
-			<div class="dropzone" id="interest2-container"></div>
-		</div>
-		<div class="drop-wrapper">
-			#3
-			<div class="dropzone" id="interest3-container"></div>
-		</div>
-		<div class="drop-wrapper">
-			#4
-			<div class="dropzone" id="interest4-container"></div>
-		</div>
-		<div class="drop-wrapper">
-			#5
-			<div class="dropzone" id="interest5-container"></div>
-		</div>
-	</div>
-	<form method="post" id="form">
-		<input type="hidden" name="interest1" id="interest-submit1" />
-		<input type="hidden" name="interest2" id="interest-submit2" />
-		<input type="hidden" name="interest3" id="interest-submit3" />
-		<input type="hidden" name="interest4" id="interest-submit4" />
-		<input type="hidden" name="interest5" id="interest-submit5" />
+		
+		<!-- Hidden inputs for ranked interests -->
+		<input type="hidden" name="interest1" id="interest1" />
+		<input type="hidden" name="interest2" id="interest2" />
+		<input type="hidden" name="interest3" id="interest3" />
+		<input type="hidden" name="interest4" id="interest4" />
+		<input type="hidden" name="interest5" id="interest5" />
+		
 		<div class="btn-group">
-			<input class="btn btn-primary" type="submit" value="Submit" />
+			<input class="btn btn-primary" type="submit" value="Save Interests" />
+			<a href="/profile" class="btn btn-secondary">Back to Profile</a>
 		</div>
 	</form>
-	<button class="reset" id="reset">Reset</button>
 </div>
 
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"
-	defer
-></script>
-<script src="/interests.js" defer></script>
+<style>
+.interests-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.interest-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    gap: 12px;
+}
+
+.interest-item:hover {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.interest-item.selected {
+    border-color: #007bff;
+    background-color: #e7f3ff;
+}
+
+.interest-item input[type="checkbox"] {
+    margin: 0;
+    transform: scale(1.2);
+}
+
+.item-content {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.rank-select {
+    padding: 4px 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 70px;
+    background: white;
+}
+
+.rank-select:disabled {
+    background: #f8f9fa;
+    color: #6c757d;
+}
+
+.rank-select:enabled {
+    border-color: #007bff;
+    background: #fff;
+}
+
+.subtitle {
+    color: #6c757d;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .interests-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .interest-item {
+        padding: 10px 12px;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('interests-form');
+    const interestItems = document.querySelectorAll('.interest-item');
+    const hiddenInputs = {
+        1: document.getElementById('interest1'),
+        2: document.getElementById('interest2'),
+        3: document.getElementById('interest3'),
+        4: document.getElementById('interest4'),
+        5: document.getElementById('interest5')
+    };
+
+    // Handle checkbox changes
+    interestItems.forEach(item => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        const rankSelect = item.querySelector('.rank-select');
+        
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                // Check if we already have 5 selected
+                const selectedCount = document.querySelectorAll('input[name="interests"]:checked').length;
+                if (selectedCount > 5) {
+                    this.checked = false;
+                    alert('You can select maximum 5 interests');
+                    return;
+                }
+                
+                item.classList.add('selected');
+                rankSelect.disabled = false;
+                
+                // Auto-assign next available rank
+                const usedRanks = Array.from(document.querySelectorAll('.rank-select:enabled'))
+                    .map(select => select.value)
+                    .filter(value => value !== '');
+                
+                for (let i = 1; i <= 5; i++) {
+                    if (!usedRanks.includes(i.toString())) {
+                        rankSelect.value = i.toString();
+                        break;
+                    }
+                }
+            } else {
+                item.classList.remove('selected');
+                rankSelect.disabled = true;
+                rankSelect.value = '';
+            }
+            updateHiddenInputs();
+        });
+
+        // Handle rank changes
+        rankSelect.addEventListener('change', function() {
+            updateHiddenInputs();
+        });
+    });
+
+    function updateHiddenInputs() {
+        // Clear all hidden inputs
+        Object.values(hiddenInputs).forEach(input => input.value = '');
+        
+        // Get all selected items with ranks
+        const rankedItems = Array.from(document.querySelectorAll('.interest-item.selected'))
+            .map(item => ({
+                value: item.getAttribute('data-interest'),
+                rank: parseInt(item.querySelector('.rank-select').value) || 999
+            }))
+            .filter(item => item.rank !== 999)
+            .sort((a, b) => a.rank - b.rank);
+
+        // Update hidden inputs based on ranks
+        rankedItems.forEach((item) => {
+            if (hiddenInputs[item.rank]) {
+                hiddenInputs[item.rank].value = item.value;
+            }
+        });
+    }
+
+    // Form validation
+    form.addEventListener('submit', function(e) {
+        const selectedCount = document.querySelectorAll('input[name="interests"]:checked').length;
+        const rankedCount = Object.values(hiddenInputs).filter(input => input.value !== '').length;
+        
+        if (selectedCount === 0) {
+            e.preventDefault();
+            alert('Please select at least one interest');
+            return;
+        }
+        
+        if (selectedCount !== rankedCount) {
+            e.preventDefault();
+            alert('Please assign ranks to all selected interests');
+            return;
+        }
+    });
+});
+</script>
