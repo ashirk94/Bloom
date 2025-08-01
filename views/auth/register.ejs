@@ -105,13 +105,6 @@
 			</div>
 		</div>
 	</form>
-    
-    <div class="center-button button-container">
-		<a href="/auth/github" class="github-login-button">
-			<img src="/images/github-logo.png" alt="GitHub Logo" class="github-logo" />
-			Sign up with GitHub
-		</a>
-	</div>
 </div>
 
 <style>
@@ -191,8 +184,12 @@
     padding: 8px;
     border: 2px dashed #dee2e6;
     border-radius: 8px;
-    width: 100%;
+    width: calc(100% - 20px);
+    max-width: 400px;
     cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 .file-input:hover {

@@ -33,21 +33,6 @@ const upload = multer({
 
 //get routes
 
-router.get(
-	"/auth/github",
-	passport.authenticate("github", {
-		scope: ["user:email"]
-	})
-);
-
-router.get(
-	"/auth/github/callback",
-	passport.authenticate("github", {
-		successRedirect: "/",
-		failureRedirect: "/login"
-	})
-);
-
 router.get("/login", (req, res) => {
 	const successMessage = req.flash("success");
 	const errorMessage = req.flash("error");
