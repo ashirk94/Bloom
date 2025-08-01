@@ -39,13 +39,23 @@ router.get(
 );
 
 router.get("/login", (req, res) => {
-	const message = req.flash();
-	res.render("auth/login", { user: req.user, message: message });
+	const successMessage = req.flash("success");
+	const errorMessage = req.flash("error");
+	res.render("auth/login", { 
+		user: req.user, 
+		successMessage: successMessage.length > 0 ? successMessage[0] : null,
+		errorMessage: errorMessage.length > 0 ? errorMessage[0] : null
+	});
 });
 
 router.get("/register", (req, res) => {
-	const message = req.flash();
-	res.render("auth/register", { user: req.user, message: message });
+	const successMessage = req.flash("success");
+	const errorMessage = req.flash("error");
+	res.render("auth/register", { 
+		user: req.user, 
+		successMessage: successMessage.length > 0 ? successMessage[0] : null,
+		errorMessage: errorMessage.length > 0 ? errorMessage[0] : null
+	});
 });
 
 router.get("/logout", (req, res, next) => {

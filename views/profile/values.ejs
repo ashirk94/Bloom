@@ -1,6 +1,9 @@
 <div class="main-wrapper">
-	<% if (locals.message) { %>
-	<h5><%= locals.message %></h5>
+	<% if (locals.successMessage) { %>
+		<div class="success-msg">✅ <%= locals.successMessage %></div>
+	<% } %>
+	<% if (locals.errorMessage) { %>
+		<div class="error-msg">❌ <%= locals.errorMessage %></div>
 	<% } %>
 
 	<h2 class="title">Values</h2>

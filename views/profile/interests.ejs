@@ -1,7 +1,10 @@
 <div class="main-wrapper">
 	<h2 class="title">Interests</h2>
-	<% if (locals.message) { %>
-	<h5><%= locals.message %></h5>
+	<% if (locals.successMessage) { %>
+		<div class="success-msg">✅ <%= locals.successMessage %></div>
+	<% } %>
+	<% if (locals.errorMessage) { %>
+		<div class="error-msg">❌ <%= locals.errorMessage %></div>
 	<% } %>
 	<div id="error"></div>
 	<div class="btn-group" id="interest-group">

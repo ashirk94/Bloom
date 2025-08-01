@@ -1,9 +1,12 @@
 <div class="login-wrapper">
 	<h1 class="title">Create Your Account</h1>
 	<h2 class="subtitle">Please enter a valid email address and password.</h2>
-	<div class="error-msg">
-		<% if (locals.message.error) { %> <%= locals.message.error %> <% } %>
-	</div>
+	<% if (locals.successMessage) { %>
+		<div class="success-msg">✅ <%= locals.successMessage %></div>
+	<% } %>
+	<% if (locals.errorMessage) { %>
+		<div class="error-msg">❌ <%= locals.errorMessage %></div>
+	<% } %>
 	<div id="validation"></div>
 	<div id="success"></div>
 	<form id="reg-form" method="post" autocomplete="off">
