@@ -76,9 +76,7 @@ router.post(
 
 router.post("/register", upload.single("image"), async (req, res) => {
 	try {
-		//to delete all users
-		//await User.deleteMany({})
-
+        
 		//check password
 		let passRegex = /^(?=.*[0-9])[A-Za-z]\w{7,14}$/;
 
