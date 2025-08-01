@@ -49,7 +49,8 @@ router.get("/register", (req, res) => {
 	res.render("auth/register", { 
 		user: req.user, 
 		successMessage: successMessage.length > 0 ? successMessage[0] : null,
-		errorMessage: errorMessage.length > 0 ? errorMessage[0] : null
+		errorMessage: errorMessage.length > 0 ? errorMessage[0] : null,
+		layout: false
 	});
 });
 

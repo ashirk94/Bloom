@@ -1,3 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Bloom - Create Account</title>
+	<link rel="stylesheet" href="/stylesheets/styles.css" />
+	<link rel="stylesheet" href="/stylesheets/friends.css" />
+	<link rel="stylesheet" href="/stylesheets/design.css" />
+	<link rel="stylesheet" href="/stylesheets/dragDrop.css" />
+	<link rel="stylesheet" href="/stylesheets/dragula.css" />
+	<link rel="stylesheet" href="/stylesheets/fineTuning.css" />
+	<link rel="icon" href="/images/bloom-logo.png" id="favicon" />
+</head>
+<body>
 <div class="login-wrapper">
 	<h1 class="title">Create Your Account</h1>
 	<h2 class="subtitle">Complete your profile to find amazing friends!</h2>
@@ -108,6 +124,22 @@
 </div>
 
 <style>
+/* Override login-wrapper for registration page */
+.login-wrapper {
+    background-color: #fffedf !important;
+    min-height: 100vh !important;
+    height: auto !important;
+    padding-top: 0 !important;
+}
+
+/* Ensure body fills viewport */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #fffedf;
+}
+
 .form-step {
     display: none;
 }
@@ -205,6 +237,20 @@
     max-height: 150px;
     border-radius: 50%;
     border: 3px solid #007bff;
+}
+
+/* Add extra bottom spacing for steps 2+ only */
+#step-2 .step-buttons, #step-3 .step-buttons, #step-4 .step-buttons {
+    margin-bottom: 10px;
+}
+
+/* Remove excessive whitespace from step 1 */
+#step-1 .btn {
+    margin-bottom: 0;
+}
+
+#step-1 {
+    padding-bottom: 20px;
 }
 </style>
 
@@ -317,3 +363,5 @@ document.getElementById('get-location-btn').addEventListener('click', function()
     }
 });
 </script>
+</body>
+</html>

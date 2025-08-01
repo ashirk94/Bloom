@@ -11,32 +11,35 @@
         </form>
     </div>
 
-    <!-- Profile Picture Section -->
-    <div class="profile-section">
-        <h3>📸 Profile Picture</h3>
-        <form method="post" enctype="multipart/form-data" autocomplete="off">
-            <input type="hidden" name="lat" id="lat">
-            <input type="hidden" name="lon" id="lon">
-            <input type="file" name="image" id="fileInput" accept="image/*" class="file-input"><br/>
-            <div id="fileDisplayArea"></div><br>
-            <input class="btn btn-primary btn-small hidden" type="submit" value="Update Picture" id="upload-pic">
-        </form>
-    </div>
+    <!-- Profile Picture and Location Section - Side by Side -->
+    <div class="side-by-side-sections">
+        <!-- Profile Picture Section -->
+        <div class="profile-section half-width">
+            <h3>📸 Profile Picture</h3>
+            <form method="post" enctype="multipart/form-data" autocomplete="off">
+                <input type="hidden" name="lat" id="lat">
+                <input type="hidden" name="lon" id="lon">
+                <input type="file" name="image" id="fileInput" accept="image/*" class="file-input"><br/>
+                <div id="fileDisplayArea"></div><br>
+                <input class="btn btn-primary btn-small hidden" type="submit" value="Update Picture" id="upload-pic">
+            </form>
+        </div>
 
-    <!-- Location Section -->
-    <div class="profile-section">
-        <h3>📍 Location</h3>
-        <% 
-        const hasLocation = (locals.user.location && 
-                           ((locals.user.location.coordinates && locals.user.location.coordinates.length === 2) || 
-                            (locals.user.location.lat && locals.user.location.lon && locals.user.location.lat !== 0 && locals.user.location.lon !== 0)));
-        %>
-        <% if (hasLocation) { %>
-            <p class="location-set">✅ Location set - Ready to find friends nearby!</p>
-        <% } else { %>
-            <p class="location-needed">⚠️ Location needed to find friends in your area</p>
-        <% } %>
-        <button class="btn btn-primary btn-small" id="update-location-btn">Update Location</button>
+        <!-- Location Section -->
+        <div class="profile-section half-width">
+            <h3>📍 Location</h3>
+            <% 
+            const hasLocation = (locals.user.location && 
+                               ((locals.user.location.coordinates && locals.user.location.coordinates.length === 2) || 
+                                (locals.user.location.lat && locals.user.location.lon && locals.user.location.lat !== 0 && locals.user.location.lon !== 0)));
+            %>
+            <% if (hasLocation) { %>
+                <p class="location-set">✅ Location set - Ready to find friends nearby!</p>
+            <% } else { %>
+                <p class="location-needed">⚠️ Location needed to find friends in your area</p>
+            <% } %>
+            <button class="btn btn-primary btn-small" id="update-location-btn">Update Location</button>
+        </div>
     </div>
 
     <div class="btn-group">
@@ -45,9 +48,6 @@
         <a href="/bio" class="btn btn-secondary">Edit Bio</a>
     </div>
     <%- include('../partials/flash-messages') %>
-    
-    <!-- Add spacing at bottom -->
-    <div class="bottom-spacing"></div>
 </div>
 
 <style>
@@ -156,7 +156,7 @@ document.getElementById('update-location-btn').addEventListener('click', functio
 }
 
 .file-input {
-    padding: 10px;
+    padding: 12px 15px;
     border: 2px dashed #dee2e6;
     border-radius: 8px;
     width: calc(100% - 20px);
@@ -164,6 +164,8 @@ document.getElementById('update-location-btn').addEventListener('click', functio
     background: #f8f9fa;
     margin: 0 auto;
     display: block;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
 .file-input:hover {
@@ -186,9 +188,78 @@ document.getElementById('update-location-btn').addEventListener('click', functio
     margin: 0 0 10px 0;
 }
 
-.bottom-spacing {
-    height: 100px;
-    margin-bottom: 50px;
+.side-by-side-sections {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.half-width {
+    flex: 1;
+}
+
+/* Profile picture section gets more horizontal space */
+.side-by-side-sections .half-width:first-child {
+    flex: 1.4;
+}
+
+/* Location section gets less horizontal space */
+.side-by-side-sections .half-width:last-child {
+    flex: 0.6;
+}
+
+/* Enhanced profile picture section */
+.profile-section h3 {
+    margin: 0 0 15px 0;
+    color: #495057;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.file-input {
+    padding: 12px 15px;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    width: calc(100% - 40px);
+    cursor: pointer;
+    background: #f8f9fa;
+    margin: 0 auto 15px auto;
+    display: block;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+    transition: all 0.3s ease;
+    max-width: none;
+}
+
+.file-input:hover {
+    border-color: #007bff;
+    background: #e7f3ff;
+    transform: translateY(-2px);
+}
+
+/* Current profile picture display */
+#fileDisplayArea {
+    margin-top: 15px;
+    text-align: center;
+}
+
+#fileDisplayArea img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 50%;
+    border: 3px solid #007bff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+    .side-by-side-sections {
+        flex-direction: column;
+        gap: 0;
+    }
 }
 </style>
 
