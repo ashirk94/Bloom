@@ -156,6 +156,19 @@ router.post("/update-location", isAuth, async (req, res) => {
 	}
 });
 
+router.post("/display-name", isAuth, async (req, res) => {
+	try {
+		const user = await User.findById(req.user.id);
+		user.displayName = req.body.displayName;
+		await user.save();
+		req.flash("success", "Display name updated!");
+	} catch (err) {
+		console.error(err);
+		req.flash("error", err.message);
+	}
+	res.redirect("/profile");
+});
+
 router.post("/interests", isAuth, async (req, res) => {
 	//replace interests
 	try {

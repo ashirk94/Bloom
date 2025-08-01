@@ -176,9 +176,6 @@ li {
   margin-top: 20px;
   flex-wrap: wrap;
 }
-.active {
-  border: 2px solid red !important;
-}
 
 #form {
   width: auto;
