@@ -12,7 +12,6 @@ Made in collaboration with Artist and UI/UX designer [Sarah Martin](https://www.
 - GitHub login and sign up functionality.
 - Location tracking and distance measuring to pair users based on proximity.
 <br>&nbsp;
-- Drag and drop functionality implemented with the Dragula library.
 - Responsive animated navbar made with vanilla JavaScript.
 - Profile picture uploading with a preview display.
 - User data storage with MongoDB and Mongoose.

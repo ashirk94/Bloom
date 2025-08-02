@@ -125,6 +125,11 @@ input {
   color: white;
   cursor: pointer;
 }
+.btn-small {
+  width: 120px;
+  font-size: 18px;
+  padding: 8px 16px;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
