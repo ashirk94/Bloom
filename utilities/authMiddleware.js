@@ -14,11 +14,3 @@ module.exports.isAdmin = (req, res, next) => {
     res.render("auth/unauthorized");
   }
 };
-//email verification check
-module.exports.isVerified = (req, res, next) => {
-  if (req.user.confirmed) {
-    next();
-  } else {
-    res.redirect("/unverified");
-  }
-};
