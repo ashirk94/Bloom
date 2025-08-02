@@ -1,946 +1,795 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Bloom - Create Account</title>
-	<link rel="stylesheet" href="/stylesheets/styles.css" />
-	<link rel="stylesheet" href="/stylesheets/friends.css" />
-	<link rel="stylesheet" href="/stylesheets/design.css" />
-	<link rel="stylesheet" href="/stylesheets/fineTuning.css" />
-	<link rel="icon" href="/images/bloom-logo.png" id="favicon" />
-</head>
-<body>
-<div class="login-wrapper">
-	<h1 class="title">Create Your Account</h1>
-	<h2 class="subtitle">Complete your profile to find amazing friends!</h2>
-	<% if (locals.successMessage) { %>
-		<div class="success-msg">✅ <%= locals.successMessage %></div>
-	<% } %>
-	<% if (locals.errorMessage) { %>
-		<div class="error-msg">❌ <%= locals.errorMessage %></div>
-	<% } %>
-	<div id="validation"></div>
-	<div id="success"></div>
-	
-	<!-- Multi-step form -->
-	<form id="reg-form" method="post" enctype="multipart/form-data" autocomplete="off">
-		<!-- Step 1: Basic Info -->
-		<div class="form-step active" id="step-1">
-			<h3>Step 1: Basic Information</h3>
-			<input type="text" placeholder="Email Address" name="uname" id="username" required />
-			<input type="text" placeholder="Display Name (First Name)" name="displayName" id="displayName" required />
-			<img src="/images/eye-slash-regular.png" class="eye" onclick="showPassword()" id="pass-checkbox"/>
-			<input type="password" name="pw" placeholder="Password" id="password" required />
-			<img src="/images/eye-slash-regular.png" class="eye" onclick="showConfirm()" id="confirm-checkbox"/>
-			<input type="password" placeholder="Re-enter Password" id="confirm" required />
-			<button type="button" class="btn btn-primary" onclick="nextStep(2)">Next: Bio & Location</button>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Bloom - Create Account</title>
+		<link rel="stylesheet" href="/stylesheets/styles.css" />
+		<link rel="stylesheet" href="/stylesheets/friends.css" />
+		<link rel="stylesheet" href="/stylesheets/design.css" />
+		<link rel="stylesheet" href="/stylesheets/fineTuning.css" />
+		<link rel="icon" href="/images/bloom-logo.png" id="favicon" />
+	</head>
+	<body>
+		<div class="login-wrapper">
+			<h1 class="title">Create Your Account</h1>
+			<h2 class="subtitle">
+				Complete your profile to find amazing friends!
+			</h2>
+			<% if (locals.successMessage) { %>
+			<div class="success-msg">✅ <%= locals.successMessage %></div>
+			<% } %> <% if (locals.errorMessage) { %>
+			<div class="error-msg">❌ <%= locals.errorMessage %></div>
+			<% } %>
+			<div id="validation"></div>
+			<div id="success"></div>
+
+			<!-- Multi-step form -->
+			<form
+				id="reg-form"
+				method="post"
+				enctype="multipart/form-data"
+				autocomplete="off"
+			>
+				<!-- Step 1: Basic Info -->
+				<div class="form-step active" id="step-1">
+					<h3>Step 1: Basic Information</h3>
+					<input
+						type="text"
+						placeholder="Email Address"
+						name="uname"
+						id="username"
+						required
+					/>
+					<input
+						type="text"
+						placeholder="Display Name (First Name)"
+						name="displayName"
+						id="displayName"
+						required
+					/>
+					<img
+						src="/images/eye-slash-regular.png"
+						class="eye"
+						onclick="showPassword()"
+						id="pass-checkbox"
+					/>
+					<input
+						type="password"
+						name="pw"
+						placeholder="Password"
+						id="password"
+						required
+					/>
+					<img
+						src="/images/eye-slash-regular.png"
+						class="eye"
+						onclick="showConfirm()"
+						id="confirm-checkbox"
+					/>
+					<input
+						type="password"
+						placeholder="Re-enter Password"
+						id="confirm"
+						required
+					/>
+					<button
+						type="button"
+						class="btn btn-primary"
+						onclick="nextStep(2)"
+					>
+						Next: Bio & Location
+					</button>
+				</div>
+
+				<!-- Step 2: Bio and Location -->
+				<div class="form-step" id="step-2">
+					<h3>Step 2: Tell us about yourself</h3>
+					<textarea
+						name="bio"
+						placeholder="Write a short bio about yourself..."
+						rows="3"
+						class="form-textarea"
+					></textarea>
+
+					<!-- Profile Picture Upload -->
+					<div class="profile-pic-section">
+						<h4>Add a Profile Picture (Optional)</h4>
+						<input
+							type="file"
+							name="image"
+							id="profile-pic-input"
+							accept="image/*"
+							class="file-input"
+						/>
+						<div id="profile-pic-preview"></div>
+					</div>
+
+					<div class="location-section">
+						<p>
+							📍 We need your location to help you find friends
+							nearby
+						</p>
+						<button
+							type="button"
+							class="btn btn-secondary"
+							id="get-location-btn"
+						>
+							Get My Location
+						</button>
+						<div id="location-status"></div>
+					</div>
+					<input type="hidden" name="lat" id="lat" />
+					<input type="hidden" name="lon" id="lon" />
+					<div class="step-buttons">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							onclick="prevStep(1)"
+						>
+							Previous
+						</button>
+						<button
+							type="button"
+							class="btn btn-primary"
+							onclick="nextStep(3)"
+						>
+							Next: Interests
+						</button>
+					</div>
+				</div>
+
+				<!-- Step 3: Interests -->
+				<div class="form-step" id="step-3">
+					<h3>Step 3: Select & Rank Your Interests</h3>
+					<p>
+						Choose up to 5 interests and rank them in order of
+						importance (1 = most important):
+					</p>
+					<div class="interests-grid">
+						<label
+							class="interest-item"
+							data-interest="Photography"
+						>
+							<input
+								type="checkbox"
+								name="interests"
+								value="Photography"
+							/>
+							<span class="item-content">📸 Photography</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Hiking">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Hiking"
+							/>
+							<span class="item-content">🥾 Hiking</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Travel">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Travel"
+							/>
+							<span class="item-content">✈️ Travel</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Art">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Art"
+							/>
+							<span class="item-content">🎨 Art</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Reading">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Reading"
+							/>
+							<span class="item-content">📚 Reading</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Technology">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Technology"
+							/>
+							<span class="item-content">💻 Technology</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Gaming">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Gaming"
+							/>
+							<span class="item-content">🎮 Gaming</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Coffee">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Coffee"
+							/>
+							<span class="item-content">☕ Coffee</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Music">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Music"
+							/>
+							<span class="item-content">🎵 Music</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Movies">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Movies"
+							/>
+							<span class="item-content">🎬 Movies</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Yoga">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Yoga"
+							/>
+							<span class="item-content">🧘 Yoga</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Gardening">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Gardening"
+							/>
+							<span class="item-content">🌱 Gardening</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Cooking">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Cooking"
+							/>
+							<span class="item-content">👨‍🍳 Cooking</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Meditation">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Meditation"
+							/>
+							<span class="item-content">🕯️ Meditation</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Nature">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Nature"
+							/>
+							<span class="item-content">🌲 Nature</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Writing">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Writing"
+							/>
+							<span class="item-content">✍️ Writing</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Fitness">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Fitness"
+							/>
+							<span class="item-content">💪 Fitness</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="interest-item" data-interest="Sports">
+							<input
+								type="checkbox"
+								name="interests"
+								value="Sports"
+							/>
+							<span class="item-content">⚽ Sports</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+					</div>
+
+					<!-- Hidden inputs for ranked interests -->
+					<input type="hidden" name="interest1" id="interest1" />
+					<input type="hidden" name="interest2" id="interest2" />
+					<input type="hidden" name="interest3" id="interest3" />
+					<input type="hidden" name="interest4" id="interest4" />
+					<input type="hidden" name="interest5" id="interest5" />
+
+					<div class="step-buttons">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							onclick="prevStep(2)"
+						>
+							Previous
+						</button>
+						<button
+							type="button"
+							class="btn btn-primary"
+							onclick="nextStep(4)"
+						>
+							Next: Values
+						</button>
+					</div>
+				</div>
+
+				<!-- Step 4: Values -->
+				<div class="form-step" id="step-4">
+					<h3>Step 4: Select & Rank Your Values</h3>
+					<p>
+						Choose up to 5 values and rank them in order of
+						importance (1 = most important):
+					</p>
+					<div class="values-grid">
+						<label class="value-item" data-value="Family">
+							<input
+								type="checkbox"
+								name="values"
+								value="Family"
+							/>
+							<span class="item-content">👪 Family</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Ambition">
+							<input
+								type="checkbox"
+								name="values"
+								value="Ambition"
+							/>
+							<span class="item-content">🚀 Ambition</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Compassion">
+							<input
+								type="checkbox"
+								name="values"
+								value="Compassion"
+							/>
+							<span class="item-content">❤️ Compassion</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Honesty">
+							<input
+								type="checkbox"
+								name="values"
+								value="Honesty"
+							/>
+							<span class="item-content">✋ Honesty</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Spirituality">
+							<input
+								type="checkbox"
+								name="values"
+								value="Spirituality"
+							/>
+							<span class="item-content">🙏 Spirituality</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Adventure">
+							<input
+								type="checkbox"
+								name="values"
+								value="Adventure"
+							/>
+							<span class="item-content">🗺️ Adventure</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Creativity">
+							<input
+								type="checkbox"
+								name="values"
+								value="Creativity"
+							/>
+							<span class="item-content">🎨 Creativity</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Growth">
+							<input
+								type="checkbox"
+								name="values"
+								value="Growth"
+							/>
+							<span class="item-content">📈 Growth</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Independence">
+							<input
+								type="checkbox"
+								name="values"
+								value="Independence"
+							/>
+							<span class="item-content">🦅 Independence</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Innovation">
+							<input
+								type="checkbox"
+								name="values"
+								value="Innovation"
+							/>
+							<span class="item-content">💡 Innovation</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Learning">
+							<input
+								type="checkbox"
+								name="values"
+								value="Learning"
+							/>
+							<span class="item-content">📖 Learning</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Friendship">
+							<input
+								type="checkbox"
+								name="values"
+								value="Friendship"
+							/>
+							<span class="item-content">🤝 Friendship</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Humor">
+							<input
+								type="checkbox"
+								name="values"
+								value="Humor"
+							/>
+							<span class="item-content">😄 Humor</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Reliability">
+							<input
+								type="checkbox"
+								name="values"
+								value="Reliability"
+							/>
+							<span class="item-content">⚡ Reliability</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Peace">
+							<input
+								type="checkbox"
+								name="values"
+								value="Peace"
+							/>
+							<span class="item-content">☮️ Peace</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Health">
+							<input
+								type="checkbox"
+								name="values"
+								value="Health"
+							/>
+							<span class="item-content">💪 Health</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Mindfulness">
+							<input
+								type="checkbox"
+								name="values"
+								value="Mindfulness"
+							/>
+							<span class="item-content">🧠 Mindfulness</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+						<label class="value-item" data-value="Balance">
+							<input
+								type="checkbox"
+								name="values"
+								value="Balance"
+							/>
+							<span class="item-content">⚖️ Balance</span>
+							<select class="rank-select" disabled>
+								<option value="">Rank</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</label>
+					</div>
+
+					<!-- Hidden inputs for ranked values -->
+					<input type="hidden" name="value1" id="value1" />
+					<input type="hidden" name="value2" id="value2" />
+					<input type="hidden" name="value3" id="value3" />
+					<input type="hidden" name="value4" id="value4" />
+					<input type="hidden" name="value5" id="value5" />
+
+					<div class="step-buttons">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							onclick="prevStep(3)"
+						>
+							Previous
+						</button>
+						<input
+							type="submit"
+							value="Create Account"
+							class="btn btn-primary"
+						/>
+					</div>
+				</div>
+			</form>
 		</div>
 
-		<!-- Step 2: Bio and Location -->
-		<div class="form-step" id="step-2">
-			<h3>Step 2: Tell us about yourself</h3>
-			<textarea name="bio" placeholder="Write a short bio about yourself..." rows="3" class="form-textarea"></textarea>
-			
-			<!-- Profile Picture Upload -->
-			<div class="profile-pic-section">
-				<h4>Add a Profile Picture (Optional)</h4>
-				<input type="file" name="image" id="profile-pic-input" accept="image/*" class="file-input">
-				<div id="profile-pic-preview"></div>
-			</div>
-			
-			<div class="location-section">
-				<p>📍 We need your location to help you find friends nearby</p>
-				<button type="button" class="btn btn-secondary" id="get-location-btn">Get My Location</button>
-				<div id="location-status"></div>
-			</div>
-			<input type="hidden" name="lat" id="lat" />
-			<input type="hidden" name="lon" id="lon" />
-			<div class="step-buttons">
-				<button type="button" class="btn btn-secondary" onclick="prevStep(1)">Previous</button>
-				<button type="button" class="btn btn-primary" onclick="nextStep(3)">Next: Interests</button>
-			</div>
-		</div>
-
-		<!-- Step 3: Interests -->
-		<div class="form-step" id="step-3">
-			<h3>Step 3: Select & Rank Your Interests</h3>
-			<p>Choose up to 5 interests and rank them in order of importance (1 = most important):</p>
-			<div class="interests-grid">
-				<label class="interest-item" data-interest="Photography">
-					<input type="checkbox" name="interests" value="Photography">
-					<span class="item-content">📸 Photography</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Hiking">
-					<input type="checkbox" name="interests" value="Hiking">
-					<span class="item-content">🥾 Hiking</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Travel">
-					<input type="checkbox" name="interests" value="Travel">
-					<span class="item-content">✈️ Travel</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Art">
-					<input type="checkbox" name="interests" value="Art">
-					<span class="item-content">🎨 Art</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Reading">
-					<input type="checkbox" name="interests" value="Reading">
-					<span class="item-content">📚 Reading</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Technology">
-					<input type="checkbox" name="interests" value="Technology">
-					<span class="item-content">💻 Technology</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Gaming">
-					<input type="checkbox" name="interests" value="Gaming">
-					<span class="item-content">🎮 Gaming</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Coffee">
-					<input type="checkbox" name="interests" value="Coffee">
-					<span class="item-content">☕ Coffee</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Music">
-					<input type="checkbox" name="interests" value="Music">
-					<span class="item-content">🎵 Music</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Movies">
-					<input type="checkbox" name="interests" value="Movies">
-					<span class="item-content">🎬 Movies</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Yoga">
-					<input type="checkbox" name="interests" value="Yoga">
-					<span class="item-content">🧘 Yoga</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Gardening">
-					<input type="checkbox" name="interests" value="Gardening">
-					<span class="item-content">🌱 Gardening</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Cooking">
-					<input type="checkbox" name="interests" value="Cooking">
-					<span class="item-content">👨‍🍳 Cooking</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Meditation">
-					<input type="checkbox" name="interests" value="Meditation">
-					<span class="item-content">🕯️ Meditation</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Nature">
-					<input type="checkbox" name="interests" value="Nature">
-					<span class="item-content">🌲 Nature</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Writing">
-					<input type="checkbox" name="interests" value="Writing">
-					<span class="item-content">✍️ Writing</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Fitness">
-					<input type="checkbox" name="interests" value="Fitness">
-					<span class="item-content">💪 Fitness</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="interest-item" data-interest="Sports">
-					<input type="checkbox" name="interests" value="Sports">
-					<span class="item-content">⚽ Sports</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-			</div>
-			
-			<!-- Hidden inputs for ranked interests -->
-			<input type="hidden" name="interest1" id="interest1" />
-			<input type="hidden" name="interest2" id="interest2" />
-			<input type="hidden" name="interest3" id="interest3" />
-			<input type="hidden" name="interest4" id="interest4" />
-			<input type="hidden" name="interest5" id="interest5" />
-			
-			<div class="step-buttons">
-				<button type="button" class="btn btn-secondary" onclick="prevStep(2)">Previous</button>
-				<button type="button" class="btn btn-primary" onclick="nextStep(4)">Next: Values</button>
-			</div>
-		</div>
-
-		<!-- Step 4: Values -->
-		<div class="form-step" id="step-4">
-			<h3>Step 4: Select & Rank Your Values</h3>
-			<p>Choose up to 5 values and rank them in order of importance (1 = most important):</p>
-			<div class="values-grid">
-				<label class="value-item" data-value="Family">
-					<input type="checkbox" name="values" value="Family">
-					<span class="item-content">👪 Family</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Ambition">
-					<input type="checkbox" name="values" value="Ambition">
-					<span class="item-content">🚀 Ambition</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Compassion">
-					<input type="checkbox" name="values" value="Compassion">
-					<span class="item-content">❤️ Compassion</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Honesty">
-					<input type="checkbox" name="values" value="Honesty">
-					<span class="item-content">✋ Honesty</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Spirituality">
-					<input type="checkbox" name="values" value="Spirituality">
-					<span class="item-content">🙏 Spirituality</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Adventure">
-					<input type="checkbox" name="values" value="Adventure">
-					<span class="item-content">🗺️ Adventure</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Creativity">
-					<input type="checkbox" name="values" value="Creativity">
-					<span class="item-content">🎨 Creativity</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Growth">
-					<input type="checkbox" name="values" value="Growth">
-					<span class="item-content">📈 Growth</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Independence">
-					<input type="checkbox" name="values" value="Independence">
-					<span class="item-content">🦅 Independence</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Innovation">
-					<input type="checkbox" name="values" value="Innovation">
-					<span class="item-content">💡 Innovation</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Learning">
-					<input type="checkbox" name="values" value="Learning">
-					<span class="item-content">📖 Learning</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Friendship">
-					<input type="checkbox" name="values" value="Friendship">
-					<span class="item-content">🤝 Friendship</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Humor">
-					<input type="checkbox" name="values" value="Humor">
-					<span class="item-content">😄 Humor</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Reliability">
-					<input type="checkbox" name="values" value="Reliability">
-					<span class="item-content">⚡ Reliability</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Peace">
-					<input type="checkbox" name="values" value="Peace">
-					<span class="item-content">☮️ Peace</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Health">
-					<input type="checkbox" name="values" value="Health">
-					<span class="item-content">💪 Health</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Mindfulness">
-					<input type="checkbox" name="values" value="Mindfulness">
-					<span class="item-content">🧠 Mindfulness</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-				<label class="value-item" data-value="Balance">
-					<input type="checkbox" name="values" value="Balance">
-					<span class="item-content">⚖️ Balance</span>
-					<select class="rank-select" disabled>
-						<option value="">Rank</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-				</label>
-			</div>
-			
-			<!-- Hidden inputs for ranked values -->
-			<input type="hidden" name="value1" id="value1" />
-			<input type="hidden" name="value2" id="value2" />
-			<input type="hidden" name="value3" id="value3" />
-			<input type="hidden" name="value4" id="value4" />
-			<input type="hidden" name="value5" id="value5" />
-			
-			<div class="step-buttons">
-				<button type="button" class="btn btn-secondary" onclick="prevStep(3)">Previous</button>
-				<input type="submit" value="Create Account" class="btn btn-primary" />
-			</div>
-		</div>
-	</form>
-</div>
-
-<style>
-/* Override login-wrapper for registration page */
-.login-wrapper {
-    background-color: #fffedf !important;
-    min-height: 100vh !important;
-    height: auto !important;
-    padding-top: 0 !important;
-}
-
-/* Ensure body fills viewport */
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    background-color: #fffedf;
-}
-
-.form-step {
-    display: none;
-}
-.form-step.active {
-    display: block;
-}
-.form-textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-family: inherit;
-    resize: vertical;
-}
-.location-section {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    margin: 15px 0;
-    text-align: center;
-}
-.interests-grid, .values-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin: 20px 0;
-}
-
-.interest-item, .value-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 15px;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: white;
-    gap: 12px;
-}
-
-.interest-item:hover, .value-item:hover {
-    border-color: #007bff;
-    background-color: #f8f9fa;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.interest-item.selected, .value-item.selected {
-    border-color: #007bff;
-    background-color: #e7f3ff;
-}
-
-.interest-item input[type="checkbox"], .value-item input[type="checkbox"] {
-    margin: 0;
-    transform: scale(1.2);
-}
-
-.item-content {
-    flex: 1;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.rank-select {
-    padding: 4px 8px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 14px;
-    min-width: 70px;
-    background: white;
-}
-
-.rank-select:disabled {
-    background: #f8f9fa;
-    color: #6c757d;
-}
-
-.rank-select:enabled {
-    border-color: #007bff;
-    background: #fff;
-}
-.step-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-#location-status {
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-.profile-pic-section {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    margin: 15px 0;
-    text-align: center;
-}
-
-.profile-pic-section h4 {
-    margin: 0 0 10px 0;
-    color: #495057;
-}
-
-.file-input {
-    margin: 10px 0;
-    padding: 8px;
-    border: 2px dashed #dee2e6;
-    border-radius: 8px;
-    width: calc(100% - 20px);
-    max-width: 400px;
-    cursor: pointer;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-}
-
-.file-input:hover {
-    border-color: #007bff;
-}
-
-#profile-pic-preview {
-    margin-top: 10px;
-}
-
-#profile-pic-preview img {
-    max-width: 150px;
-    max-height: 150px;
-    border-radius: 50%;
-    border: 3px solid #007bff;
-}
-
-/* Add extra bottom spacing for steps 2+ only */
-#step-2 .step-buttons, #step-3 .step-buttons, #step-4 .step-buttons {
-    margin-bottom: 10px;
-}
-
-/* Remove excessive whitespace from step 1 */
-#step-1 .btn {
-    margin-bottom: 0;
-}
-
-#step-1 {
-    padding-bottom: 20px;
-}
-</style>
-
-<script src="/location.js" defer></script>
-<script src="/register.js" defer></script>
-<script>
-// Initialize ranking functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const interestItems = document.querySelectorAll('#step-3 .interest-item');
-    const valueItems = document.querySelectorAll('#step-4 .value-item');
-    
-    const interestHiddenInputs = {
-        1: document.getElementById('interest1'),
-        2: document.getElementById('interest2'),
-        3: document.getElementById('interest3'),
-        4: document.getElementById('interest4'),
-        5: document.getElementById('interest5')
-    };
-    
-    const valueHiddenInputs = {
-        1: document.getElementById('value1'),
-        2: document.getElementById('value2'),
-        3: document.getElementById('value3'),
-        4: document.getElementById('value4'),
-        5: document.getElementById('value5')
-    };
-
-    // Setup interest ranking functionality
-    interestItems.forEach(item => {
-        const checkbox = item.querySelector('input[type="checkbox"]');
-        const rankSelect = item.querySelector('.rank-select');
-        
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                const selectedCount = document.querySelectorAll('#step-3 input[name="interests"]:checked').length;
-                if (selectedCount > 5) {
-                    this.checked = false;
-                    alert('You can select maximum 5 interests');
-                    return;
-                }
-                
-                item.classList.add('selected');
-                rankSelect.disabled = false;
-                
-                // Auto-assign next available rank
-                const usedRanks = Array.from(document.querySelectorAll('#step-3 .rank-select:enabled'))
-                    .map(select => select.value)
-                    .filter(value => value !== '');
-                
-                for (let i = 1; i <= 5; i++) {
-                    if (!usedRanks.includes(i.toString())) {
-                        rankSelect.value = i.toString();
-                        break;
-                    }
-                }
-            } else {
-                item.classList.remove('selected');
-                rankSelect.disabled = true;
-                rankSelect.value = '';
-            }
-            updateInterestHiddenInputs();
-        });
-
-        rankSelect.addEventListener('change', function() {
-            updateInterestHiddenInputs();
-        });
-    });
-
-    // Setup value ranking functionality
-    valueItems.forEach(item => {
-        const checkbox = item.querySelector('input[type="checkbox"]');
-        const rankSelect = item.querySelector('.rank-select');
-        
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                const selectedCount = document.querySelectorAll('#step-4 input[name="values"]:checked').length;
-                if (selectedCount > 5) {
-                    this.checked = false;
-                    alert('You can select maximum 5 values');
-                    return;
-                }
-                
-                item.classList.add('selected');
-                rankSelect.disabled = false;
-                
-                // Auto-assign next available rank
-                const usedRanks = Array.from(document.querySelectorAll('#step-4 .rank-select:enabled'))
-                    .map(select => select.value)
-                    .filter(value => value !== '');
-                
-                for (let i = 1; i <= 5; i++) {
-                    if (!usedRanks.includes(i.toString())) {
-                        rankSelect.value = i.toString();
-                        break;
-                    }
-                }
-            } else {
-                item.classList.remove('selected');
-                rankSelect.disabled = true;
-                rankSelect.value = '';
-            }
-            updateValueHiddenInputs();
-        });
-
-        rankSelect.addEventListener('change', function() {
-            updateValueHiddenInputs();
-        });
-    });
-
-    function updateInterestHiddenInputs() {
-        // Clear all hidden inputs
-        Object.values(interestHiddenInputs).forEach(input => input.value = '');
-        
-        // Get all selected items with ranks
-        const rankedItems = Array.from(document.querySelectorAll('#step-3 .interest-item.selected'))
-            .map(item => ({
-                interest: item.getAttribute('data-interest'),
-                rank: parseInt(item.querySelector('.rank-select').value) || 999
-            }))
-            .filter(item => item.rank !== 999)
-            .sort((a, b) => a.rank - b.rank);
-
-        // Update hidden inputs based on ranks
-        rankedItems.forEach((item) => {
-            if (interestHiddenInputs[item.rank]) {
-                interestHiddenInputs[item.rank].value = item.interest;
-            }
-        });
-    }
-
-    function updateValueHiddenInputs() {
-        // Clear all hidden inputs
-        Object.values(valueHiddenInputs).forEach(input => input.value = '');
-        
-        // Get all selected items with ranks
-        const rankedItems = Array.from(document.querySelectorAll('#step-4 .value-item.selected'))
-            .map(item => ({
-                value: item.getAttribute('data-value'),
-                rank: parseInt(item.querySelector('.rank-select').value) || 999
-            }))
-            .filter(item => item.rank !== 999)
-            .sort((a, b) => a.rank - b.rank);
-
-        // Update hidden inputs based on ranks
-        rankedItems.forEach((item) => {
-            if (valueHiddenInputs[item.rank]) {
-                valueHiddenInputs[item.rank].value = item.value;
-            }
-        });
-    }
-});
-
-function nextStep(step) {
-    // Validate current step
-    const currentStep = document.querySelector('.form-step.active');
-    const inputs = currentStep.querySelectorAll('input[required]');
-    let valid = true;
-    
-    inputs.forEach(input => {
-        if (!input.value.trim()) {
-            valid = false;
-        }
-    });
-    
-    // Special validation for interests and values (max 5)
-    if (step === 4) {
-        const checkedInterests = document.querySelectorAll('#step-3 input[name="interests"]:checked');
-        const rankedCount = Object.values(document.querySelectorAll('#step-3 input[type="hidden"]')).filter(input => input.value !== '').length;
-        
-        if (checkedInterests.length === 0) {
-            alert('Please select at least one interest');
-            return;
-        }
-        if (checkedInterests.length !== rankedCount) {
-            alert('Please assign ranks to all selected interests');
-            return;
-        }
-    }
-    
-    if (currentStep.id === 'step-4') {
-        const checkedValues = document.querySelectorAll('#step-4 input[name="values"]:checked');
-        const rankedCount = Object.values(document.querySelectorAll('#step-4 input[type="hidden"]')).filter(input => input.value !== '').length;
-        
-        if (checkedValues.length === 0) {
-            alert('Please select at least one value');
-            return;
-        }
-        if (checkedValues.length !== rankedCount) {
-            alert('Please assign ranks to all selected values');
-            return;
-        }
-    }
-    
-    if (!valid) {
-        alert('Please fill in all required fields');
-        return;
-    }
-    
-    // Hide current step and show next
-    currentStep.classList.remove('active');
-    document.getElementById('step-' + step).classList.add('active');
-}
-
-function prevStep(step) {
-    const currentStep = document.querySelector('.form-step.active');
-    currentStep.classList.remove('active');
-    document.getElementById('step-' + step).classList.add('active');
-}
-
-// Profile picture preview
-document.getElementById('profile-pic-input').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    const preview = document.getElementById('profile-pic-preview');
-    
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.innerHTML = '<img src="' + e.target.result + '" alt="Profile Preview">';
-        };
-        reader.readAsDataURL(file);
-    } else {
-        preview.innerHTML = '';
-    }
-});
-
-// Location functionality
-document.getElementById('get-location-btn').addEventListener('click', function() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            document.getElementById('lat').value = position.coords.latitude;
-            document.getElementById('lon').value = position.coords.longitude;
-            document.getElementById('location-status').innerHTML = '✅ Location captured successfully!';
-            document.getElementById('location-status').style.color = 'green';
-        }, function() {
-            document.getElementById('location-status').innerHTML = '❌ Unable to get location';
-            document.getElementById('location-status').style.color = 'red';
-        });
-    } else {
-        document.getElementById('location-status').innerHTML = '❌ Geolocation not supported';
-        document.getElementById('location-status').style.color = 'red';
-    }
-});
-</script>
-</body>
+		<script src="/location.js" defer></script>
+		<script src="/register.js" defer></script>
+	</body>
 </html>
