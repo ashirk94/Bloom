@@ -125,3 +125,166 @@
 .default-text-color {
     color: #357376;
 }
+
+/* Override login-wrapper for registration page */
+.login-wrapper {
+    background-color: #fffedf !important;
+    min-height: 100vh !important;
+    height: auto !important;
+    padding-top: 0 !important;
+}
+
+/* Ensure body fills viewport */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #fffedf;
+}
+
+.form-step {
+    display: none;
+}
+.form-step.active {
+    display: block;
+}
+.form-textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    resize: vertical;
+}
+.location-section {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    text-align: center;
+}
+.interests-grid, .values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.interest-item, .value-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    gap: 12px;
+}
+
+.interest-item:hover, .value-item:hover {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.interest-item.selected, .value-item.selected {
+    border-color: #007bff;
+    background-color: #e7f3ff;
+}
+
+.interest-item input[type="checkbox"], .value-item input[type="checkbox"] {
+    margin: 0;
+    transform: scale(1.2);
+}
+
+.item-content {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.rank-select {
+    padding: 4px 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 70px;
+    background: white;
+}
+
+.rank-select:disabled {
+    background: #f8f9fa;
+    color: #6c757d;
+}
+
+.rank-select:enabled {
+    border-color: #007bff;
+    background: #fff;
+}
+.step-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+#location-status {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.profile-pic-section {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.profile-pic-section h4 {
+    margin: 0 0 10px 0;
+    color: #495057;
+}
+
+.file-input {
+    margin: 10px 0;
+    padding: 8px;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    width: calc(100% - 20px);
+    max-width: 400px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.file-input:hover {
+    border-color: #007bff;
+}
+
+#profile-pic-preview {
+    margin-top: 10px;
+}
+
+#profile-pic-preview img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 50%;
+    border: 3px solid #007bff;
+}
+
+/* Add extra bottom spacing for steps 2+ only */
+#step-2 .step-buttons, #step-3 .step-buttons, #step-4 .step-buttons {
+    margin-bottom: 10px;
+}
+
+/* Remove excessive whitespace from step 1 */
+#step-1 .btn {
+    margin-bottom: 0;
+}
+
+#step-1 {
+    padding-bottom: 20px;
+}
