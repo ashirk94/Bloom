@@ -20,7 +20,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "start http://localhost:3000 && nodemon server.js"
+    "dev": "start http://localhost:3000 && nodemon server.js",
+    "dev-mac": "open http://localhost:3000 && nodemon server.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
