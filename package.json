@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "nodemon": "^2.0.22"
   }
 }
