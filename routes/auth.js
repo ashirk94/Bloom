@@ -78,10 +78,21 @@ router.post("/register", upload.single("image"), async (req, res) => {
 	try {
         
 		//check password
-		let passRegex = /^(?=.*[0-9])[A-Za-z]\w{7,14}$/;
+		const password = req.body.pw;
 
-		if (!req.body.pw.match(passRegex)) {
-			throw new Error("Invalid password");
+		if (password.length < 8) {
+			req.flash("error", "Password must be at least 8 characters long.");
+			return res.redirect("/register");
+		}
+
+		if (!/[A-Z]/.test(password) || !/[a-z]/.test(password)) {
+			req.flash("error", "Password must include both uppercase and lowercase letters.");
+			return res.redirect("/register");
+		}
+
+		if (!/\d/.test(password)) {
+			req.flash("error", "Password must include at least one number.");
+			return res.redirect("/register");
 		}
 
 		//check username

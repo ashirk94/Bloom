@@ -20,9 +20,13 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "start http://localhost:3000 && nodemon server.js"
+    "dev": "start http://localhost:3000 && nodemon server.js",
+    "dev-mac": "open http://localhost:3000 && nodemon server.js",
+    "test": "jest"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "nodemon": "^2.0.22"
   }
 }

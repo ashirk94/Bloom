@@ -2,30 +2,35 @@ const form = document.getElementById("reg-form");
 const validation = document.getElementById("validation");
 const success = document.getElementById("success");
 
-//check password and username
-let passRegex = /^(?=.*[0-9])[A-Za-z]\w{7,14}$/;
-let unameRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
-
+// Password and email validation
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-  const confirm = document.getElementById("confirm").value;
+
+  const email = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value;
-  const username = document.getElementById("username").value;
-  if (
-    password === confirm &&
-    password.match(passRegex) &&
-    username.match(unameRegex)
-  ) {
-    success.innerHTML = "Success!";
-    form.submit();
-  } else if (!username.match(unameRegex)) {
-    validation.innerHTML = "Invalid email address";
-  } else if (!password.match(passRegex)) {
-    validation.innerHTML =
-      "Password must be 7-14 characters in length and contain a digit";
-  } else if (password !== confirm) {
-    validation.innerHTML = "Password and password confirmation do not match";
+  const confirm = document.getElementById("confirm").value;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
+
+  if (!emailRegex.test(email)) {
+    validation.innerHTML = "Please enter a valid email address.";
+    return;
   }
+
+  if (!passwordRegex.test(password)) {
+    validation.innerHTML =
+      "Password must be at least 8 characters and include uppercase, lowercase, and a number.";
+    return;
+  }
+
+  if (password !== confirm) {
+    validation.innerHTML = "Passwords do not match.";
+    return;
+  }
+
+  success.innerHTML = "Success!";
+  form.submit();
 });
 
 const passInput = document.getElementById("password");
