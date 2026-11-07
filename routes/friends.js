@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const isAuth = require("../utilities/authMiddleware").isAuth;
 const { User } = require("../config/database");
+const { hasLiked, areConnected } = require("../utilities/connections");
 
 //distance calculation formula (efficient)
 function distance(lat1, lon1, lat2, lon2) {
@@ -14,41 +15,52 @@ function distance(lat1, lon1, lat2, lon2) {
 	return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 }
 
+//users who liked `user` and were liked back
+async function getConnections(user) {
+	const users = await User.find({ _id: { $in: user.likes } });
+	return users.filter((other) => hasLiked(other, user._id));
+}
+
 //private messages
-router.get("/chat/:username", isAuth, async (req, res) => {
-	const username = req.params.username;
-	const friendArray = await User.find({ username: username });
-	const friend = friendArray[0];
-	const user = await User.findById(req.user._id);
-	user.hasUnreadMessage = false;
-	friend.hasUnreadMessage = false;
+router.get("/chat/:username", isAuth, async (req, res, next) => {
+	try {
+		const username = req.params.username;
+		const friend = await User.findOne({ username: username });
+		if (!friend) {
+			return res
+				.status(404)
+				.render("error", { error: "User not found" });
+		}
 
-	//reset messages
-	//user.messages = []
-	//friend.messages = []
-	await user.save();
-	await friend.save();
+		//chat is locked until both users have accepted each other
+		if (!areConnected(req.user, friend)) {
+			return res.redirect(`/user/${encodeURIComponent(username)}`);
+		}
 
-	//get mutual messages
-	const messages = req.user.messages.filter(
-		(message) =>
-			(message.recipient === req.user.username &&
-				message.sender === friend.username) ||
-			(message.recipient === username &&
-				message.sender === req.user.username)
-	);
-	//users with mutual likes
-	let users = await User.find({ _id: { $in: req.user.likes } });
-	users = users.filter((user) =>
-		user.likes.find((like) => like.id === req.user.id)
-	);
+		//opening the chat marks your own messages as read
+		await User.updateOne(
+			{ _id: req.user._id },
+			{ hasUnreadMessage: false }
+		);
 
-	res.render("main/chat", {
-		friend: friend,
-		user: req.user,
-		messages: messages,
-		others: users
-	});
+		//get mutual messages
+		const messages = req.user.messages.filter(
+			(message) =>
+				(message.recipient === req.user.username &&
+					message.sender === friend.username) ||
+				(message.recipient === username &&
+					message.sender === req.user.username)
+		);
+
+		res.render("main/chat", {
+			friend: friend,
+			user: req.user,
+			messages: messages,
+			others: await getConnections(req.user)
+		});
+	} catch (err) {
+		next(err);
+	}
 });
 
 router.get("/join-chat", isAuth, async (req, res) => {
@@ -215,19 +227,14 @@ router.get("/user/:username", isAuth, async (req, res) => {
 
 router.get("/connections", isAuth, async (req, res) => {
 	//users with mutual likes
-	let users = await User.find({ _id: { $in: req.user.likes } });
-	users = users.filter((user) =>
-		user.likes.find((like) => like.id === req.user.id)
-	);
+	const users = await getConnections(req.user);
 	res.render("main/connections", { user: req.user, friends: users });
 });
 
 router.get("/requests", isAuth, async (req, res) => {
-	//users who have liked you
+	//users who have liked you that you haven't liked back
 	let users = await User.find({ _id: { $in: req.user.likes } });
-	users = users.filter(
-		(user) => !user.likes.find((like) => like.id === req.user.id)
-	);
+	users = users.filter((user) => !hasLiked(user, req.user._id));
 	res.render("main/requests", { user: req.user, friends: users });
 });
 module.exports = router;

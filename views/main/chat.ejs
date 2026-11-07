@@ -87,11 +87,6 @@
 <input type="hidden" id="user-name-input" value="<%= locals.user.username %>" />
 <input type="hidden" id="user-id-input" value="<%= locals.user.id %>" />
 <% } %> <% if (locals.friend) { %>
-<input
-	type="hidden"
-	id="friend-socket-input"
-	value="<%= locals.friend.socketId %>"
-/>
 <input type="hidden" id="friend-id-input" value="<%= locals.friend.id %>" />
 <% } %>
 <script

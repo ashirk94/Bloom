@@ -7,7 +7,6 @@ const form = document.getElementById("chat-form");
 const user = document.getElementById("user-name-input").value;
 const userId = document.getElementById("user-id-input").value;
 const friendId = document.getElementById("friend-id-input").value;
-const friendSocket = document.getElementById("friend-socket-input").value;
 let times = document.querySelectorAll(".chat-time");
 const loaderContainer = document.getElementById("loader-container");
 const wrapper = document.getElementById("wrapper");
@@ -32,36 +31,25 @@ function displayMessage(message) {
 		timeZone: localTimeZone
 	});
 	const time = fDate.format(date);
+	const isOwn = message.username.trim() === user.trim();
 
-	if (message.username.trim() === user.trim()) {
-		const heading = document.createElement("div");
-		heading.classList.add("chat-heading");
-		const timeDisplay = document.createElement("div");
-		timeDisplay.innerHTML = `<div class='chat-time'>${time}</div>`;
-		const usernameDisplay = document.createElement("div");
-		usernameDisplay.innerHTML = `<div>${message.username} (you)</div>`;
-		messageContainer.append(heading);
-		heading.append(timeDisplay);
-		heading.append(usernameDisplay);
+	//textContent (not innerHTML) so message text can never inject HTML or scripts
+	const heading = document.createElement("div");
+	heading.classList.add("chat-heading");
+	const timeDisplay = document.createElement("div");
+	timeDisplay.classList.add("chat-time");
+	timeDisplay.textContent = time;
+	const usernameDisplay = document.createElement("div");
+	usernameDisplay.textContent = isOwn
+		? `${message.username} (you)`
+		: message.username;
+	heading.append(timeDisplay, usernameDisplay);
 
-		const msg = document.createElement("div");
-		msg.innerHTML = `<div class='message'>${message.text}</div> `;
-		messageContainer.append(msg);
-	} else {
-		const heading = document.createElement("div");
-		heading.classList.add("chat-heading");
-		const timeDisplay = document.createElement("div");
-		timeDisplay.innerHTML = `<div class='chat-time'>${time}</div>`;
-		const usernameDisplay = document.createElement("div");
-		usernameDisplay.innerHTML = `<div>${message.username}</div>`;
-		messageContainer.append(heading);
-		heading.append(timeDisplay);
-		heading.append(usernameDisplay);
+	const msg = document.createElement("div");
+	msg.classList.add(isOwn ? "message" : "message-other");
+	msg.textContent = message.text;
 
-		const msg = document.createElement("div");
-		msg.innerHTML = `<div class='message-other'>${message.text}</div> `;
-		messageContainer.append(msg);
-	}
+	messageContainer.append(heading, msg);
 }
 //enables chatting on development and production
 let socket;
@@ -73,7 +61,13 @@ socket = io("http://localhost:3000", {
 local = true;
 
 // message from server
-socket.on("receive-message", ({ message }) => {
+socket.on("receive-message", ({ message, from, to }) => {
+	//only show messages that belong to this conversation
+	const inThisChat =
+		(from === friendId && to === userId) ||
+		(from === userId && to === friendId);
+	if (!inThisChat) return;
+
 	displayMessage(message);
 
 	// auto scroll feature
@@ -87,6 +81,11 @@ socket.on("receive-message", ({ message }) => {
 			});
 		}
 	}
+});
+
+// server refused the message (not connected, too long, etc.)
+socket.on("message-rejected", ({ reason }) => {
+	alert(reason);
 });
 
 function startFlashingInterval() {
@@ -130,8 +129,6 @@ form.addEventListener("submit", (e) => {
 	//emit message to server
 	socket.emit("send-message", {
 		message: msg,
-		to: friendSocket,
-		sender: user,
 		friendId: friendId,
 		timeZone: localTimeZone
 	});
