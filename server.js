@@ -9,7 +9,7 @@ const passportConfig = require("./config/passport");
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
 const cors = require("cors");
-const { formatMessage, storeMessage } = require("./utilities/messaging");
+const { sendMessage, MessageError } = require("./utilities/messaging");
 
 const homeRoutes = require("./routes/index");
 const authRoutes = require("./routes/auth");
@@ -57,27 +57,46 @@ io.use((socket, next) => {
 	sessionMiddleware(socket.request, socket.request.res || {}, next);
 });
 
-io.on("connection", async (socket) => {
-	const userId = socket.request.session.passport.user;
-	const user = await User.findById(userId);
-	user.socketId = socket.id;
-	await user.save();
+io.on("connection", (socket) => {
+	//only logged in users can chat
+	const sessionUser = socket.request.session?.passport?.user;
+	if (!sessionUser) {
+		socket.disconnect(true);
+		return;
+	}
+	const userId = String(sessionUser);
 
-	socket.on(
-		"send-message",
-		async ({ message, to, sender, friendId, timeZone }) => {
-			//join their room on message
-			socket.join(to);
+	//each user gets a room named after their id, so every open tab receives messages
+	socket.join(userId);
 
-			//format and store message in db
-			const formattedMessage = formatMessage(sender, message, timeZone);
-			await storeMessage(formattedMessage, userId, friendId);
+	socket.on("send-message", async (payload) => {
+		const { message, friendId, timeZone } = payload || {};
+		try {
+			//sender is always the logged in user, never taken from the client
+			const formattedMessage = await sendMessage({
+				senderId: userId,
+				recipientId: friendId,
+				text: message,
+				timeZone
+			});
 
-			io.to(to)
-				.to(socket.id)
-				.emit("receive-message", { message: formattedMessage });
+			io.to(String(friendId))
+				.to(userId)
+				.emit("receive-message", {
+					message: formattedMessage,
+					from: userId,
+					to: String(friendId)
+				});
+		} catch (err) {
+			if (!(err instanceof MessageError)) console.error(err);
+			socket.emit("message-rejected", {
+				reason:
+					err instanceof MessageError
+						? err.message
+						: "Message could not be sent."
+			});
 		}
-	);
+	});
 });
 
 app.use(express.json());

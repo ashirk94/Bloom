@@ -17,7 +17,7 @@ function loadRegistrationForm(password, confirmation) {
   const form = document.getElementById("reg-form");
   jest.spyOn(form, "submit").mockImplementation(() => {});
   jest.resetModules();
-  require("./public/register.js");
+  require("../public/register.js");
 
   return form;
 }

@@ -3,7 +3,7 @@
 This project was developed for my software engineering portfolio to demonstrate my full stack web development skills.
 It is a unique social platform designed to create new friendships through shared interests and values.
 
-Made in collaboration with Artist and UI/UX designer [Sarah Martin](https://www.sarahmartinart.com/).
+Made in collaboration with [Sarah Martin](https://www.sarahmartinart.com/).
 
 ## Features
 

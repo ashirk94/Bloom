@@ -1,34 +1,33 @@
 const router = require("express").Router();
 const isAdmin = require("../utilities/authMiddleware").isAdmin;
 const isAuth = require("../utilities/authMiddleware").isAuth;
-const jwt = require("jsonwebtoken");
 const { User } = require("../config/database");
 
-//get unread message flag
-router.get("/users/:id", async (req, res) => {
-	try {
-		const user = await User.findById(req.params.id);
-
-		const userData = user.toJSON();
-		if (user) {
-			res.json(userData);
-		} else {
-			res.status(404).json({ message: "User not found" });
-		}
-	} catch (err) {
-		console.error(err);
-		res.status(500).json({ message: "Internal server error" });
+//JSON endpoints a user may only call for their own account
+function ownAccountOnly(req, res, next) {
+	if (!req.isAuthenticated()) {
+		return res.status(401).json({ message: "Not logged in" });
 	}
+	if (req.user.id !== req.params.id) {
+		return res.status(403).json({ message: "Forbidden" });
+	}
+	next();
+}
+
+//get unread message flag
+router.get("/users/:id", ownAccountOnly, (req, res) => {
+	//only expose what the client needs, never the whole user document
+	res.json({ hasUnreadMessage: Boolean(req.user.hasUnreadMessage) });
 });
 
-//alter user
-router.post("/users/:id", async (req, res) => {
+//mark messages as seen
+router.post("/users/:id", ownAccountOnly, async (req, res) => {
 	try {
-		const userId = req.params.id;
 		if (req.body.seen == "true") {
-			const user = await User.findById(userId);
-			user.hasUnreadMessage = false;
-			await user.save();
+			await User.updateOne(
+				{ _id: req.user._id },
+				{ hasUnreadMessage: false }
+			);
 
 			res.status(200).json({ message: "User updated successfully" });
 		} else {

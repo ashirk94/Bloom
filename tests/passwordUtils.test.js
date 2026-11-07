@@ -1,4 +1,4 @@
-const { genPassword, validPassword } = require("./passwordUtils");
+const { genPassword, validPassword } = require("../utilities/passwordUtils");
 
 describe("password utilities", () => {
 	test("hashes a password and verifies the original password", async () => {
