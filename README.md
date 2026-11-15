@@ -9,10 +9,10 @@ Made in collaboration with [Sarah Martin](https://www.sarahmartinart.com/).
 
 - Matching algorithm designed to connect people based on their ranked interests and values.
 - Authentication implemented with the Passport and Bcrypt libraries.
-- GitHub login and sign up functionality.
-- Location tracking and distance measuring to pair users based on proximity.
+- Location and distance measuring to pair users based on proximity.
 <br>&nbsp;
-- Responsive animated navbar made with vanilla JavaScript.
+- React frontend (React Router, Vite) talking to an Express JSON API.
+- Responsive animated navbar.
 - Profile picture uploading with a preview display.
 - User data storage with MongoDB and Mongoose.
 - Admin area for data management.
@@ -24,6 +24,58 @@ Made in collaboration with [Sarah Martin](https://www.sarahmartinart.com/).
 - A sidebar to switch between chatrooms.
 <br>&nbsp;
 - Was deployed to a Heroku Dyno utilizing continuous integration.
-- Loaders for a smoother user experience.
 - Privacy Policy and Terms of Service.
 - Logo and designs made by Sarah Martin.
+
+## Project layout
+
+```
+server.js        Express app: sessions, API routes, socket.io chat
+config/          database connection, Passport login, interest/value options
+models/          Mongoose models (User, Message)
+routes/          JSON API, everything is served under /api
+utilities/       matching algorithm, validation, messaging, helpers
+tests/           Jest tests for the utilities
+scripts/         one-time data migration
+client/          React app (Vite)
+  src/pages/       one component per page
+  src/components/  pieces shared between pages
+  src/context/     app-wide state: who is logged in, live chat
+  src/lib/         small helpers and hooks
+```
+
+## Running it
+
+Requires Node 20+ and a MongoDB database. Create a `.env` file in the project root:
+
+```
+DB_STRING=mongodb+srv://...
+SESSION_SECRET=a-long-random-string
+# optional: match people regardless of distance
+DEMO_MODE=false
+```
+
+Then:
+
+```
+npm install      # installs the server and the client
+npm run dev      # API on :3000, React app on http://localhost:5173
+npm test         # run the tests
+```
+
+For production, `npm run build` creates `client/dist` and `npm start` serves both the API and the built React app from one port.
+
+### Upgrading an existing database
+
+Accounts created before the React rewrite store interests, friend requests and messages in an older shape. Preview the conversion, then apply it:
+
+```
+npm run migrate
+npm run migrate -- --apply
+```
+
+The migration only adds the new fields; it never deletes the old ones.
+
+## How matching works
+
+Each person ranks up to five interests and five values. A rank is worth 5 points (first) down to 1 point (fifth). For everything two people share, their two rank weights are multiplied, so sharing your top interest with someone who also ranks it first counts far more than sharing a fifth choice. The total is divided by the best possible score to give a compatibility percentage, with interests and values counting equally. People within 50 km are shown, most compatible first, and between equally compatible people the closer one is listed first. See `utilities/matching.js`.

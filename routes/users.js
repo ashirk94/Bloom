@@ -1,73 +1,132 @@
 const router = require("express").Router();
-const isAdmin = require("../utilities/authMiddleware").isAdmin;
-const isAuth = require("../utilities/authMiddleware").isAuth;
-const { User } = require("../config/database");
+const mongoose = require("mongoose");
+const User = require("../models/User");
+const { isAuth } = require("../utilities/authMiddleware");
+const { HttpError } = require("../utilities/errors");
+const { publicUser } = require("../utilities/serialize");
+const { hasLiked, relationship } = require("../utilities/connections");
+const { rankMatches } = require("../utilities/matching");
 
-//JSON endpoints a user may only call for their own account
-function ownAccountOnly(req, res, next) {
-	if (!req.isAuthenticated()) {
-		return res.status(401).json({ message: "Not logged in" });
+const MAX_DISTANCE_KM = 50;
+// Demo mode matches everyone, wherever they are (handy for showing the app
+// off when there are only a few accounts)
+const DEMO_MODE = process.env.DEMO_MODE === "true";
+
+// Every route below needs a logged in user
+router.use(["/matches", "/connections", "/requests", "/users"], isAuth);
+
+// Runs for every route with an :id parameter and rejects malformed ids
+// before they reach the database
+router.param("id", (req, res, next, id) => {
+	if (!mongoose.isValidObjectId(id)) {
+		return next(new HttpError(404, "User not found."));
 	}
-	if (req.user.id !== req.params.id) {
-		return res.status(403).json({ message: "Forbidden" });
-	}
+	// ids are hex, and MongoDB accepts "ABC..." as well as "abc...". Using
+	// one spelling means comparisons like `me.id === id` below can't be
+	// tricked by sending your own id in capitals.
+	req.params.id = id.toLowerCase();
 	next();
-}
-
-//get unread message flag
-router.get("/users/:id", ownAccountOnly, (req, res) => {
-	//only expose what the client needs, never the whole user document
-	res.json({ hasUnreadMessage: Boolean(req.user.hasUnreadMessage) });
 });
 
-//mark messages as seen
-router.post("/users/:id", ownAccountOnly, async (req, res) => {
-	try {
-		if (req.body.seen == "true") {
-			await User.updateOne(
-				{ _id: req.user._id },
-				{ hasUnreadMessage: false }
-			);
+// People I might want to be friends with, best match first
+router.get("/matches", async (req, res) => {
+	const me = req.user;
 
-			res.status(200).json({ message: "User updated successfully" });
-		} else {
-			res.status(200).json({ message: "No update applied" });
-		}
-	} catch (err) {
-		console.error(err);
-		res.status(500).json({ message: "Internal server error" });
-	}
+	// not me, nobody I already sent a request to, and nobody who already
+	// sent me one (those are on the Requests page)
+	const candidates = await User.find({
+		_id: { $nin: [me._id, ...me.likedBy] },
+		likedBy: { $ne: me._id }
+	}).select("displayName bio interests values location updatedAt");
+
+	const toMatchable = (user) => ({
+		user,
+		interests: user.interests,
+		values: user.values,
+		coordinates: user.getCoordinates()
+	});
+
+	const matches = rankMatches(
+		toMatchable(me),
+		candidates.map(toMatchable),
+		{ maxDistanceKm: MAX_DISTANCE_KM, ignoreDistance: DEMO_MODE }
+	);
+
+	res.json({
+		needsLocation: !DEMO_MODE && !me.getCoordinates(),
+		matches: matches.map((match) => ({
+			user: publicUser(match.candidate.user),
+			compatibility: match.compatibility,
+			sharedInterests: match.sharedInterests,
+			sharedValues: match.sharedValues,
+			// rounded up to the nearest 5 km: an exact distance could be used
+			// to work out where someone lives
+			distanceKm:
+				match.distanceKm === null
+					? null
+					: Math.max(5, Math.ceil(match.distanceKm / 5) * 5)
+		}))
+	});
 });
 
-//delete by id
-router.post("/delete-users/:id", isAdmin, async (req, res) => {
-	try {
-		await User.findByIdAndDelete(req.params.id);
-		res.redirect("/admin");
-	} catch (err) {
-		console.error(err);
-	}
+// People who accepted my request, or whose request I accepted
+router.get("/connections", async (req, res) => {
+	const users = await User.find({
+		_id: { $in: req.user.likedBy },
+		likedBy: req.user._id
+	}).select("-profilePic");
+	res.json({ users: users.map(publicUser) });
 });
 
-//adds a like from a user to another
-router.post("/like/:id", isAuth, async (req, res) => {
-	try {
-		const user = await User.findById(req.params.id);
-		const currentUser = await User.findById(req.user._id);
+// People who sent me a request that I haven't answered
+router.get("/requests", async (req, res) => {
+	const users = await User.find({
+		_id: { $in: req.user.likedBy },
+		likedBy: { $ne: req.user._id }
+	}).select("-profilePic");
+	res.json({ users: users.map(publicUser) });
+});
 
-		//stops user from liking the same one multiple times
-		if (!user.likes.some((x) => x._id.toString() === currentUser._id.toString())) {
-			user.likes.push({
-				_id: currentUser._id,
-				username: currentUser.username
-			});
-			await user.save();
-		}
-		res.status(200).json({ success: true });
-	} catch (error) {
-		console.error("Like route error:", error);
-		res.status(500).json({ error: "Failed to process like" });
+router.get("/users/:id", async (req, res) => {
+	const user = await User.findById(req.params.id).select("-profilePic");
+	if (!user) throw new HttpError(404, "User not found.");
+	res.json({
+		user: publicUser(user),
+		relationship: relationship(req.user, user)
+	});
+});
+
+// Profile pictures are served as real image files instead of being pasted
+// into every page as base64 text, so the browser can cache them.
+router.get("/users/:id/avatar", async (req, res) => {
+	const user = await User.findById(req.params.id).select("profilePic");
+	if (!user?.profilePic?.data?.length) {
+		return res.redirect("/images/anon.jpg");
 	}
+	// older accounts stored odd values such as "image/.png"
+	const isPng = /png/i.test(user.profilePic.contentType || "");
+	res.set("Content-Type", isPng ? "image/png" : "image/jpeg");
+	res.set("Cache-Control", "private, max-age=86400");
+	res.send(user.profilePic.data);
+});
+
+// Send a friend request, or accept one (liking someone who already liked me)
+router.post("/users/:id/like", async (req, res) => {
+	const me = req.user;
+	if (me.id === req.params.id) {
+		throw new HttpError(400, "You can't send yourself a request.");
+	}
+
+	// $addToSet only adds my id if it isn't there already, in one database
+	// operation. (Loading the user, checking, then saving could add it twice
+	// if two requests arrived at the same moment.)
+	const result = await User.updateOne(
+		{ _id: req.params.id },
+		{ $addToSet: { likedBy: me._id } }
+	);
+	if (result.matchedCount === 0) throw new HttpError(404, "User not found.");
+
+	res.json({ connected: hasLiked(me, req.params.id) });
 });
 
 module.exports = router;

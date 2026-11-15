@@ -1,58 +1,58 @@
+const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
-const { User } = require("./database");
-const validPassword = require("../utilities/passwordUtils").validPassword;
+const User = require("../models/User");
+const { validPassword } = require("../utilities/passwordUtils");
 
-//local auth strategy only
+// The same message for "no such account" and "wrong password", so the login
+// form can't be used to discover which email addresses have accounts.
+const LOGIN_FAILED = "Incorrect email or password.";
+
+// Checking a real password with bcrypt takes ~100 ms on purpose. If unknown
+// emails answered instantly, the response TIME would still reveal which
+// emails have accounts, so they are checked against this throwaway hash.
+const DUMMY_HASH = bcrypt.hashSync("not-a-real-password", 10);
+
 function passportConfig(passport) {
-	const customFields = {
-		usernameField: "uname",
-		passwordField: "pw",
-		passReqToCallback: true
+	const fields = { usernameField: "email", passwordField: "password" };
+
+	const verify = async (email, password, done) => {
+		try {
+			// a JSON body could send an object such as { "$ne": "" } instead of
+			// a string, which MongoDB would treat as a query operator
+			if (typeof email !== "string" || typeof password !== "string") {
+				return done(null, false, { message: LOGIN_FAILED });
+			}
+
+			const user = await User.findOne({
+				username: email.trim().toLowerCase()
+			});
+			const isValid = await validPassword(password, user?.hash || DUMMY_HASH);
+			if (!user || !user.hash) {
+				return done(null, false, { message: LOGIN_FAILED });
+			}
+			if (!isValid) {
+				return done(null, false, { message: LOGIN_FAILED });
+			}
+			return done(null, user);
+		} catch (err) {
+			return done(err);
+		}
 	};
 
-	const verifyCallback = (req, username, password, done) => {
-		User.findOne({ username: username })
-			.then((user) => {
-				if (!user) {
-					return done(null, false, {
-						message: "No user found with that name"
-					});
-				}
+	passport.use(new LocalStrategy(fields, verify));
 
-				// Check if user has a password hash (local auth user)
-				if (!user.hash) {
-					return done(null, false, {
-						message: "This account was created with GitHub. Please use the GitHub login button."
-					});
-				}
+	// only the user's id is kept in the session cookie's session record
+	passport.serializeUser((user, done) => done(null, user.id));
 
-				validPassword(password, user.hash).then((isValid) => {
-					if (isValid) {
-						return done(null, user);
-					} else {
-						return done(null, false, {
-							message: "Incorrect password"
-						});
-					}
-				});
-			})
-			.catch((err) => {
-				return done(err);
-			});
-	};	const localStrategy = new LocalStrategy(customFields, verifyCallback);
-
-	passport.use(localStrategy);
-
-	passport.serializeUser((user, done) => {
-		done(null, user._id);
-	});
-
-	passport.deserializeUser((userId, done) => {
-		User.findById(userId)
-			.then((user) => {
-				done(null, user);
-			})
-			.catch((err) => done(err));
+	// runs on every request from a logged in user, so skip the profile
+	// picture: it can be megabytes and is served by its own route instead
+	passport.deserializeUser(async (userId, done) => {
+		try {
+			const user = await User.findById(userId).select("-profilePic");
+			done(null, user || false);
+		} catch (err) {
+			done(err);
+		}
 	});
 }
 

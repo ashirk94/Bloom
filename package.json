@@ -1,32 +1,43 @@
 {
-  "dependencies": {
-    "axios": "^1.5.0",
-    "bcrypt": "^5.0.1",
-    "connect-flash": "^0.1.1",
-    "connect-mongo": "^3.2.0",
-    "dotenv": "^16.0.2",
-    "ejs": "^3.1.8",
-    "express": "^4.18.1",
-    "express-ejs-layouts": "^2.5.1",
-    "express-session": "^1.17.3",
-    "jsonwebtoken": "^9.0.1",
-    "mongoose": "^6.6.0",
-    "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.3",
-    "passport": "^0.6.0",
-    "passport-github2": "^0.1.12",
-    "passport-local": "^1.0.0",
-    "socket.io": "^4.5.2"
-  },
+  "name": "bloom",
+  "private": true,
+  "workspaces": [
+    "client"
+  ],
   "scripts": {
+    "dev": "concurrently -n server,client -c green,cyan \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "nodemon --watch server.js --watch config --watch models --watch routes --watch utilities server.js",
+    "dev:client": "npm run dev --workspace client",
+    "build": "npm run build --workspace client",
     "start": "node server.js",
-    "dev": "start http://localhost:3000 && nodemon server.js",
-    "dev-mac": "open http://localhost:3000 && nodemon server.js",
-    "test": "jest"
+    "test": "jest",
+    "migrate": "node scripts/migrate.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/client/"
+    ]
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-mongo": "^6.0.0",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "express-session": "^1.19.0",
+    "mongoose": "^9.12.1",
+    "multer": "^2.5.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "socket.io": "^4.8.4"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "nodemon": "^2.0.22"
+    "concurrently": "^10.0.7",
+    "jest": "^30.5.2",
+    "nodemon": "^3.1.14"
   }
 }

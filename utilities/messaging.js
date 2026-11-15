@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const { User } = require("../config/database");
+const User = require("../models/User");
+const Message = require("../models/Message");
 const { areConnected } = require("./connections");
 
 const MAX_MESSAGE_LENGTH = 2000;
@@ -7,52 +8,10 @@ const MAX_MESSAGE_LENGTH = 2000;
 // a message the server refused to send; `message` is safe to show the user
 class MessageError extends Error {}
 
-//format message for display with timestamp
-function formatMessage(user, text, timeZone) {
-	const date = new Date();
-
-	let fDate;
-	try {
-		fDate = new Intl.DateTimeFormat("en-us", {
-			dateStyle: "medium",
-			timeStyle: "short",
-			timeZone: timeZone
-		});
-	} catch (err) {
-		// unknown time zone from the client, fall back to server time
-		fDate = new Intl.DateTimeFormat("en-us", {
-			dateStyle: "medium",
-			timeStyle: "short"
-		});
-	}
-	const timestamp = fDate.format(date);
-
-	const formatted = {
-		username: user,
-		text,
-		time: timestamp
-	};
-	return formatted;
-}
-
-//store messages in both user objects
-async function storeMessage(message, sender, recipient) {
-	message.sender = sender.username;
-	message.recipient = recipient.username;
-
-	sender.messages.push(message);
-	recipient.messages.push(message);
-
-	recipient.hasUnreadMessage = true;
-
-	await sender.save();
-	await recipient.save();
-}
-
-// validates and stores a message from senderId to recipientId.
+// Validates and stores a message from senderId to recipientId.
 // senderId must come from the session, never from the client.
-// resolves to the stored message, or rejects with a MessageError
-async function sendMessage({ senderId, recipientId, text, timeZone }) {
+// Resolves to the saved Message, or rejects with a MessageError.
+async function sendMessage({ senderId, recipientId, text }) {
 	if (typeof text !== "string" || !text.trim()) {
 		throw new MessageError("Message is empty.");
 	}
@@ -69,9 +28,10 @@ async function sendMessage({ senderId, recipientId, text, timeZone }) {
 		throw new MessageError("You can't message yourself.");
 	}
 
+	// only the likedBy lists are needed to check the connection
 	const [sender, recipient] = await Promise.all([
-		User.findById(senderId),
-		User.findById(recipientId)
+		User.findById(senderId).select("likedBy"),
+		User.findById(recipientId).select("likedBy")
 	]);
 	if (!sender || !recipient) {
 		throw new MessageError("Recipient not found.");
@@ -82,15 +42,15 @@ async function sendMessage({ senderId, recipientId, text, timeZone }) {
 		);
 	}
 
-	const message = formatMessage(sender.username, text, timeZone);
-	await storeMessage(message, sender, recipient);
-	return message;
+	return Message.create({
+		sender: sender._id,
+		recipient: recipient._id,
+		text
+	});
 }
 
 module.exports = {
 	MAX_MESSAGE_LENGTH,
 	MessageError,
-	formatMessage,
-	storeMessage,
 	sendMessage
 };

@@ -1,183 +1,112 @@
 const router = require("express").Router();
-const { User } = require("../config/database");
 const passport = require("passport");
-const genPassword = require("../utilities/passwordUtils").genPassword;
-const fs = require("fs");
-const path = require("path");
-const multer = require("multer");
+const User = require("../models/User");
+const { genPassword } = require("../utilities/passwordUtils");
+const { HttpError } = require("../utilities/errors");
+const { privateUser } = require("../utilities/serialize");
+const { INTEREST_NAMES, VALUE_NAMES } = require("../config/options");
+const {
+	isValidEmail,
+	passwordProblem,
+	cleanRankedList,
+	parseLocation,
+	cleanText
+} = require("../utilities/validation");
+const { createRateLimiter } = require("../utilities/rateLimit");
 
-const storage = multer.diskStorage({
-	destination: (req, file, next) => {
-		next(null, path.join(__dirname, "../public/uploads"));
-	},
-	filename: (req, file, next) => {
-		next(null, Date.now() + path.extname(file.originalname));
+// per IP address: 20 login attempts per 15 minutes, 10 sign-ups per hour
+const loginLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 20 });
+const registerLimiter = createRateLimiter({ windowMs: 60 * 60 * 1000, max: 10 });
+
+// req.login uses a callback; wrapping it in a Promise lets us `await` it
+function logIn(req, user) {
+	return new Promise((resolve, reject) => {
+		req.login(user, (err) => (err ? reject(err) : resolve()));
+	});
+}
+
+// Who am I? The React app calls this once when it loads.
+router.get("/auth/me", (req, res) => {
+	res.json({ user: req.isAuthenticated() ? privateUser(req.user) : null });
+});
+
+router.post("/auth/register", registerLimiter.middleware, async (req, res) => {
+	const { email, password } = req.body;
+
+	if (!isValidEmail(email)) {
+		throw new HttpError(400, "Please enter a valid email address.");
 	}
-});
-const upload = multer({
-	storage: storage,
-	limits: { fileSize: 5000000 }, //5mb
-	fileFilter: (req, file, cb) => {
-		if (
-			file.mimetype == "image/png" ||
-			file.mimetype == "image/jpg" ||
-			file.mimetype == "image/jpeg"
-		) {
-			cb(null, true);
-		} else {
-			cb(null, false);
-			return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
-		}
+	const problem = passwordProblem(password);
+	if (problem) throw new HttpError(400, problem);
+
+	const displayName = cleanText(req.body.displayName, 50);
+	if (!displayName) throw new HttpError(400, "Please enter a display name.");
+
+	const username = email.trim().toLowerCase();
+	if (await User.exists({ username })) {
+		throw new HttpError(409, "An account with that email already exists.");
 	}
-});
 
-//get routes
-
-router.get("/login", (req, res) => {
-	const successMessage = req.flash("success");
-	const errorMessage = req.flash("error");
-	res.render("auth/login", { 
-		user: req.user, 
-		successMessage: successMessage.length > 0 ? successMessage[0] : null,
-		errorMessage: errorMessage.length > 0 ? errorMessage[0] : null
+	// Only copy the fields we expect. Passing req.body straight to the model
+	// would let someone register with { "admin": true }.
+	const user = new User({
+		username,
+		hash: await genPassword(password),
+		displayName,
+		bio: cleanText(req.body.bio, 500),
+		interests: cleanRankedList(req.body.interests, INTEREST_NAMES),
+		values: cleanRankedList(req.body.values, VALUE_NAMES)
 	});
-});
+	const location = parseLocation(req.body.lat, req.body.lon);
+	if (location) user.location = location;
 
-router.get("/register", (req, res) => {
-	const successMessage = req.flash("success");
-	const errorMessage = req.flash("error");
-	res.render("auth/register", { 
-		user: req.user, 
-		successMessage: successMessage.length > 0 ? successMessage[0] : null,
-		errorMessage: errorMessage.length > 0 ? errorMessage[0] : null,
-		layout: false
-	});
-});
-
-router.get("/logout", (req, res, next) => {
-	req.logout(function (err) {
-		if (err) {
-			return next(err);
-		}
-	});
-	res.redirect("/");
-});
-
-//post routes
-
-router.post(
-	"/login",
-	passport.authenticate("local", {
-		failureRedirect: "/login",
-		successRedirect: "/",
-		failureFlash: true
-	})
-);
-
-router.post("/register", upload.single("image"), async (req, res) => {
 	try {
-        
-		//check password
-		const password = req.body.pw;
-
-		if (password.length < 8) {
-			req.flash("error", "Password must be at least 8 characters long.");
-			return res.redirect("/register");
-		}
-
-		if (!/[A-Z]/.test(password) || !/[a-z]/.test(password)) {
-			req.flash("error", "Password must include both uppercase and lowercase letters.");
-			return res.redirect("/register");
-		}
-
-		if (!/\d/.test(password)) {
-			req.flash("error", "Password must include at least one number.");
-			return res.redirect("/register");
-		}
-
-		//check username
-		let unameRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
-		if (!req.body.uname.match(unameRegex)) {
-			throw new Error("Invalid email address");
-		}
-
-		//test for duplicate user
-		const testUser = await User.find({ username: req.body.uname });
-		if (testUser[0] && testUser[0].username === req.body.uname) {
-			throw new Error("Duplicate username");
-		}
-		const hashedPassword = await genPassword(req.body.pw);
-
-		//location
-		let location = { type: 'Point', coordinates: [0, 0] };
-		if (req.body.lat != "" && req.body.lon != "") {
-			location = {
-				type: 'Point',
-				coordinates: [Number(req.body.lon), Number(req.body.lat)] // [longitude, latitude] for GeoJSON
-			};
-		}
-
-		// Process interests and values arrays
-		const interests = req.body.interests || [];
-		const values = req.body.values || [];
-		
-		// Handle profile picture
-		let profilePic;
-		if (req.file) {
-			profilePic = {
-				data: fs.readFileSync(req.file.path),
-				contentType: "image/" + path.extname(req.file.filename).substring(1)
-			};
-			// Delete the uploaded file after reading it
-			fs.unlinkSync(req.file.path);
-		} else {
-			profilePic = {
-				data: fs.readFileSync(
-					path.join(__dirname + "/../public/images/anon.jpg")
-				),
-				contentType: "image/jpg"
-			};
-		}
-		
-		const newUser = new User({
-			username: req.body.uname,
-			hash: hashedPassword,
-			displayName: req.body.displayName || '',
-			bio: req.body.bio || '',
-			interest1: req.body.interest1 || '',
-			interest2: req.body.interest2 || '',
-			interest3: req.body.interest3 || '',
-			interest4: req.body.interest4 || '',
-			interest5: req.body.interest5 || '',
-			value1: req.body.value1 || '',
-			value2: req.body.value2 || '',
-			value3: req.body.value3 || '',
-			value4: req.body.value4 || '',
-			value5: req.body.value5 || '',
-			admin: false, //create admin here
-			confirmed: true, // Auto-confirm for now
-			hasUnreadMessage: false,
-			likes: [],
-			messages: [],
-			socketId: '',
-			profilePic: profilePic,
-			location: location
-		});
-
-		await newUser.save();
-
-		//immediate login
-		req.login(newUser, (err) => {
-			if (err) {
-				req.flash("error", err.message);
-				res.redirect("/register");
-			}
-			return res.redirect("/profile");
-		});
+		await user.save();
 	} catch (err) {
-		req.flash("error", err.message);
-		res.redirect("/register");
+		// 11000 = duplicate key: two sign-ups with the same email raced each
+		// other and the unique index stopped the second one
+		if (err.code === 11000) {
+			throw new HttpError(409, "An account with that email already exists.");
+		}
+		throw err;
 	}
+
+	await logIn(req, user);
+	res.status(201).json({ user: privateUser(user) });
+});
+
+router.post("/auth/login", loginLimiter.middleware, (req, res, next) => {
+	// a custom callback so a failed login answers with JSON instead of
+	// redirecting to another page
+	passport.authenticate("local", async (err, user, info) => {
+		try {
+			if (err) throw err;
+			if (!user) {
+				throw new HttpError(401, info?.message || "Login failed.");
+			}
+			await logIn(req, user);
+			res.json({ user: privateUser(user) });
+		} catch (error) {
+			next(error);
+		}
+	})(req, res, next);
+});
+
+// Logging out changes state, so it is a POST. As a GET link it could be
+// triggered by any page that embeds <img src="/logout">.
+router.post("/auth/logout", (req, res, next) => {
+	// remember the session id now: logging out replaces the session
+	const sessionId = req.sessionID;
+	req.logout((err) => {
+		if (err) return next(err);
+		// close this session's live chat connections, which were opened while
+		// logged in and would otherwise keep sending messages as this user
+		req.app.get("io")?.in(`session:${sessionId}`).disconnectSockets(true);
+		req.session.destroy(() => {
+			res.clearCookie("connect.sid");
+			res.json({ ok: true });
+		});
+	});
 });
 
 module.exports = router;
