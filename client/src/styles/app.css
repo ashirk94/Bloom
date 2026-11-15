@@ -1,0 +1,243 @@
+/* Additions for the React version. The original stylesheets are untouched;
+   this file is loaded last, so its rules win when they overlap. */
+
+/* ----- landing page -----
+   The artwork is one tall image and the buttons sit on top of it near the
+   bottom. A script used to set this position from the screen size; media
+   queries do the same job from the window size, with no JavaScript. */
+.landing-wrapper {
+	position: relative;
+}
+.landing-content {
+	top: 4350px;
+}
+@media (max-width: 833px) {
+	.landing-content {
+		top: 2820px;
+	}
+}
+@media (max-width: 414px) {
+	.landing-content {
+		top: 3580px;
+	}
+}
+
+/* ----- navbar ----- */
+/* "Sign Out" is a button (it sends a POST) styled to look like the links */
+.nav-button {
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+}
+.unread-badge {
+	display: inline-block;
+	min-width: 22px;
+	margin-left: 8px;
+	padding: 0 6px;
+	border-radius: 12px;
+	background-color: #357376;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 22px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+/* ----- password box with show/hide icon -----
+   The wrapper is the positioning reference, so the icon stays inside the
+   input wherever the form is placed. */
+.password-field {
+	position: relative;
+	width: fit-content;
+	margin: 0 auto;
+}
+.password-field .eye {
+	position: absolute;
+	top: 50%;
+	right: 24px;
+	margin: 0;
+	transform: translateY(-50%);
+}
+
+/* ----- user cards ----- */
+/* cards grow with their content instead of clipping it */
+.friend-box {
+	height: auto;
+	min-height: 583px;
+	padding-bottom: 20px;
+}
+.ranked-line {
+	margin: 12px 0;
+}
+.match-summary {
+	margin-top: 8px;
+	font-size: 15px;
+	color: #434343;
+}
+.match-badge {
+	display: inline-block;
+	padding: 2px 12px;
+	border-radius: 14px;
+	background-color: #a2ffe2;
+	color: #357376;
+	font-weight: bold;
+}
+.match-distance {
+	margin-left: 10px;
+}
+.match-shared {
+	margin-top: 6px;
+	font-style: italic;
+}
+.btn-card {
+	display: inline-block;
+	border-radius: 25px;
+}
+
+/* ----- interests / values picker ----- */
+.picker-page form {
+	width: min(900px, 92vw);
+	margin-bottom: 40px;
+}
+.picker-hint {
+	color: #6c757d;
+	margin-bottom: 20px;
+}
+.register-wrapper form {
+	width: min(900px, 92vw);
+}
+.register-wrapper #step-1,
+.register-wrapper #step-2 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.interest-item {
+	text-align: left;
+}
+@media (max-width: 768px) {
+	.interests-grid {
+		grid-template-columns: 1fr;
+	}
+	.interest-item {
+		padding: 10px 12px;
+	}
+}
+
+/* ----- profile ----- */
+.main-wrapper .profile-section,
+.main-wrapper .side-by-side-sections {
+	width: min(700px, 92vw);
+	box-sizing: border-box;
+}
+#fileDisplayArea img {
+	width: 150px;
+	height: 150px;
+	object-fit: cover;
+}
+
+/* ----- chat ----- */
+.chat-header {
+	align-items: center;
+	gap: 12px;
+	padding: 10px 16px;
+	font-size: 22px;
+}
+.chat-header.active {
+	background: #dbf6ed;
+}
+.chat-header .user-img,
+.chat-header .chat-username {
+	margin-left: 0;
+}
+.user-img {
+	object-fit: cover;
+}
+.chat-message {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.message,
+.message-other {
+	overflow-wrap: anywhere;
+	box-sizing: border-box;
+	max-width: min(800px, 90%);
+}
+.chat-heading {
+	margin-left: 0;
+}
+.chat-empty {
+	font-size: 18px;
+	color: #357376;
+}
+.notify-button {
+	margin-left: auto;
+	margin-right: 20px;
+	padding: 4px 12px;
+	border: 2px solid #357376;
+	border-radius: 16px;
+	background: white;
+	color: #357376;
+	font-size: 14px;
+	cursor: pointer;
+}
+#chat-form .error-msg {
+	font-size: 16px;
+}
+/* On phones the side-by-side layout squeezed the messages into a narrow
+   column and the 300px-wide headings ran off the screen. Stack the friends
+   list above the chat and let it scroll sideways instead. */
+@media (max-width: 768px) {
+	.chat-wrapper {
+		flex-direction: column;
+		font-size: 20px;
+	}
+	.chat-wrapper .left-side {
+		flex: none;
+		min-height: 0;
+		display: flex;
+		flex-wrap: nowrap;
+		overflow-x: auto;
+	}
+	.chat-wrapper .open-chats {
+		display: none;
+	}
+	.chat-wrapper .chat-header {
+		flex: none;
+		font-size: 18px;
+	}
+	.chat-wrapper .right-side {
+		flex: 1;
+		min-height: 60vh;
+	}
+	.chat-heading {
+		min-width: 0;
+		width: 90%;
+	}
+	.notify-button {
+		margin-right: 8px;
+	}
+}
+
+/* ----- info pages ----- */
+.info-heading {
+	font-size: 18px;
+	margin: 30px 0 10px;
+}
+@media (max-width: 833px) {
+	.info-wrapper {
+		max-width: 92vw;
+	}
+}
+
+/* visible keyboard focus for everything clickable */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+	outline: 3px solid #357376;
+	outline-offset: 2px;
+}

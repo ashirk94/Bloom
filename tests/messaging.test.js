@@ -1,41 +1,43 @@
 const mongoose = require("mongoose");
 
-jest.mock("../config/database", () => ({ User: { findById: jest.fn() } }));
+// Replace the real models with fakes so these tests don't need a database
+jest.mock("../models/User", () => ({ findById: jest.fn() }));
+jest.mock("../models/Message", () => ({ create: jest.fn() }));
 
-const { User } = require("../config/database");
+const User = require("../models/User");
+const Message = require("../models/Message");
 const {
 	sendMessage,
 	MessageError,
 	MAX_MESSAGE_LENGTH
 } = require("../utilities/messaging");
 
-function makeUser(username) {
-	return {
-		_id: new mongoose.Types.ObjectId(),
-		username,
-		likes: [],
-		messages: [],
-		hasUnreadMessage: false,
-		save: jest.fn().mockResolvedValue()
-	};
+function makeUser() {
+	return { _id: new mongoose.Types.ObjectId(), likedBy: [] };
 }
 
 function connect(a, b) {
-	a.likes.push({ _id: [b._id] });
-	b.likes.push({ _id: [a._id] });
+	a.likedBy.push(b._id);
+	b.likedBy.push(a._id);
 }
 
 let alice;
 let bob;
 
 beforeEach(() => {
-	alice = makeUser("alice@example.com");
-	bob = makeUser("bob@example.com");
+	alice = makeUser();
+	bob = makeUser();
 	const users = [alice, bob];
+
 	User.findById.mockReset();
-	User.findById.mockImplementation(async (id) =>
-		users.find((u) => String(u._id) === String(id)) || null
-	);
+	// the real code calls User.findById(id).select("likedBy")
+	User.findById.mockImplementation((id) => ({
+		select: async () =>
+			users.find((u) => String(u._id) === String(id)) || null
+	}));
+
+	Message.create.mockReset();
+	Message.create.mockImplementation(async (fields) => fields);
 });
 
 function send(overrides = {}) {
@@ -43,44 +45,29 @@ function send(overrides = {}) {
 		senderId: alice._id.toString(),
 		recipientId: bob._id.toString(),
 		text: "hi bob",
-		timeZone: "America/Los_Angeles",
 		...overrides
 	});
 }
 
 describe("sendMessage", () => {
-	test("stores the message for both connected users", async () => {
+	test("stores one trimmed message between connected users", async () => {
 		connect(alice, bob);
 
 		const message = await send({ text: "  hi bob  " });
 
-		expect(message).toMatchObject({
-			username: "alice@example.com",
-			text: "hi bob",
-			sender: "alice@example.com",
-			recipient: "bob@example.com"
+		expect(Message.create).toHaveBeenCalledTimes(1);
+		expect(message).toEqual({
+			sender: alice._id,
+			recipient: bob._id,
+			text: "hi bob"
 		});
-		expect(alice.messages).toHaveLength(1);
-		expect(bob.messages).toHaveLength(1);
-		expect(bob.hasUnreadMessage).toBe(true);
-		expect(alice.save).toHaveBeenCalled();
-		expect(bob.save).toHaveBeenCalled();
 	});
 
 	test("rejects messages before the request is accepted", async () => {
-		bob.likes.push({ _id: [alice._id] }); // one-way request only
+		bob.likedBy.push(alice._id); // one-way request only
 
 		await expect(send()).rejects.toThrow(MessageError);
-		expect(bob.messages).toHaveLength(0);
-		expect(bob.save).not.toHaveBeenCalled();
-	});
-
-	test("uses the sender's real username, not anything from the client", async () => {
-		connect(alice, bob);
-
-		const message = await send({ sender: "someone-else" });
-
-		expect(message.username).toBe("alice@example.com");
+		expect(Message.create).not.toHaveBeenCalled();
 	});
 
 	test("rejects empty and non-string messages", async () => {
@@ -112,13 +99,5 @@ describe("sendMessage", () => {
 		await expect(
 			send({ recipientId: alice._id.toString() })
 		).rejects.toThrow(MessageError);
-	});
-
-	test("falls back gracefully on an invalid time zone", async () => {
-		connect(alice, bob);
-
-		await expect(send({ timeZone: "Not/AZone" })).resolves.toHaveProperty(
-			"time"
-		);
 	});
 });
