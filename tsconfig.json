@@ -1,0 +1,51 @@
+// TypeScript settings for the server, scripts, tests and shared types.
+// The React app has its own settings in client/tsconfig.json.
+//
+// Node runs the .ts files directly: it deletes the type annotations as it
+// loads each file ("type stripping") and runs what's left. It never checks
+// the types, though, so `npm run typecheck` (and your editor) use this file
+// to do that. Nothing is compiled; there is no build step for the server.
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"lib": ["es2023"],
+		// Follow Node's own rules for modules. package.json says
+		// "type": "module", so every file is a standard ES module.
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		// Node needs the real file name in imports ("./errors.ts")
+		"allowImportingTsExtensions": true,
+		// Only allow TypeScript that Node can run by deleting the types.
+		// (enums and a few other features generate code, so they're refused.)
+		"erasableSyntaxOnly": true,
+		// Imports used only as types must say `import type`, so Node knows it
+		// can delete them along with the rest of the types
+		"verbatimModuleSyntax": true,
+		"resolveJsonModule": true,
+
+		// The checks that make TypeScript worth using
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"noFallthroughCasesInSwitch": true,
+		"forceConsistentCasingInFileNames": true,
+
+		// Type packages to load globally (Node's APIs). Tests import describe,
+		// test and expect from "vitest" instead of relying on globals.
+		"types": ["node"],
+		"skipLibCheck": true,
+		"noEmit": true
+	},
+	"include": [
+		"server.ts",
+		"config",
+		"models",
+		"routes",
+		"utilities",
+		"scripts",
+		"shared",
+		"types",
+		"tests",
+		"vitest.config.ts"
+	]
+}

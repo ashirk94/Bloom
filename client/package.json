@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
+    "typecheck": "tsc",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -14,7 +15,10 @@
     "socket.io-client": "^4.8.4"
   },
   "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.3.0",
+    "typescript": "^7.0.2",
     "vite": "^8.3.8"
   }
 }

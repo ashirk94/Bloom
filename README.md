@@ -11,7 +11,7 @@ Made in collaboration with [Sarah Martin](https://www.sarahmartinart.com/).
 - Authentication implemented with the Passport and Bcrypt libraries.
 - Location and distance measuring to pair users based on proximity.
 <br>&nbsp;
-- React frontend (React Router, Vite) talking to an Express JSON API.
+- Written in TypeScript: a React frontend (React Router, Vite) talking to an Express JSON API, sharing one set of types for the data between them.
 - Responsive animated navbar.
 - Profile picture uploading with a preview display.
 - User data storage with MongoDB and Mongoose.
@@ -30,12 +30,14 @@ Made in collaboration with [Sarah Martin](https://www.sarahmartinart.com/).
 ## Project layout
 
 ```
-server.js        Express app: sessions, API routes, socket.io chat
+server.ts        Express app: sessions, API routes, socket.io chat
 config/          database connection, Passport login, interest/value options
 models/          Mongoose models (User, Message)
 routes/          JSON API, everything is served under /api
 utilities/       matching algorithm, validation, messaging, helpers
-tests/           Jest tests for the utilities
+shared/          TypeScript types used by both the server and the React app
+types/           additions to library types (req.user, sessions)
+tests/           Vitest tests for the server code
 scripts/         one-time data migration
 client/          React app (Vite)
   src/pages/       one component per page
@@ -46,7 +48,7 @@ client/          React app (Vite)
 
 ## Running it
 
-Requires Node 20+ and a MongoDB database. Create a `.env` file in the project root:
+Requires Node 22.18+ (it runs the TypeScript files directly) and a MongoDB database. Create a `.env` file in the project root:
 
 ```
 DB_STRING=mongodb+srv://...
@@ -60,10 +62,13 @@ Then:
 ```
 npm install      # installs the server and the client
 npm run dev      # API on :3000, React app on http://localhost:5173
-npm test         # run the tests
+npm test         # run the tests (npm run test:watch reruns them as you edit)
+npm run typecheck  # check the TypeScript types of the server and client
 ```
 
-For production, `npm run build` creates `client/dist` and `npm start` serves both the API and the built React app from one port.
+The server has no build step: Node removes the TypeScript types as it loads each file and runs the rest. Node doesn't check the types, so run `npm run typecheck` (your editor does the same checks as you type).
+
+For production, `npm run build` type-checks and builds the React app into `client/dist`, and `npm start` serves both the API and the built React app from one port.
 
 ### Upgrading an existing database
 
@@ -78,4 +83,4 @@ The migration only adds the new fields; it never deletes the old ones.
 
 ## How matching works
 
-Each person ranks up to five interests and five values. A rank is worth 5 points (first) down to 1 point (fifth). For everything two people share, their two rank weights are multiplied, so sharing your top interest with someone who also ranks it first counts far more than sharing a fifth choice. The total is divided by the best possible score to give a compatibility percentage, with interests and values counting equally. People within 50 km are shown, most compatible first, and between equally compatible people the closer one is listed first. See `utilities/matching.js`.
+Each person ranks up to five interests and five values. A rank is worth 5 points (first) down to 1 point (fifth). For everything two people share, their two rank weights are multiplied, so sharing your top interest with someone who also ranks it first counts far more than sharing a fifth choice. The total is divided by the best possible score to give a compatibility percentage, with interests and values counting equally. People within 50 km are shown, most compatible first, and between equally compatible people the closer one is listed first. See `utilities/matching.ts`.

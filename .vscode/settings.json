@@ -1,0 +1,5 @@
+{
+	// The project uses Vitest, not Jest. The Jest extension would otherwise
+	// run `npm test` with Jest-only options, which Vitest rejects.
+	"jest.enable": false
+}

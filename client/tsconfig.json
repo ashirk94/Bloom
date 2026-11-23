@@ -1,0 +1,30 @@
+// TypeScript settings for the React app.
+// Vite turns .ts/.tsx into JavaScript on its own (it just removes the types),
+// so TypeScript here only CHECKS the code: `npm run typecheck`, or
+// `npm run build`, which refuses to build code with type errors.
+{
+	"compilerOptions": {
+		"target": "es2022",
+		"lib": ["es2022", "dom", "dom.iterable"],
+		"module": "esnext",
+		// let Vite decide how imports are found (no file extensions needed)
+		"moduleResolution": "bundler",
+		"jsx": "react-jsx",
+		// Vite compiles each file on its own, so imports that are only types
+		// must say `import type`; this setting enforces that
+		"verbatimModuleSyntax": true,
+		"isolatedModules": true,
+		"allowImportingTsExtensions": true,
+
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noFallthroughCasesInSwitch": true,
+		"forceConsistentCasingInFileNames": true,
+
+		// import.meta.env, and importing .css/.png files
+		"types": ["vite/client"],
+		"skipLibCheck": true,
+		"noEmit": true
+	},
+	"include": ["src", "vite.config.ts"]
+}
