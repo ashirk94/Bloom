@@ -1,0 +1,5 @@
+{
+	// VS Code suggests these when someone opens the project
+	"recommendations": ["vitest.explorer"],
+	"unwantedRecommendations": ["orta.vscode-jest"]
+}
