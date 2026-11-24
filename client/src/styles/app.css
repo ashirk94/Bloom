@@ -30,6 +30,145 @@
 	padding: 0;
 	cursor: pointer;
 }
+
+/* ----- desktop navbar spacing -----
+   The spacing used to come from margins stacked up across three
+   stylesheets (link 15px + item 5px + list gap 20px...), which added up to
+   different amounts in different places: 60px between links, 42px next to
+   the pictures, 28px at the left edge but 55px at the right.
+
+   Here every distance is one of three values, set in one place. The links
+   and the two round pictures (logo and profile picture) each have their
+   own spacing, so the pictures match each other and the links match each
+   other. The space in the middle, between the two groups, stretches. */
+@media screen and (min-width: 1101px) {
+	#navbar {
+		--nav-edge: 32px; /* window edge to the logo, and to the last link */
+		--nav-link-gap: 56px; /* between two links */
+		--nav-picture-gap: 40px; /* between a picture and the link next to it */
+	}
+	#inner-navbar {
+		box-sizing: border-box;
+		height: 80px;
+		padding: 0 var(--nav-edge);
+		align-items: center;
+	}
+	#upper-navbar,
+	#lower-navbar,
+	#inner-navbar .nav,
+	#inner-navbar .nav-item {
+		display: flex;
+		align-items: center;
+		margin: 0;
+		padding: 0;
+	}
+	#inner-navbar .nav {
+		gap: var(--nav-link-gap);
+	}
+	/* a picture's gap is set on the picture: the list's gap, adjusted */
+	#inner-navbar .navbar-logo {
+		margin: 0 calc(var(--nav-picture-gap) - var(--nav-link-gap)) 0 0;
+	}
+	#inner-navbar .navbar-logo img {
+		display: block;
+		margin: 0;
+	}
+	#inner-navbar .nav-text {
+		display: block;
+		margin: 0;
+		/* a taller click target than the text, without moving the text */
+		padding: 20px 0;
+		line-height: 1;
+		/* Text is normally positioned by its "line box", which includes room
+		   above for accents and below for letters like g and q. That made the
+		   words sit 2px above the pictures. This trims the box to the capital
+		   letters, so centering centers what you actually see. (Browsers that
+		   don't support it yet are at most 2px off, as before.) */
+		text-box: trim-both cap alphabetic;
+	}
+}
+
+/* ----- mobile menu -----
+   The old version animated `height: auto` (which browsers can't animate, so
+   it jumped halfway through) and a max-height capped at 500px, with
+   overflow left visible, so the links spilled over the page before the
+   menu's background caught up. The bigger the menu (an admin has one more
+   link) the worse it looked, and closing had no animation at all.
+
+   This uses the "grid rows" technique instead: a one-row grid whose row
+   goes from 0fr (no height) to 1fr (exactly the content's height). Unlike
+   `auto`, fr values CAN be animated, and it fits any number of links. */
+.menu-panel {
+	/* on desktop the panel is invisible to layout: its two link groups sit
+	   in the navbar as if it weren't there */
+	display: contents;
+}
+@media screen and (max-width: 1100px) {
+	#navbar {
+		--menu-slide: 0.5s; /* how long the panel takes to open or close */
+	}
+	#inner-navbar {
+		display: grid;
+		grid-template-rows: 0fr;
+		/* hidden = links can't be tabbed to or read out while closed. It
+		   switches only after the closing slide has finished. */
+		visibility: hidden;
+		transition:
+			grid-template-rows var(--menu-slide) ease,
+			visibility 0s linear var(--menu-slide);
+	}
+	#inner-navbar.menu-open {
+		grid-template-rows: 1fr;
+		visibility: visible;
+		transition:
+			grid-template-rows var(--menu-slide) ease,
+			visibility 0s;
+	}
+	.menu-panel {
+		display: block;
+		min-height: 0; /* lets the grid row shrink below the content */
+		overflow: hidden; /* clips the links while the panel is sliding */
+	}
+	/* the original stylesheet hides each link and fades it in over 3s,
+	   twice as long as the panel took to open; fade with the panel instead,
+	   starting a little after it begins to open */
+	#inner-navbar .nav-link {
+		display: block;
+		animation: none;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+	#inner-navbar.menu-open .nav-link {
+		opacity: 1;
+		transition: opacity 0.4s ease 0.15s;
+	}
+	/* in the phone menu the links are blocks with a 20px line and 15px
+	   margins; give Sign Out (a button) the same so the list is even */
+	#inner-navbar .nav-button {
+		line-height: 20px;
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+	/* Signed out, the top group holds only the desktop logo, which phones
+	   hide, but the empty list kept its padding and left a ~75px gap above
+	   "Sign Up". :has() hides a group that has no item left to show. */
+	#inner-navbar .inline-flex:not(:has(li:not(.mobile-invis))) {
+		display: none;
+	}
+	/* the unread badge is 22px tall, which made the Chat line 4px taller
+	   than the others; keep it within the 20px line */
+	#inner-navbar .unread-badge {
+		line-height: 20px;
+		vertical-align: top;
+	}
+}
+/* people who turn off animations in their system settings get none */
+@media (prefers-reduced-motion: reduce) {
+	#inner-navbar,
+	#inner-navbar .nav-link {
+		transition: none !important;
+	}
+}
 .unread-badge {
 	display: inline-block;
 	min-width: 22px;
@@ -126,7 +265,32 @@
 	}
 }
 
+/* ----- page spacing -----
+   Pages used to end flush against the bottom of the window, with the last
+   buttons touching the edge. border-box keeps the padding inside the
+   min-height, so short pages don't grow a scrollbar. */
+.main-wrapper {
+	box-sizing: border-box;
+	padding-bottom: 60px;
+}
+
 /* ----- profile ----- */
+/* `.btn-primary` sets min-width: 300px, which beat .btn-small's 120px. Next
+   to the name box that made a row wider than a phone, so the whole page
+   scrolled sideways (and dragged the fixed navbar, cutting off its links). */
+.btn-small {
+	min-width: 0;
+	/* the 40px line-height made a label that wraps ("Update Location")
+	   80px tall; min-height still keeps one-line buttons the usual size */
+	line-height: 1.3;
+}
+.inline-form {
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.inline-form .form-input {
+	min-width: 0;
+}
 .main-wrapper .profile-section,
 .main-wrapper .side-by-side-sections {
 	width: min(700px, 92vw);
