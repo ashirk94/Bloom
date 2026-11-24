@@ -27,12 +27,11 @@ export default function Layout() {
 		}
 	};
 
-	// The original stylesheet hides and shows the mobile menu with these
-	// class names. Before, a script toggled them on the elements by hand;
-	// here they are simply calculated from the `menuOpen` state.
-	const hiddenOnMobile = menuOpen ? "" : " mobile-invis";
-	const linkClass = `nav-link nav-text${menuOpen ? " open" : ""}`;
-	const itemClass = `nav-item${hiddenOnMobile}`;
+	// On phones the links fold away under the ☰ button. The links are always
+	// on the page; the "menu-open" class lets CSS slide the panel open and
+	// shut (see "mobile menu" in app.css).
+	const linkClass = "nav-link nav-text";
+	const itemClass = "nav-item";
 
 	return (
 		<>
@@ -61,92 +60,94 @@ export default function Layout() {
 						</li>
 					</ul>
 				</div>
-				<div id="inner-navbar" className={menuOpen ? "pop-in" : ""}>
-					<div className={`inline-flex${hiddenOnMobile}`} id="upper-navbar">
-						<ul className="nav" id="top-nav">
-							<li className="nav-item navbar-logo mobile-invis">
-								<Link to="/">
-									<img
-										className="navbar-logo mobile-invis"
-										src="/images/bloom-flower.svg"
-										alt="Bloom home"
-									/>
-								</Link>
-							</li>
-							{user && (
-								<>
-									<li className={itemClass}>
-										<Link className={linkClass} to="/requests">
-											Requests
-										</Link>
-									</li>
-									<li className={itemClass}>
-										<Link className={linkClass} to="/connections">
-											Chat
-											{unreadCount > 0 && (
-												<span className="unread-badge">{unreadCount}</span>
-											)}
-										</Link>
-									</li>
-									<li className={itemClass}>
-										<Link className={linkClass} to="/meet">
-											Find Friends
-										</Link>
-									</li>
-								</>
-							)}
-						</ul>
-					</div>
-					<div className={`inline-flex${hiddenOnMobile}`} id="lower-navbar">
-						<ul className="nav" id="bottom-nav">
-							{!user ? (
-								<>
-									<li className={itemClass}>
-										<Link className={linkClass} to="/register">
-											Sign Up
-										</Link>
-									</li>
-									<li className={itemClass}>
-										<Link className={linkClass} to="/login">
-											Sign In
-										</Link>
-									</li>
-								</>
-							) : (
-								<>
-									<li className="nav-item navbar-logo">
-										<Link to="/profile">
-											<img
-												className="navbar-logo profile-pic mobile-invis"
-												src={user.avatarUrl}
-												alt="My profile"
-											/>
-										</Link>
-									</li>
-									<li className={itemClass}>
-										<Link className={linkClass} to="/profile">
-											Profile
-										</Link>
-									</li>
-									<li className={itemClass}>
-										<button
-											type="button"
-											className={`${linkClass} nav-button`}
-											onClick={handleLogout}
-										>
-											Sign Out
-										</button>
-									</li>
-									{user.admin && (
+				<div id="inner-navbar" className={menuOpen ? "menu-open" : ""}>
+					<div className="menu-panel">
+						<div className="inline-flex" id="upper-navbar">
+							<ul className="nav" id="top-nav">
+								<li className="nav-item navbar-logo mobile-invis">
+									<Link to="/">
+										<img
+											className="navbar-logo mobile-invis"
+											src="/images/bloom-flower.svg"
+											alt="Bloom home"
+										/>
+									</Link>
+								</li>
+								{user && (
+									<>
 										<li className={itemClass}>
-											<Link className={linkClass} to="/admin">
-												Admin
+											<Link className={linkClass} to="/requests">
+												Requests
 											</Link>
 										</li>
-									)}
-								</>
-							)}
-						</ul>
+										<li className={itemClass}>
+											<Link className={linkClass} to="/connections">
+												Chat
+												{unreadCount > 0 && (
+													<span className="unread-badge">{unreadCount}</span>
+												)}
+											</Link>
+										</li>
+										<li className={itemClass}>
+											<Link className={linkClass} to="/meet">
+												Find Friends
+											</Link>
+										</li>
+									</>
+								)}
+							</ul>
+						</div>
+						<div className="inline-flex" id="lower-navbar">
+							<ul className="nav" id="bottom-nav">
+								{!user ? (
+									<>
+										<li className={itemClass}>
+											<Link className={linkClass} to="/register">
+												Sign Up
+											</Link>
+										</li>
+										<li className={itemClass}>
+											<Link className={linkClass} to="/login">
+												Sign In
+											</Link>
+										</li>
+									</>
+								) : (
+									<>
+										<li className="nav-item navbar-logo mobile-invis">
+											<Link to="/profile">
+												<img
+													className="navbar-logo profile-pic mobile-invis"
+													src={user.avatarUrl}
+													alt="My profile"
+												/>
+											</Link>
+										</li>
+										<li className={itemClass}>
+											<Link className={linkClass} to="/profile">
+												Profile
+											</Link>
+										</li>
+										<li className={itemClass}>
+											<button
+												type="button"
+												className={`${linkClass} nav-button`}
+												onClick={handleLogout}
+											>
+												Sign Out
+											</button>
+										</li>
+										{user.admin && (
+											<li className={itemClass}>
+												<Link className={linkClass} to="/admin">
+													Admin
+												</Link>
+											</li>
+										)}
+									</>
+								)}
+							</ul>
+						</div>
 					</div>
 				</div>
 			</nav>
